@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block content %}
+<! DOCTYPE html>
+<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>HD Explosion</title>
+    <style>
+    html,body {
+        width:100%;
+        height:100%
+    }
+        body {
+        background-color: #6c757d;
+            background-size: cover;
+    }
+    p1 {
+        background-color: #c82333;
+        width: fit-content;
+    }
+
+     h1 {
+         color: #FFFFFF;
+         margin: 35px;
+     }
+
+
+     .box {
+         position: relative;
+         width: 40%;
+         border: 5px solid #c82333;
+         padding: 25px;
+         margin: 25px;
+         float:left;
+     }
+
+     .screen {
+         position: relative;
+         width: 40%;
+         height: 70%;
+         background-color: #000000;
+         margin: 25px;
+         float:left;
+
+     }
+
+
+     .button {
+         background-color: red; border-radius: 3px
+     }
+
+     .btn {
+
+         background: #3498db;
+         width: 180px;
+         padding: 4px 0;
+
+         position: relative;
+         left: 55%;
+         top: 50%;
+         transform: translateX(-50%) translateY(-50%);
+         border-radius: 3px;
+     }
+
+        p4 {
+            font-family: 'Roboto';
+	        text-align: center;
+  	        text-transform: uppercase;
+            color: #FFF;
+            user-select: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div >
+        <h1>HD-Explosion
+            <button class="button" type = "button" >Help</button>
+        </h1>
+
+    </div>
+
+
+    <div >
+
+    <div class="box">
+        <p1>Data Uploaded</p1>
+        <br>
+        <span>
+            <form action="" method="get">
+            <input type="radio"  name="function" value="Bike">
+            <label for="vehicle1">One File</label><br>
+            <input type="radio"  name="function" value="Car">
+            <label for="vehicle2"> Files Merging</label><br>
+            </form>
+        </span>
+        </br>
+
+        <input type="file" name=""></input>
+        <br>Upload DynamX Output</br>
+    </div>
+
+
+     <div class="box">
+         <p1>Patameter Setting</p1>
+        <form action="" method="get">
+        <input type="radio" name="plot" value="Volcano Plot">
+            <label for="function"> Volcano Plot</label><br>
+            <input type="radio"  name="plot" value="HeatMap">
+            <label for="function">HeatMap</label><br>
+        </form>
+
+        <select>
+                <option value ="one file">One File</option>
+                <option value ="file merging">File Merging</option>
+            </select>
+
+        <select>
+                <option value ="one file">One File</option>
+                <option value ="file merging">File Merging</option>
+            </select>
+
+        <select>
+                <option value ="one file">One File</option>
+                <option value ="file merging">File Merging</option>
+            </select>
+
+        <select>
+                <option value ="one file">One File</option>
+                <option value ="file merging">File Merging</option>
+            </select>
+
+        <select>
+                <option value ="one file">One File</option>
+                <option value ="file merging">File Merging</option>
+            </select>
+        <input type="number" name="fill with xxx"></input>
+        <input type="number" name="fill with xxx"></input>
+
+        <input type="range" name="points" min="0" max="10" step="1" value="0" />
+
+         <button class="button" type = "button" >Show</button>
+      </div>
+
+    </div>
+
+
+    <div class="screen">
+
+
+
+    </div>
+
+
+
+
+
+
+
+
+    <div>
+        <span>
+            <button class="btn" type = "button"><p4>Full Screen</p4></button>
+            <button class="btn" type = "button" ><p4>Export ad PNG</p4></button>
+            <button class="btn" type = "button" ><p4>Export as EPS</p4></button>
+            <button class="btn" type = "button" ><p4>Export as CVS</p4></button>
+        </span>
+    </div>
+
+
+</body>
+</html>
+
+
+
+{% endblock%}
