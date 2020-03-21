@@ -7,7 +7,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-<title>HD Explosion</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<title>HD eXplosion</title>
     <style>
     html,body {
         width:100%;
@@ -15,7 +21,9 @@
     }
         body {
         background-color: #6c757d;
-            background-size: cover;
+        background-size: cover;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: 14px;
     }
     p1 {
         background-color: #c82333;
@@ -29,7 +37,7 @@
 
 
      .box {
-         position: relative;
+        position: absolute;
          width: 40%;
          border: 5px solid #c82333;
          padding: 25px;
@@ -38,15 +46,21 @@
      }
 
      .screen {
-         position: relative;
-         width: 40%;
+         position: absolute;
+         width: 45%;
          height: 70%;
          background-color: #000000;
          margin: 25px;
-         float:left;
+         float: left;
 
      }
 
+
+     .r_selection{
+         float: right;
+         position: relative;
+         top:5px;
+     }
 
      .button {
          background-color: red; border-radius: 3px
@@ -55,12 +69,11 @@
      .btn {
 
          background: #3498db;
-         width: 180px;
+         width: 150px;
          padding: 4px 0;
 
          position: relative;
-         left: 55%;
-         top: 50%;
+
          transform: translateX(-50%) translateY(-50%);
          border-radius: 3px;
      }
@@ -86,9 +99,9 @@
     </div>
 
 
-    <div >
 
-    <div class="box">
+
+    <div class="box" style="left:20px;top:100px">
         <p1>Data Uploaded</p1>
         <br>
         <span>
@@ -106,7 +119,7 @@
     </div>
 
 
-     <div class="box">
+     <div class="box" style="left:20px;top:350px;height:350px;">
          <p1>Patameter Setting</p1>
         <form action="" method="get">
         <input type="radio" name="plot" value="Volcano Plot">
@@ -115,7 +128,13 @@
             <label for="function">HeatMap</label><br>
         </form>
 
-        <select>
+         <div >
+        <select style="float: right;">
+                <option value ="one file">One File</option>
+                <option value ="file merging">File Merging</option>
+            </select>
+
+        <select style="position:relative; top:5px">
                 <option value ="one file">One File</option>
                 <option value ="file merging">File Merging</option>
             </select>
@@ -135,10 +154,8 @@
                 <option value ="file merging">File Merging</option>
             </select>
 
-        <select>
-                <option value ="one file">One File</option>
-                <option value ="file merging">File Merging</option>
-            </select>
+         </div>
+
         <input type="number" name="fill with xxx"></input>
         <input type="number" name="fill with xxx"></input>
 
@@ -147,23 +164,24 @@
          <button class="button" type = "button" >Show</button>
       </div>
 
+
+
+
+
+    <div class="screen" style="left:650px;top:100px">
+
+
+
     </div>
 
 
-    <div class="screen">
-
-
-
-    </div>
 
 
 
 
 
 
-
-
-    <div>
+    <div style="position:absolute;left:750px;top:700px">
         <span>
             <button class="btn" type = "button"><p4>Full Screen</p4></button>
             <button class="btn" type = "button" ><p4>Export ad PNG</p4></button>
@@ -175,6 +193,9 @@
 
 </body>
 </html>
+
+
+
 
 
 
