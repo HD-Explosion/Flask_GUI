@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404 Not Found</title>
+    <style>
+        body {
+                margin: 0;
+                padding: 0;
+                font-family: sans-serif;
+                background: url("../../static/image/404.jpg") no-repeat center 0px;
+                background-size: cover;
+
+            background-position: center 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+                -webkit-background-size: cover;
+                -o-background-size: cover;
+                -moz-background-size: cover;
+                -ms-background-size: cover;
+
+    }
+        h1 {
+            text-align:center;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+        <h1 >Sorry, there is something wrong with us. You may try again to access.</h1>
+
+</body>
+</html>
+
+{% endblock %}
