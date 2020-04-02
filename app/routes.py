@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, send_file
+from flask import render_template, send_file,request
 from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for
 import numpy as np
@@ -7,8 +7,47 @@ import io
 from PIL import Image
 from app import HDX_Plots
 
+import urllib.request
+from werkzeug.utils import secure_filename
+
+ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf'}
+
+
 
 @app.route('/')
+def upload_form():
+    return render_template('ui.html')
+
+@app.route('/', methods=['POST']) 
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'files[]' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        files = request.files.getlist('files[]')
+        count = 2
+        for file in files:
+                if count == 0:
+                    break
+                if file and allowed_file(file.filename):
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    count -= 1
+        flash('File(s) successfully uploaded')
+
+        return redirect('/')
+
+@app.route('/', methods=['POST'])
+def save():
+    name = request.form['name']
+
+    if request.method == 'POST':
+        params = request.data.getlist('params[]')
+
+    return params
+
+
 @app.route('/index')
 
 def index():
@@ -93,6 +132,13 @@ def add_header(r):
     return r
 
 
+
+ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 

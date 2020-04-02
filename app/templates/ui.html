@@ -1,5 +1,8 @@
+
 {% extends "base.html" %}
+
 {% block content %}
+
 <! DOCTYPE html>
 <html>
 <html lang="en">
@@ -9,9 +12,9 @@
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 <title>HD eXplosion</title>
     <style>
@@ -20,36 +23,47 @@
         height:100%
     }
         body {
-        background-color: #6c757d;
+        background-color: white;
         background-size: cover;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-family: "Lucida Sans", Helvetica, Arial, sans-serif;
         font-size: 14px;
     }
-    p1 {
-        background-color: #c82333;
-        width: fit-content;
-    }
+
 
      h1 {
          color: #FFFFFF;
          margin: 35px;
      }
 
+     .text-oneLine{
+         display:block;
+         word-break:keep-all;
+         white-space:nowrap;
+         overflow:hidden;
+         text-overflow:ellipsis;
+         color: black;
+     }
+
+
 
      .box {
         position: absolute;
          width: 40%;
          border: 5px solid #c82333;
-         padding: 25px;
-         margin: 25px;
+         padding: 20px;
+         margin: 15px;
          float:left;
+         border-radius: 30px;
      }
 
      .screen {
          position: absolute;
+         left:650px;
+         top:100px;
          width: 45%;
          height: 70%;
-         background-color: #000000;
+
+         background-color: grey;
          margin: 25px;
          float: left;
 
@@ -63,104 +77,133 @@
      }
 
      .button {
-         background-color: red; border-radius: 3px
+
+         border-radius: 3px;
+
+         text-align: center;
      }
 
      .btn {
 
-         background: #3498db;
+
          width: 150px;
          padding: 4px 0;
 
          position: relative;
 
-         transform: translateX(-50%) translateY(-50%);
+
          border-radius: 3px;
      }
 
+
+
         p4 {
-            font-family: 'Roboto';
+
 	        text-align: center;
   	        text-transform: uppercase;
-            color: #FFF;
+
             user-select: none;
         }
-
-
-        img {
-        width: 100%; 
-        height: 100%; 
-        object-fit: contain;
-    }
     </style>
 
 </head>
 
 <body>
 
-    <div >
-        <h1>HD-Explosion
-            <button class="button" type = "button" >Help</button>
+    <div class="text-oneLine">
+
+        <h1 style="color: black; ">HD-eXplosion
+                 <span style="display: inline-list-item"><h6><button class="button" type = "button"  >Help</button></h6></span>
         </h1>
+
 
     </div>
 
 
 
 
-    <div class="box" style="left:20px;top:100px">
-        <p1>Data Uploaded</p1>
+    <div class="box" style="left:20px;top:170px">
+        <h4>Data</h4>
         <br>
         <span>
-            <form action="" method="get">
-            <input type="radio"  name="function" value="Bike">
-            <label for="vehicle1">One File</label><br>
-            <input type="radio"  name="function" value="Car">
-            <label for="vehicle2"> Files Merging</label><br>
+            <form  method="post" enctype="multipart/form-data">
+            <input type="radio"  name="upload" value="file_s">
+            <label for="single_file">One File</label><br>
+            <input type="radio"  name="upload" value="file_m">
+            <label for="multi_files">Multiple Files</label><br>
             </form>
         </span>
         </br>
 
-        <input type="file" name=""></input>
-        <br>Upload DynamX Output</br>
+        <p>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+        </p>
+        <form  method="post" action="/" enctype="multipart/form-data" style="display: inline; float:left">
+        <div style="float: left;display: inline">
+            <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
+            <p><label for="file">Upload DynamX Output</label>
+            <input type="submit" value="Submit"></p>
+        </div>
+
+        <!--
+        <div style="float: top;display: inline">
+            <input type="file" name="file_2" autocomplete="off" required><br>
+            <label for="file_2">Upload Second DynamX Output</label>
+            <input type="submit" name="file_2" value="Submit">
+        </div>   -->
+
+        </form>
+
     </div>
 
 
-     <div class="box" style="left:20px;top:350px;height:350px;">
-         <p1>Patameter Setting</p1>
-        <form action="" method="get">
+     <div class="box" style="left:20px;top:500px;height:350px;">
+         <h4>Parameters</h4>
+        <form action="" method="post">
         <input type="radio" name="plot" value="Volcano Plot">
             <label for="function"> Volcano Plot</label><br>
             <input type="radio"  name="plot" value="HeatMap">
-            <label for="function">HeatMap</label><br>
+            <label for="function">Heatmap</label><br>
         </form>
 
          <div >
+             <table>
+          <form action="/" method = post>
         <select style="float: right;">
-                <option value ="one file">One File</option>
-                <option value ="file merging">File Merging</option>
+                <option value ="one file">Protein1</option>
+                <option value ="file merging">Protein2</option>
             </select>
+              <input type="submit" value="Submit"/>
+         </form>
 
         <select style="position:relative; top:5px">
-                <option value ="one file">One File</option>
+                <option value ="one file">All</option>
+                <option value ="file merging">0.5s</option>
+            </select>
+
+        <select>
+                <option value ="one file">State1</option>
+                <option value ="file merging">State2</option>
+            </select>
+
+        <select>
+                <option value ="one file">State2</option>
                 <option value ="file merging">File Merging</option>
             </select>
 
         <select>
-                <option value ="one file">One File</option>
+                <option value ="one file">0.01</option>
                 <option value ="file merging">File Merging</option>
             </select>
-
-        <select>
-                <option value ="one file">One File</option>
-                <option value ="file merging">File Merging</option>
-            </select>
-
-        <select>
-                <option value ="one file">One File</option>
-                <option value ="file merging">File Merging</option>
-            </select>
-
+            </table>
          </div>
 
         <input type="number" name="fill with xxx"></input>
@@ -175,14 +218,8 @@
 
 
 
-    <div class="screen" style="left:650px;top:100px">
+    <div class="screen" style="">
 
-    <!--<img src="{{ user_image }}" alt="User Image not loaded"> -->
-    <!-- <img src="/static/image/404.jpg"> -->
-
-
-    <!-- img src="data:image/png;base64,image_data_encoded_to_base64'" /-->
-    <img src="/plotshow"> 
 
 
     </div>
@@ -194,22 +231,39 @@
 
 
 
-
-    <div style="position:absolute;left:750px;top:700px">
+    <div  clasee="text-oneLine" style="position:absolute;left:750px;top:700px">
         <span>
-            <button class="btn" type = "button"><p4>Full Screen</p4></button>
-            <button class="btn" type = "button" ><p4>Export ad PNG</p4></button>
-            <button class="btn" type = "button" ><p4>Export as EPS</p4></button>
-            <button class="btn" type = "button" ><p4>Export as CVS</p4></button>
+            <button  ><p4>Full Screen</p4></button>
+            <button   ><p4>Export as PNG</p4></button>
+            <button  ><p4>Export as EPS</p4></button>
+            <button   ><p4>Export as CSV</p4></button>
         </span>
+        <a href="something" class="button8">New document</a>
     </div>
 
+
+    <script type="text/javascript">
+   function hello()
+   {
+       $.ajax(
+      {
+         type: "POST",
+         url: "/hello",
+         dataType: "html",
+         success: function(msg)
+         {
+             console.log(msg);
+             $("#display").html(msg);
+         },
+         error: function (xhr, status, error) {
+            console.log(error);
+        }
+      });
+   }
+</script>
 
 </body>
 </html>
-
-
-
 
 
 
