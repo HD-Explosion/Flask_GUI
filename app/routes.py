@@ -7,10 +7,9 @@ import io
 from PIL import Image
 from app import HDX_Plots
 
+import os
 import urllib.request
 from werkzeug.utils import secure_filename
-
-ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf'}
 
 
 
@@ -28,13 +27,13 @@ def upload_file():
         files = request.files.getlist('files[]')
         count = 2
         for file in files:
-                if count == 0:
-                    break
-                if file and allowed_file(file.filename):
-                    filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                    count -= 1
-        flash('File(s) successfully uploaded')
+            if count == 0:
+                break
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                count -= 1
+            flash('File(s) successfully uploaded')
 
         return redirect('/')
 
