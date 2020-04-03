@@ -1,5 +1,6 @@
 from app import app
-from flask import render_template, send_file
+
+from flask import render_template, send_file,request
 from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for
 import numpy as np
@@ -7,8 +8,46 @@ import io
 from PIL import Image
 from app import HDX_Plots
 
+import os
+import urllib.request
+from werkzeug.utils import secure_filename
+
+
 
 @app.route('/')
+def upload_form():
+    return render_template('ui.html')
+
+@app.route('/upload_file', methods=['POST']) 
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'files[]' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        files = request.files.getlist('files[]')
+        count = 2
+        for file in files:
+            if count == 0:
+                break
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                count -= 1
+        flash('File(s) successfully uploaded')
+
+        return redirect('/')
+
+# @app.route('/', methods=['POST'])
+# def save():
+#     name = request.form['name']
+
+#     if request.method == 'POST':
+#         params = request.data.getlist('params[]')
+
+#     return params
+
+
 @app.route('/index')
 
 def index():
@@ -51,33 +90,32 @@ def error():
 
 
 
-@app.route('/plotshow')
-def plotshow():
-    raw_data = [
-    [[255,255,255],[255,255,255],[255,255,255]],
-    [[0,0,1],[255,255,255],[0,0,0]],
-    [[255,255,255],[0,0,0],[255,255,255]],
-    [[100,50,23],[55,23,76],[157,75,32]]
-]
-    # my numpy array 
-    arr = np.array(raw_data)
+# def plotshow():
+#     raw_data = [
+#     [[255,255,255],[255,255,255],[255,255,255]],
+#     [[0,0,1],[255,255,255],[0,0,0]],
+#     [[255,255,255],[0,0,0],[255,255,255]],
+#     [[100,50,23],[55,23,76],[157,75,32]]
+# ]
+#     # my numpy array 
+#     arr = np.array(raw_data)
 
-    # convert numpy array to PIL Image
-    img = Image.fromarray(arr.astype('uint8'))
+#     # convert numpy array to PIL Image
+#     img = Image.fromarray(arr.astype('uint8'))
 
-    # create file-object in memory
-    file_object = io.BytesIO()
+#     # create file-object in memory
+#     file_object = io.BytesIO()
 
-    # write PNG in file-object
-    img.save(file_object, 'PNG')
+#     # write PNG in file-object
+#     img.save(file_object, 'PNG')
 
-    # move to beginning of file so `send_file()` it will read from start    
-    file_object.seek(0)
+#     # move to beginning of file so `send_file()` it will read from start    
+#     file_object.seek(0)
 
-    #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
-    #return render_template('ui.html',user_image =file_object )
+#     #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+#     #return render_template('ui.html',user_image =file_object )
 
-    return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+#     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     
 
 @app.after_request
@@ -96,9 +134,21 @@ def add_header(r):
 
 
 
-# @app.route('/plotshow')
-# def plotshow():
 
+
+ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf'}
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+
+@app.route('/')
+def plotshow():
+    mylst = "fist"
+    return render_template('ui.html',value = mylst)
 
 #     File_name = 'static/files/20191010_djb_H3H4dm.csv'
 #     csvFile = open(File_name, "r")
