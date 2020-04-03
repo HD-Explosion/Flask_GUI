@@ -152,12 +152,19 @@
                     {% endif %}
                 {% endwith %}
         </p>
-        <form  method="post" action="/" enctype="multipart/form-data" style="display: inline; float:left">
+
+        <form  method="post" action="/upload_file" enctype="multipart/form-data" style="display: inline; float:left">
         <div style="float: left;display: inline">
             <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
             <p><label for="file">Upload DynamX Output</label>
             <input type="submit" value="Submit"></p>
+            
+
+      
+            
         </div>
+
+        <div><p>test1 : {{ value }}</p></div>
 
         <!--
         <div style="float: top;display: inline">
@@ -225,7 +232,7 @@
 
 
     <div class="screen" style="left:650px;top:100px">
-        <img src="/plotshow"> 
+        <!-- <img src="/plotshow">   -->
 
 
     </div>
@@ -248,7 +255,7 @@
     </div>
 
 
-    <script type="text/javascript">
+<script type="text/javascript">
    function hello()
    {
        $.ajax(
