@@ -1,0 +1,481 @@
+import csv as cs
+from numpy import *
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_pdf import PdfPages
+import matplotlib.gridspec as gridspec
+import matplotlib.colors as colors
+from scipy import stats
+from matplotlib.patches import Polygon
+from matplotlib.ticker import ScalarFormatter
+
+
+def wood(df, State1, State2, Time_point):
+    df[State1 + '_' + Time_point] = df[State1 + '_' + Time_point].astype('float')
+    df[State2 + '_' + Time_point] = df[State2 + '_' + Time_point].astype('float')
+    df['dif'] = df[State2 + '_' + Time_point] - df[State1 + '_' + Time_point]
+    df[State1 + '_' + Time_point + '_SD'] = df[State1 + '_' + Time_point + '_SD'].astype('float')
+    df[State2 + '_' + Time_point + '_SD'] = df[State2 + '_' + Time_point + '_SD'].astype('float')
+    df['dif_err'] = df[State2 + '_' + Time_point + '_SD'] + df[State1 + '_' + Time_point + '_SD']
+    df['dif_err'] = df['dif_err'].astype('float')
+    x = []
+    len = []
+    for se in df['Sequence Number']:
+        s = se.split('-')
+        while '' in s:
+            s.remove('')
+        x.append((float(s[0]) + float(s[1])) / 2)
+        len.append(float(s[1]) - float(s[0]))
+    fig, ax = plt.subplots(figsize=(20, 10))
+    ax.errorbar(x, df['dif'], xerr=len, marker='o', linestyle='', markersize=4, capsize=2)
+    ax.grid(True)
+    ax.axhline(0, color='black', lw=1)
+    ax.set_xlabel('Sequence')
+    ax.set_title('dif' + '_' + State1 + '_' + State2 + '_' + Time_point)
+    plt.savefig('dif' + '_' + State1 + '_' + State2 + '_' + Time_point + '.eps', format='eps', dpi=1000)
+    plt.show()
+    return ax
+
+
+def uptakeplot(df, proteins, Time_points1=[], States=[], cols=1, rows=1, file_name='Multi-page.pdf',
+               color=['k', 'b', 'r', 'g', 'y']):
+    # Crate grid for plot
+    gs = gridspec.GridSpec(rows, cols)
+    gs.update(hspace=0.5)
+    pp = PdfPages(file_name)
+    for protein in proteins:
+        x = []
+        y = []
+        yerr = []
+        ax = []
+        df.index = df[protein]
+        i = 0
+        # Plot the uptake plot and save as pdf file
+        fig = plt.figure(figsize=(7, 5))
+        sec = list(df[protein])
+        while np.core.numeric.NaN in sec:
+            sec.remove(np.core.numeric.NaN)
+        for Sequence_number in sec:
+            print(Sequence_number)
+            n = 0
+            row = (i // cols)
+            col = i % cols
+            print(row, col)
+            ax.append(fig.add_subplot(gs[row, col]))  # Crate the subplot
+            ax[-1].set_xscale("log", nonposx='clip')  # Set up log x
+            ax[-1].set_ylim([0, float(df.loc[Sequence_number, protein + '_' + 'MaxUptake'])])  # Set up y scale
+            ax[-1].set_title(protein + '_' + Sequence_number, fontdict={'fontsize': 6}, pad=-6, loc='right')  # Set title of plot
+            ax[-1].tick_params(axis='both', labelsize=4, pad=1.2)
+            if int(float(df.loc[Sequence_number, protein + '_' + 'MaxUptake'])) // 5 == 0:
+                stp = 1
+            else:
+                stp = int(float(df.loc[Sequence_number, protein + '_' + 'MaxUptake'])) // 5
+            ax[-1].set_yticklabels(list(range(0, int(float(df.loc[Sequence_number, protein + '_' + 'MaxUptake'])) + stp * 2, stp)))
+            print(list(range(0, int(float(df.loc[Sequence_number, protein + '_' + 'MaxUptake'])), stp)))
+            if row == rows - 1:
+                ax[-1].set_xlabel('Time (s)', {'fontsize': 6})
+            if col == 0:
+                ax[-1].set_ylabel('Uptake (Da)', {'fontsize': 6})
+                ax[-1].yaxis.set_label_coords(-0.2, 0.5)
+            for State in States:
+                n += 1
+                for time in Time_points1:  # For 4 time points
+                    Line = protein + '_' + State + '_' + time
+                    x.append(float(df.loc[Sequence_number, Line]))  # Get y number from df
+                    y.append(int(time))
+                    yerr.append(2 * float(df.loc[Sequence_number, Line + '_SD']))
+                ax[-1].errorbar(y, x, yerr=yerr, marker='o', label=State, linewidth=0.7, markersize=0,
+                                elinewidth=0.3, capsize=1, capthick=0.3, color=color[n - 1])
+                # Plot one state on the subplot
+                y = []
+                x = []
+                yerr = []
+            if row == 0 and col == 0:
+                ax[-1].legend(fontsize=4, loc='lower right', bbox_to_anchor=(0, 1.05))  # Set figure legend
+            if i == cols * rows - 1:
+                plt.savefig(pp, format='pdf')  # Save figure in pdf
+                plt.close()  # Close the figure
+                fig = plt.figure(figsize=(7, 5))  # Crate new figure
+                ax = []
+                i = -1
+            i = i + 1
+        if i == 0:
+            plt.close()
+        else:
+            plt.savefig(pp, format='pdf')  # Save figure in pdf
+            plt.close()  # Close the figure
+
+    pp.close()  # Close the pdf file
+    text = []
+    return text
+
+
+def v(df, times, proteins, state1, state2, colors, filename, md=0.5, ma=0.01):
+    df1 = pd.DataFrame(columns=['Time point', 'Sequence', 'Difference', 'p-Value'])
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.set_yscale("log")
+    ax.set_xlim(-1, 2)
+    ax.set_ylim(0.5, 0.000001)
+    ax.xaxis.set_ticks(list(np.arange(-1, 2, 0.5)), minor=True)
+    formatter = ScalarFormatter()
+    ax.yaxis.set_major_formatter(formatter)
+    y = []
+    for i in range(1, 6):
+        y.append(1/10**i)
+    print(y)
+    ax.set_yticks(y)
+    verts = [(-11, ma), (-md, ma), (-md, 0.000000001), (-11, 0.000000001)]
+    poly = Polygon(verts, fill=False, edgecolor='0', linestyle='--', lw='2', zorder=0)
+    ax.add_patch(poly)
+    verts = [(11, ma), (md, ma), (md, 0.000000001), (11, 0.000000001)]
+    poly = Polygon(verts, fill=False, edgecolor='0', linestyle='--', lw='2', zorder=0)
+    ax.add_patch(poly)
+    for protein in proteins:
+        sec = list(df[protein])
+        while np.core.numeric.NaN in sec:
+            sec.remove(np.core.numeric.NaN)
+        for i, time in enumerate(times):
+            print(time)
+            x1 = list(df[protein + '_' + state1 + '_' + time])
+            s1 = list(df[protein + '_' + state1 + '_' + time + '_SD'])
+            x2 = list(df[protein + '_' + state2 + '_' + time])
+            s2 = list(df[protein + '_' + state2 + '_' + time + '_SD'])
+            while np.core.numeric.NaN in x1:
+                x1.remove(np.core.numeric.NaN)
+            while np.core.numeric.NaN in s1:
+                s1.remove(np.core.numeric.NaN)
+            while np.core.numeric.NaN in x2:
+                x2.remove(np.core.numeric.NaN)
+            while np.core.numeric.NaN in s2:
+                s2.remove(np.core.numeric.NaN)
+            x2 = np.array(x2).astype(float)
+            s2 = np.array(s2).astype(float)
+            x1 = np.array(x1).astype(float)
+            s1 = np.array(s1).astype(float)
+            d = x1 - x2
+            t = (x1 - x2) / np.sqrt(s1 * s1 / 3 + s2 * s2 / 3)
+            p = stats.t.sf(abs(t), 3)
+            d_in_n = []
+            p_in_n = []
+            d_in_p = []
+            p_in_p = []
+            d_out = []
+            p_out = []
+            for a, di in enumerate(d):
+                if di >= md and p[a] <= ma:
+                    print(sec[a])
+                    d_in_p.append(di)
+                    p_in_p.append(p[a])
+                elif di <= -1 * md and p[a] <= ma:
+                    print(sec[a])
+                    d_in_n.append(di)
+                    p_in_n.append(p[a])
+                else:
+                    d_out.append(di)
+                    p_out.append(p[a])
+            ax.scatter(d_out, p_out, s=6, zorder=(i+1)*5, color='None', edgecolor='0.8')
+            ax.scatter(d_in_n, p_in_n, s=6, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
+            ax.scatter(d_in_p, p_in_p, s=6, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
+            # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
+    plt.savefig(filename, format='eps', dpi=1000)
+    plt.show()
+    df1.to_csv("SSRP1.csv", index=False, sep=',')
+    return 0
+
+
+
+def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0):
+    k = 0
+    sec = list(df[protien])
+    while np.core.numeric.NaN in sec:
+        sec.remove(np.core.numeric.NaN)
+    for time in Time_points:
+        t1 = list(df[protien + '_' + State1 + '_' + time])[0:len(sec)]
+        t2 = list(df[protien + '_' + State2 + '_' + time])[0:len(sec)]
+        s1 = list(df[protien + '_' + State1 + '_' + time + '_SD'])[0:len(sec)]
+        s2 = list(df[protien + '_' + State2 + '_' + time + '_SD'])[0:len(sec)]
+        s1 = np.nan_to_num(s1)
+        s2 = np.nan_to_num(s2)
+        t1 = np.nan_to_num(t1)
+        t2 = np.nan_to_num(t2)
+        s1 = np.array(s1).astype(float)
+        s2 = np.array(s2).astype(float)
+        t1 = np.array(t1).astype(float)
+        t2 = np.array(t2).astype(float)
+        dif = t1 - t2
+        tv = dif / np.sqrt(s1 * s1 / 3 + s2 * s2 / 3)
+        p = stats.t.sf(abs(tv), 3)
+        if k == 0:
+            t = copy(dif)
+            pv = copy(p)
+            k = k + 1
+        else:
+            print(dif.shape, t.shape)
+            t = np.vstack((t, dif))
+            pv = np.vstack((pv, p))
+            print(t.mean())
+    [rows, cols] = t.shape
+    print(rows, cols)
+    for i in range(rows):
+        for j in range(cols):
+            if pv[i, j] >= 0.01:
+                t[i, j] = 0
+    # plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
+    # plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
+    fig, ax = plt.subplots(figsize=(len(sec)*0.0612318+1.3243, 5.5))
+    clmap = [(1.0, 1.0, 1.0)]
+    if color == 'r':
+        for c in range(step - 1):
+            clmap.append((1.0 - (c + 1) * (1.0 / step) / 3, 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step)))
+    elif color == 'g':
+        for c in range(step - 1):
+            clmap.append(
+                (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5, 1.0 - (c + 1) * (1.0 / step)))
+    elif color == 'b':
+        for c in range(step - 1):
+            clmap.append(
+                (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5))
+    elif color == 'rb':
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range(step - 1):
+            clmap.append((1.0 - (c + 1) * (1.0 / step) / 3, 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step)))
+        for c in range(step2 - 1):
+            clmap.insert(0,
+                    (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5))
+    elif color == 'br':
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range(step - 1):
+            clmap.append(
+                (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5))
+        for c in range(step2 - 1):
+            clmap.insert(0, (1.0 - (c + 1) * (1.0 / step) / 3, 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step)))
+    elif color == 'gr':
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range(step - 1):
+            clmap.append(
+                (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5, 1.0 - (c + 1) * (1.0 / step)))
+        for c in range(step2 - 1):
+            clmap.insert(0, (1.0 - (c + 1) * (1.0 / step) / 3, 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step)))
+    elif color == 'o':
+        for c in range((step - 1)//2):
+            clmap.append(
+                (1, 1.0 - ((255-102) / ((step - 1)//2) * (c+1))/255, 1.0 - (255 / ((step - 1)//2) * (c+1))/255))
+        for c in range(step - 1 - (step - 1) // 2):
+            clmap.append(((255-(230-51)/step*(c+1))/255, (102-(102-20)/step*(c+1))/255, 0))
+    elif color == 'ob':
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range((step - 1)//2):
+            clmap.append(
+                (1, 1.0 - ((255-102) / ((step - 1)//2) * (c+1))/255, 1.0 - (255 / ((step - 1)//2) * (c+1))/255))
+        for c in range(step - 1 - (step - 1) // 2):
+            clmap.append(((255-(230-128)/step*(c+1))/255, (102-(102-51)/step*(c+1))/255, 0))
+        for c in range(step2 - 1):
+            clmap.insert(0,
+                    (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5))
+    elif color == 'y':
+        for c in range((step - 1)//2):
+            clmap.append(
+                (1, 1, 1.0 - (255 / ((step - 1)//2) * (c+1))/255))
+        for c in range(step - 1 - (step - 1) // 2):
+            clmap.append(((255-(255-77)/step*(c+1))/255, (255-(255-77)/step*(c+1))/255, 0))
+    elif color == 'gr':
+        for c in range(step - 1):
+            clmap.append((1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step)))
+    elif color == 'bp':
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range((step - 1)//2):
+            clmap.append(
+                (1.0 - ((255-100) / ((step - 1)//2) * (c+1))/255, 1.0 - ((255-149) / ((step - 1)//2) * (c+1))/255, 1.0 - ((255-235) / ((step - 1)//2) * (c+1))/255))
+        for c in range(step - 1 - (step - 1) // 2):
+            clmap.append(
+                ((100-100/step*(c+1))/255, (149-149/step*(c+1))/255,
+                 1.0 - ((255 - 150) / ((step - 1)//2) * (c + 1)) / 255))
+        for c in range((step - 1)//2):
+            clmap.insert(0,
+                (1, 1.0 - ((255-0) / ((step - 1)//2) * (c+1))/255, 1))
+        for c in range(step - 1 - (step - 1) // 2):
+            clmap.insert(0,
+                         ((255-(225-23)/(step - 1)//2*(c+1))/255, 0, (255-(225-23)/(step - 1)//2*(c+1))/255))
+    elif color == 'bg':
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range((step - 1)//2):
+            clmap.append(
+                (1.0 - ((255-100) / ((step - 1)//2) * (c+1))/255, 1.0 - ((255-149) / ((step - 1)//2) * (c+1))/255, 1.0 - ((255-235) / ((step - 1)//2) * (c+1))/255))
+        for c in range(step - 1 - (step - 1) // 2):
+            clmap.append(
+                ((100-100/step*(c+1))/255, (149-149/step*(c+1))/255,
+                 1.0 - ((255 - 150) / ((step - 1)//2) * (c + 1)) / 255))
+        for c in range(step - 1):
+            clmap.insert(0,
+                         (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5, 1.0 - (c + 1) * (1.0 / step)))
+    else:
+        clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
+        for c in range(step - 1):
+            clmap.append((1.0 - (c + 1) * (1.0 / step) / 3, 1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step)))
+        for c in range(step2-1):
+            clmap.insert(0, (75/255, 140/255, 97/255))
+    cmap = mpl.colors.ListedColormap(clmap)
+    if rotation == 'H' or rotation == 'h':
+        im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
+        cbar = ax.figure.colorbar(im, ax=ax)
+        cbar.ax.set_ylabel('Dif', rotation=-90, va="bottom")
+        cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
+        ax.set_xticks(np.arange(len(sec)))
+        ax.set_yticks(np.arange(len(Time_points)))
+        ax.set_xticklabels(sec)
+        ax.set_yticklabels(Time_points)
+        ax.set_facecolor('white')
+        ax.tick_params(axis='x', labelsize=3.5, pad=0.9, length=3.2)
+        ax.tick_params(axis='y', labelsize=10)
+        plt.setp(ax.get_xticklabels(), rotation=90, ha="right", va='center', rotation_mode="anchor")
+        plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
+        fig.tight_layout()
+        plt.savefig(file_name, format='eps', dpi=100)
+        plt.show()
+    else:
+        im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
+        cbar = ax.figure.colorbar(im, ax=ax)
+        cbar.ax.set_ylabel('Dif', rotation=-90, va="bottom", fontsize=5)
+        cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
+        ax.set_yticks(np.arange(len(sec)))
+        ax.set_xticks(np.arange(len(Time_points)))
+        ax.set_yticklabels(sec)
+        ax.set_xticklabels(Time_points)
+        ax.set_facecolor('white')
+        ax.tick_params(axis='y', labelsize=3.5, pad=0.9, length=3.2)
+        ax.tick_params(axis='x', labelsize=10)
+        plt.setp(ax.get_yticklabels(), rotation=0, ha="right", va='center', rotation_mode="anchor")
+        plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
+        fig.tight_layout()
+        plt.savefig(file_name, format='eps', dpi=100)
+        plt.show()
+    return k
+
+
+Time_f = 's'
+# Open csv file
+File_name = '20191010_djb_H3H4dm.csv'
+csvFile = open(File_name, "r")
+reader = cs.reader(csvFile)
+Columns = []
+Data1 = pd.DataFrame(columns=Columns)
+n, i = 0, 0
+Sequence = ''
+Sequence_number = ''
+Time_Points = []
+Proteins = []
+States = []
+# Read data form reader to Data
+for item in reader:
+    if n != 0:
+        if item[0] in Proteins:
+            if item[8] in States:
+                if Sequence_number != item[1] + '-' + item[2]:
+                    i += 1
+                    Sequence_number = item[1] + '-' + item[2]
+                    Data1.loc[i, item[0]] = Sequence_number
+                    Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                if Time_f == 's':
+                    Time = str(int(float(item[9]) * 60 + 0.5))
+                else:
+                    Time = item[9]
+                State = item[8]
+                Protein = item[0]
+                if Time != '0':
+                    if Time not in Time_Points:
+                        Time_Points.append(Time)
+                    Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                    Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+            else:
+                States.append(item[8])
+                if Sequence_number != item[1] + '-' + item[2]:
+                    i += 1
+                    Sequence_number = item[1] + '-' + item[2]
+                    Data1.loc[i, item[0]] = Sequence_number
+                    Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                if Time_f == 's':
+                    Time = str(int(float(item[9]) * 60 + 0.5))
+                else:
+                    Time = item[9]
+                State = item[8]
+                Protein = item[0]
+                if Time != '0':
+                    if Time not in Time_Points:
+                        Time_Points.append(Time)
+                    Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                    Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+        else:
+            i = 0
+            Proteins.append(item[0])
+            if item[8] in States:
+                if Sequence_number != item[1] + '-' + item[2]:
+                    i += 1
+                    Sequence_number = item[1] + '-' + item[2]
+                    Data1.loc[i, item[0]] = Sequence_number
+                    Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                if Time_f == 's':
+                    Time = str(int(float(item[9]) * 60 + 0.5))
+                else:
+                    Time = item[9]
+                State = item[8]
+                Protein = item[0]
+                if Time != '0':
+                    if Time not in Time_Points:
+                        Time_Points.append(Time)
+                    Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                    Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+            else:
+                States.append(item[8])
+                if Sequence_number != item[1] + '-' + item[2]:
+                    i += 1
+                    Sequence_number = item[1] + '-' + item[2]
+                    Data1.loc[i, item[0]] = Sequence_number
+                    Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                if Time_f == 's':
+                    Time = str(int(float(item[9]) * 60 + 0.5))
+                else:
+                    Time = item[9]
+                State = item[8]
+                Protein = item[0]
+                if Time != '0':
+                    if Time not in Time_Points:
+                        Time_Points.append(Time)
+                    Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                    Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+    else:
+        n = n + 1
+csvFile.close()
+print(Proteins, States, Time_Points)
+# Save Data as csv file
+Data1.to_csv("For plot.csv", index=False, sep=',')
+# protein = 'h2B'
+# m = []
+# for time in Time_points1:
+#     state1 = 'AB'
+#     x1 = list(Data1[protein + '_' + state1 + '_' + time + '_SD'])
+#     while np.core.numeric.NaN in x1:
+#         x1.remove(np.core.numeric.NaN)
+#     m += x1
+# print(np.array(m).astype(float).mean())
+# t1 = t.ppf(1-0.01, 3)
+# print(t1)
+# T = uptakeplot(Data1, Proteins, Time_points1, States1, 5, 4, file_name='H3H4_4deg.pdf',
+#                color=[(192 / 255, 0, 0), 'k', (192 / 255, 0, 0), (22 / 255, 54 / 255, 92 / 255),
+#                       'sienna'])
+# for time in Time_points1:
+#     for state in States1:
+#         Data1[state + '_' + time] = Data1[state + '_' + time].astype('float')
+#     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
+#     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
+# c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
+K = heatmap(Data1, 'H32_XENLA', 'H3H4dm', 'RV-H3H4dm', Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,
+            file_name='FL_ASF1.eps')
+#         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
+# c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
+# for k, time in enumerate(Time_points1):
+# a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
+    # for time in Time_points1:
+#     H = wood(df, 'Apo', 'ADP', time)
+
