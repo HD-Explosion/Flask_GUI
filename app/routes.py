@@ -1,4 +1,5 @@
 from app import app
+
 from flask import render_template, send_file,request
 from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for
@@ -86,8 +87,13 @@ def error():
 
 
 
+
 ## Create matrix image for testing
 # @app.route('/plotshow')
+
+
+
+
 # def plotshow():
 #     raw_data = [
 #     [[255,255,255],[255,255,255],[255,255,255]],
@@ -130,12 +136,17 @@ def add_header(r):
 
 
 
+
+
+
+
 ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf'}
 
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 
 
@@ -179,3 +190,6 @@ def parameter():
         # for time in Time_points1:
     #     H = wood(df, 'Apo', 'ADP', time)
     # return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
+
+#     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+    
