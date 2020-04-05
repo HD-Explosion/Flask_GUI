@@ -5,16 +5,18 @@ from flask import render_template, flash, redirect, url_for
 import numpy as np
 import io
 from PIL import Image
-from app import HDX_Plots
+from app import HDX_Plots_for_web
 
 import os
 import urllib.request
 from werkzeug.utils import secure_filename
+import csv as cs
 
+import pandas as pd
 
 
 @app.route('/')
-def upload_form():
+def ui():
     return render_template('ui.html')
 
 @app.route('/upload_file', methods=['POST']) 
@@ -30,12 +32,14 @@ def upload_file():
             if count == 0:
                 break
             if file and allowed_file(file.filename):
+                global filename 
                 filename = secure_filename(file.filename)
+                print(filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 count -= 1
         flash('File(s) successfully uploaded')
 
-        return redirect('/')
+        return redirect('/parameter')
 
 # @app.route('/', methods=['POST'])
 # def save():
@@ -50,7 +54,7 @@ def upload_file():
 @app.route('/index')
 
 def index():
-    user = {'username': 'Xiaohe'}
+    user = 'Xiaohe'
     posts = [
         {
             'author': {'username': 'John'},
@@ -74,9 +78,6 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 
-@app.route('/ui')
-def ui():
-    return render_template('ui.html')
 
 
 @app.route('/error')
@@ -87,8 +88,7 @@ def error():
 
 
 
-
-
+## Create matrix image for testing
 # @app.route('/plotshow')
 # def plotshow():
 #     raw_data = [
@@ -141,74 +141,136 @@ def allowed_file(filename):
 
 
 
-@app.route('/')
-def plotshow():
-    mylst = "fist"
-    return render_template('ui.html',value = mylst)
 
-#     File_name = 'static/files/20191010_djb_H3H4dm.csv'
-#     csvFile = open(File_name, "r")
-#     reader = cs.reader(csvFile)
-#     # Set up time points and states
-#     Time_points1 = ['10', '100', '1000', '10000', '100000']
-#     States1 = ['H3H4dm', 'RV-H3H4dm']
-#     Proteins = ['H32_XENLA']
-#     Columns = []
-#     # Crate column to store data
-#     for Protein in Proteins:
-#         Columns.append(Protein)
-#         Columns.append(Protein + '_' + 'MaxUptake')
-#         for State in States1:
-            
-#             Columns.append(State)
-#             for Time in Time_points1:
-#                 Columns.append(Protein + '_' + State + '_' + Time)
-#                 Columns.append(Protein + '_' + State + '_' + Time + '_SD')
-#     Data1 = pd.DataFrame(columns=Columns)
-#     n, i = 0, 0
-#     Sequence = ''
-#     Sequence_number = ''
-#     # Read data form reader to Data
-#     for item in reader:
-#         if n != 0:
-#             if item[0] in Proteins:
-#                 if Sequence_number != item[1] + '-' + item[2]:
-#                     i += 1
-#                     Sequence_number = item[1] + '-' + item[2]
-#                     Data1.loc[i, item[0]] = Sequence_number
-#                     Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
-#                 Time = str(int(float(item[9]) * 60 + 0.5))
-#                 State = item[8]
-#                 Protein = item[0]
-#                 if Time != '0':
-#                     Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
-#                     Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
-#         else:
-#             n = n + 1
-#     csvFile.close()
-#     # Save Data as csv file
-#     Data1.to_csv("For plot.csv", index=False, sep=',')
+@app.route('/parameter')
+def parameter():
+    Time_f = 's'
+    # Open csv file
+    File_name = str(filename)
+    file_to_open = './uploads/' + File_name
+    csvFile = open(file_to_open, "r")
+    reader = cs.reader(csvFile)
+    Columns = []
+    Data1 = pd.DataFrame(columns=Columns)
+    n, i = 0, 0
+    Sequence = ''
+    Sequence_number = ''
+    Time_Points = []
+    Proteins = []
+    States = []
+    # Read data form reader to Data
+    for item in reader:
+        if n != 0:
+            if item[0] in Proteins:
+                if item[8] in States:
+                    if Sequence_number != item[1] + '-' + item[2]:
+                        i += 1
+                        Sequence_number = item[1] + '-' + item[2]
+                        Data1.loc[i, item[0]] = Sequence_number
+                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                    if Time_f == 's':
+                        Time = str(int(float(item[9]) * 60 + 0.5))
+                    else:
+                        Time = item[9]
+                    State = item[8]
+                    Protein = item[0]
+                    if Time != '0':
+                        if Time not in Time_Points:
+                            Time_Points.append(Time)
+                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+                else:
+                    States.append(item[8])
+                    if Sequence_number != item[1] + '-' + item[2]:
+                        i += 1
+                        Sequence_number = item[1] + '-' + item[2]
+                        Data1.loc[i, item[0]] = Sequence_number
+                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                    if Time_f == 's':
+                        Time = str(int(float(item[9]) * 60 + 0.5))
+                    else:
+                        Time = item[9]
+                    State = item[8]
+                    Protein = item[0]
+                    if Time != '0':
+                        if Time not in Time_Points:
+                            Time_Points.append(Time)
+                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+            else:
+                i = 0
+                Proteins.append(item[0])
+                if item[8] in States:
+                    if Sequence_number != item[1] + '-' + item[2]:
+                        i += 1
+                        Sequence_number = item[1] + '-' + item[2]
+                        Data1.loc[i, item[0]] = Sequence_number
+                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                    if Time_f == 's':
+                        Time = str(int(float(item[9]) * 60 + 0.5))
+                    else:
+                        Time = item[9]
+                    State = item[8]
+                    Protein = item[0]
+                    if Time != '0':
+                        if Time not in Time_Points:
+                            Time_Points.append(Time)
+                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+                else:
+                    States.append(item[8])
+                    if Sequence_number != item[1] + '-' + item[2]:
+                        i += 1
+                        Sequence_number = item[1] + '-' + item[2]
+                        Data1.loc[i, item[0]] = Sequence_number
+                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
+                    if Time_f == 's':
+                        Time = str(int(float(item[9]) * 60 + 0.5))
+                    else:
+                        Time = item[9]
+                    State = item[8]
+                    Protein = item[0]
+                    if Time != '0':
+                        if Time not in Time_Points:
+                            Time_Points.append(Time)
+                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
+                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
+        else:
+            n = n + 1
+    csvFile.close()
+    print(Proteins, States, Time_Points)
+    return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
 
-#     K = HDX_Plots.heatmap(Data1, 'H32_XENLA', 'H3H4dm', 'RV-H3H4dm', Time_points1, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,
-#                 file_name='FL_ASF1.eps')
 
 
 
-
-
-#     # create file-object in memory
-#     file_object = io.BytesIO()
-
-
-
-#     K.savefig(file_object, format='eps')
-
-
-#     # move to beginning of file so `send_file()` it will read from start    
-#     file_object.seek(0)
-
-#     #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
-#     #return render_template('ui.html',user_image =file_object )
-
-#     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
-    
+    # Save Data as csv file
+    #Data1.to_csv("For plot.csv", index=False, sep=',')
+    # protein = 'h2B'
+    # m = []
+    # for time in Time_points1:
+    #     state1 = 'AB'
+    #     x1 = list(Data1[protein + '_' + state1 + '_' + time + '_SD'])
+    #     while np.core.numeric.NaN in x1:
+    #         x1.remove(np.core.numeric.NaN)
+    #     m += x1
+    # print(np.array(m).astype(float).mean())
+    # t1 = t.ppf(1-0.01, 3)
+    # print(t1)
+    # T = uptakeplot(Data1, Proteins, Time_points1, States1, 5, 4, file_name='H3H4_4deg.pdf',
+    #                color=[(192 / 255, 0, 0), 'k', (192 / 255, 0, 0), (22 / 255, 54 / 255, 92 / 255),
+    #                       'sienna'])
+    # for time in Time_points1:
+    #     for state in States1:
+    #         Data1[state + '_' + time] = Data1[state + '_' + time].astype('float')
+    #     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
+    #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
+    # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
+    #K = heatmap(Data1, 'H32_XENLA', 'H3H4dm', 'RV-H3H4dm', Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,
+    #            file_name='FL_ASF1.eps')
+    #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
+    # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
+    # for k, time in enumerate(Time_points1):
+    # a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
+        # for time in Time_points1:
+    #     H = wood(df, 'Apo', 'ADP', time)
