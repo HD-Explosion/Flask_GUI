@@ -6,13 +6,11 @@ import numpy as np
 import io
 from PIL import Image
 from app import HDX_Plots_for_web
-
+from app import reader
 import os
 import urllib.request
 from werkzeug.utils import secure_filename
-import csv as cs
 
-import pandas as pd
 
 
 @app.route('/')
@@ -144,108 +142,14 @@ def allowed_file(filename):
 
 @app.route('/parameter')
 def parameter():
-    Time_f = 's'
-    # Open csv file
-    File_name = str(filename)
-    file_to_open = './uploads/' + File_name
-    csvFile = open(file_to_open, "r")
-    reader = cs.reader(csvFile)
-    Columns = []
-    Data1 = pd.DataFrame(columns=Columns)
-    n, i = 0, 0
-    Sequence = ''
-    Sequence_number = ''
-    Time_Points = []
-    Proteins = []
-    States = []
-    # Read data form reader to Data
-    for item in reader:
-        if n != 0:
-            if item[0] in Proteins:
-                if item[8] in States:
-                    if Sequence_number != item[1] + '-' + item[2]:
-                        i += 1
-                        Sequence_number = item[1] + '-' + item[2]
-                        Data1.loc[i, item[0]] = Sequence_number
-                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
-                    if Time_f == 's':
-                        Time = str(int(float(item[9]) * 60 + 0.5))
-                    else:
-                        Time = item[9]
-                    State = item[8]
-                    Protein = item[0]
-                    if Time != '0':
-                        if Time not in Time_Points:
-                            Time_Points.append(Time)
-                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
-                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
-                else:
-                    States.append(item[8])
-                    if Sequence_number != item[1] + '-' + item[2]:
-                        i += 1
-                        Sequence_number = item[1] + '-' + item[2]
-                        Data1.loc[i, item[0]] = Sequence_number
-                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
-                    if Time_f == 's':
-                        Time = str(int(float(item[9]) * 60 + 0.5))
-                    else:
-                        Time = item[9]
-                    State = item[8]
-                    Protein = item[0]
-                    if Time != '0':
-                        if Time not in Time_Points:
-                            Time_Points.append(Time)
-                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
-                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
-            else:
-                i = 0
-                Proteins.append(item[0])
-                if item[8] in States:
-                    if Sequence_number != item[1] + '-' + item[2]:
-                        i += 1
-                        Sequence_number = item[1] + '-' + item[2]
-                        Data1.loc[i, item[0]] = Sequence_number
-                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
-                    if Time_f == 's':
-                        Time = str(int(float(item[9]) * 60 + 0.5))
-                    else:
-                        Time = item[9]
-                    State = item[8]
-                    Protein = item[0]
-                    if Time != '0':
-                        if Time not in Time_Points:
-                            Time_Points.append(Time)
-                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
-                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
-                else:
-                    States.append(item[8])
-                    if Sequence_number != item[1] + '-' + item[2]:
-                        i += 1
-                        Sequence_number = item[1] + '-' + item[2]
-                        Data1.loc[i, item[0]] = Sequence_number
-                        Data1.loc[i, item[0] + '_' + 'MaxUptake'] = item[6]
-                    if Time_f == 's':
-                        Time = str(int(float(item[9]) * 60 + 0.5))
-                    else:
-                        Time = item[9]
-                    State = item[8]
-                    Protein = item[0]
-                    if Time != '0':
-                        if Time not in Time_Points:
-                            Time_Points.append(Time)
-                        Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
-                        Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
-        else:
-            n = n + 1
-    csvFile.close()
-    print(Proteins, States, Time_Points)
-    return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
+    names = reader.fileread(filename)
+    return render_template('parameters.html',lists = names,files=filename)
 
 
 
 
     # Save Data as csv file
-    #Data1.to_csv("For plot.csv", index=False, sep=',')
+    # Data1.to_csv("For plot.csv", index=False, sep=',')
     # protein = 'h2B'
     # m = []
     # for time in Time_points1:
@@ -266,11 +170,12 @@ def parameter():
     #     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
     #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
-    #K = heatmap(Data1, 'H32_XENLA', 'H3H4dm', 'RV-H3H4dm', Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,
-    #            file_name='FL_ASF1.eps')
+    # K = HDX_Plots_for_web.heatmap(Data1, 'H32_XENLA', 'H3H4dm', 'RV-H3H4dm', Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,
+    #             file_name='FL_ASF1.eps')
     #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
     # for k, time in enumerate(Time_points1):
     # a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
         # for time in Time_points1:
     #     H = wood(df, 'Apo', 'ADP', time)
+    # return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
