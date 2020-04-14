@@ -1,6 +1,5 @@
 from app import app
-
-from flask import render_template, send_file,request
+from flask import render_template, send_file,request,Flask
 from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for
 import numpy as np
@@ -12,13 +11,44 @@ import os
 import urllib.request
 from werkzeug.utils import secure_filename
 
+UPLOAD_FOLDER = 'C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
 def ui():
-    return render_template('ui.html')
 
-@app.route('/upload_file', methods=['POST']) 
+    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
+
+
+@app.route('/click_show',methods=['GET', 'POST'])
+def click_show():
+    if request.method == 'POST':
+        protein = request.form.get("protein")
+        state1 = request.form.get("state1")
+        state2 = request.form.get("state2")
+        time_point = request.form.get("time_point")
+        size = request.form.get("size")
+        X_scale = request.form.get("X_scale")
+        Y_scale_l = request.form.get("Y_scale_l")
+        Y_scale_r = request.form.get("Y_scale_r")
+        interval = request.form.get("interval")
+        color = request.form.get("color")
+        significance = request.form.get("significance")
+        min_dif = request.form.get("min_dif")
+
+        #name_li = request.form.getlist("name")
+
+        print(protein, state1,size,X_scale,Y_scale_l,Y_scale_r)
+        print(time_point,interval,color,significance,min_dif)
+
+    return redirect('/')
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+@app.route('/upload_file', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
@@ -31,14 +61,15 @@ def upload_file():
             if count == 0:
                 break
             if file and allowed_file(file.filename):
-                global filename 
+                global filename
                 filename = secure_filename(file.filename)
                 print(filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 count -= 1
         flash('File(s) successfully uploaded')
+        names = reader.fileread(filename)
 
-        return redirect('/parameter')
+        return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
 # @app.route('/', methods=['POST'])
 # def save():
@@ -136,11 +167,7 @@ def add_header(r):
 
 
 
-
-
-
-
-ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf'}
+ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf','docx'}
 
 
 def allowed_file(filename):
@@ -150,14 +177,16 @@ def allowed_file(filename):
 
 
 
-
-@app.route('/parameter')
+'''
+@app.route('/parameters')                 #  /parameters for test
 def parameter():
     names = reader.fileread(filename)
     return render_template('parameters.html',lists = names,files=filename)
 
+def get_param():
+    value = request.form['name']
 
-
+'''
 
     # Save Data as csv file
     # Data1.to_csv("For plot.csv", index=False, sep=',')
