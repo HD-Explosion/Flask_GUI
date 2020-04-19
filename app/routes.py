@@ -11,8 +11,8 @@ import os
 import urllib.request
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = 'C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+#UPLOAD_FOLDER = 'C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\uploads'
+#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -39,11 +39,12 @@ def click_show():
         min_dif = request.form.get("min_dif")
 
         #name_li = request.form.getlist("name")
+        global passedParameters
+        passedParameters = [str(protein),str(state1),str(state2),size,X_scale,Y_scale_l,Y_scale_r,
+        time_point,interval,color,significance,min_dif]
+        #print(protein,state1,state2,time_point,size)
 
-        print(protein, state1,size,X_scale,Y_scale_l,Y_scale_r)
-        print(time_point,interval,color,significance,min_dif)
-
-    return redirect('/')
+    return redirect('/plot')
 
 if __name__ == '__main__':
     app.run(debug=True)
@@ -68,7 +69,12 @@ def upload_file():
                 count -= 1
         flash('File(s) successfully uploaded')
         names = reader.fileread(filename)
-
+        #print(names)
+        global Data1
+        Data1 = names[-1]
+        global Time_Points
+        Time_Points = names[-2]
+        #print(Data1)
         return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
 # @app.route('/', methods=['POST'])
@@ -120,37 +126,47 @@ def error():
 
 
 ## Create matrix image for testing
-# @app.route('/plotshow')
-
-
-
-
-# def plotshow():
-#     raw_data = [
-#     [[255,255,255],[255,255,255],[255,255,255]],
-#     [[0,0,1],[255,255,255],[0,0,0]],
-#     [[255,255,255],[0,0,0],[255,255,255]],
-#     [[100,50,23],[55,23,76],[157,75,32]]
-# ]
+@app.route('/plotshow')
+def plotshow():
+# #     raw_data = [
+# #     [[255,255,255],[255,255,255],[255,255,255]],
+# #     [[0,0,1],[255,255,255],[0,0,0]],
+# #     [[255,255,255],[0,0,0],[255,255,255]],
+# #     [[100,50,23],[55,23,76],[157,75,32]]
+# # ]
 #     # my numpy array 
-#     arr = np.array(raw_data)
+#     # arr = np.array(raw_data)
 
-#     # convert numpy array to PIL Image
-#     img = Image.fromarray(arr.astype('uint8'))
+    # convert numpy array to PIL Image
+    #img = Image.fromarray(arr.astype('uint8'))
 
-#     # create file-object in memory
-#     file_object = io.BytesIO()
+    # create file-object in memory
+    #file_object = io.BytesIO()
+    file_png = '/home/xiaohe/Documents/HD_Project/Flask_GUI/FL_ASF1.png'
 
-#     # write PNG in file-object
-#     img.save(file_object, 'PNG')
+    # write PNG in file-object
+    #Plt.savefig(file_object, 'PNG')
 
-#     # move to beginning of file so `send_file()` it will read from start    
-#     file_object.seek(0)
+    # move to beginning of file so `send_file()` it will read from start    
+    #file_object.seek(0)
 
-#     #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
-#     #return render_template('ui.html',user_image =file_object )
+    #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    #return render_template('ui.html',user_image =file_object )
 
-#     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    return send_file(file_png, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+
+
+@app.route('/downloadcsv')
+def downloadcsv():
+    file_csv = '/home/xiaohe/Documents/HD_Project/Flask_GUI/For plot.csv'
+    return send_file(file_csv, mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+
+
+@app.route('/downloadeps')
+def downloadeps():
+    file_eps = '/home/xiaohe/Documents/HD_Project/Flask_GUI/FL_ASF1.eps'
+    return send_file(file_eps, mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+
     
 
 @app.after_request
@@ -189,36 +205,75 @@ def get_param():
 '''
 
     # Save Data as csv file
-    # Data1.to_csv("For plot.csv", index=False, sep=',')
-    # protein = 'h2B'
-    # m = []
-    # for time in Time_points1:
-    #     state1 = 'AB'
-    #     x1 = list(Data1[protein + '_' + state1 + '_' + time + '_SD'])
-    #     while np.core.numeric.NaN in x1:
-    #         x1.remove(np.core.numeric.NaN)
-    #     m += x1
-    # print(np.array(m).astype(float).mean())
-    # t1 = t.ppf(1-0.01, 3)
-    # print(t1)
-    # T = uptakeplot(Data1, Proteins, Time_points1, States1, 5, 4, file_name='H3H4_4deg.pdf',
-    #                color=[(192 / 255, 0, 0), 'k', (192 / 255, 0, 0), (22 / 255, 54 / 255, 92 / 255),
-    #                       'sienna'])
-    # for time in Time_points1:
-    #     for state in States1:
-    #         Data1[state + '_' + time] = Data1[state + '_' + time].astype('float')
-    #     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
-    #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
-    # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
-    # K = HDX_Plots_for_web.heatmap(Data1, 'H32_XENLA', 'H3H4dm', 'RV-H3H4dm', Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,
-    #             file_name='FL_ASF1.eps')
-    #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
-    # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
-    # for k, time in enumerate(Time_points1):
-    # a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
-        # for time in Time_points1:
-    #     H = wood(df, 'Apo', 'ADP', time)
-    # return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
 
-#     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+@app.route('/plot')  
+def plot():
+    Data1.to_csv("For plot.csv", index=False, sep=',')
+        # protein = 'h2B'
+        # m = []
+        # for time in Time_points1:
+        #     state1 = 'AB'
+        #     x1 = list(Data1[protein + '_' + state1 + '_' + time + '_SD'])
+        #     while np.core.numeric.NaN in x1:
+        #         x1.remove(np.core.numeric.NaN)
+        #     m += x1
+        # print(np.array(m).astype(float).mean())
+        # t1 = t.ppf(1-0.01, 3)
+        # print(t1)
+        # T = uptakeplot(Data1, Proteins, Time_points1, States1, 5, 4, file_name='H3H4_4deg.pdf',
+        #                color=[(192 / 255, 0, 0), 'k', (192 / 255, 0, 0), (22 / 255, 54 / 255, 92 / 255),
+        #                       'sienna'])
+        # for time in Time_points1:
+        #     for state in States1:
+        #         Data1[state + '_' + time] = Data1[state + '_' + time].astype('float')
+        #     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
+        #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
+        # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
+        # passedParameters = [protein,state1,state2,size,X_scale,Y_scale_l,Y_scale_r,
+        # time_point,interval,color,significance,min_dif]
+
+    K = HDX_Plots_for_web.heatmap(Data1,passedParameters[0], passedParameters[1], 
+    passedParameters[2],Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,file_name='FL_ASF1')
+        #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
+        # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
+        # for k, time in enumerate(Time_points1):
+        # a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
+            # for time in Time_points1:
+        #     H = wood(df, 'Apo', 'ADP', time)
+        # return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
+
+    #     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+
+    return redirect('/')
+
+
+
+
+#     @app.route('/plotshow')
+# def plotshow():
+#     raw_data = [
+#     [[255,255,255],[255,255,255],[255,255,255]],
+#     [[0,0,1],[255,255,255],[0,0,0]],
+#     [[255,255,255],[0,0,0],[255,255,255]],
+#     [[100,50,23],[55,23,76],[157,75,32]]
+# ]
+#     # my numpy array 
+#     arr = np.array(raw_data)
+
+#     # convert numpy array to PIL Image
+#     img = Image.fromarray(arr.astype('uint8'))
+
+#     # create file-object in memory
+#     file_object = io.BytesIO()
+
+#     # write PNG in file-object
+#     img.save(file_object, 'PNG')
+
+#     # move to beginning of file so `send_file()` it will read from start    
+#     file_object.seek(0)
+
+#     #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+#     #return render_template('ui.html',user_image =file_object )
+
+#     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     

@@ -332,8 +332,10 @@ def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', ma
         plt.setp(ax.get_xticklabels(), rotation=90, ha="right", va='center', rotation_mode="anchor")
         plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
         fig.tight_layout()
-        plt.savefig(file_name, format='eps', dpi=100)
-        plt.show()
+        plt.savefig(file_name + ".eps", format='eps', dpi=100)
+        plt.savefig(file_name + ".png", format='png', dpi=100)
+
+        #plt.show()
     else:
         im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
         cbar = ax.figure.colorbar(im, ax=ax)
@@ -349,8 +351,9 @@ def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', ma
         plt.setp(ax.get_yticklabels(), rotation=0, ha="right", va='center', rotation_mode="anchor")
         plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
         fig.tight_layout()
-        plt.savefig(file_name, format='eps', dpi=100)
-        plt.show()
+        plt.savefig(file_name + ".eps", format='eps', dpi=100)
+        plt.savefig(file_name + ".png", format='png', dpi=100)
+        #plt.show()
     return k
 
 
