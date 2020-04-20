@@ -10,8 +10,11 @@ from app import reader
 import os
 import urllib.request
 from werkzeug.utils import secure_filename
+from pathlib import Path
 
-#UPLOAD_FOLDER = 'C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\uploads'
+
+
+UPLOAD_FOLDER = './uploads'
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -72,8 +75,8 @@ def upload_file():
                 global filename
                 filename = secure_filename(file.filename)
                 print(filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 count -= 1
+                file.save(os.path.join(UPLOAD_FOLDER,filename))
         flash('File(s) successfully uploaded')
         global names
         names = reader.fileread(filename)
@@ -136,20 +139,20 @@ def error():
 ## Create matrix image for testing
 @app.route('/plotshow')
 def plotshow():
-    file_png = '/home/xiaohe/Documents/HD_Project/Flask_GUI/FL_ASF1.png'
-    return send_file(file_png, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    file_png = 'FL_ASF1.png'
+    return send_file(os.path.join(Path(app.root_path).parent,file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
 
 
 @app.route('/downloadcsv')
 def downloadcsv():
-    file_csv = '/home/xiaohe/Documents/HD_Project/Flask_GUI/For plot.csv'
-    return send_file(file_csv, mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    file_csv = 'For plot.csv'
+    return send_file(os.path.join(Path(app.root_path).parent,file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
 
 
 @app.route('/downloadeps')
 def downloadeps():
-    file_eps = '/home/xiaohe/Documents/HD_Project/Flask_GUI/FL_ASF1.eps'
-    return send_file(file_eps, mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+    file_eps = 'FL_ASF1.eps'
+    return send_file(os.path.join(Path(app.root_path).parent,file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
     
 
