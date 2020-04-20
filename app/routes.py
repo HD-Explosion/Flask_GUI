@@ -140,7 +140,11 @@ def error():
 @app.route('/plotshow')
 def plotshow():
     file_png = 'FL_ASF1.png'
-    return send_file(os.path.join(Path(app.root_path).parent,file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    if os.path.exists(os.path.join(Path(app.root_path).parent,file_png)):
+        return send_file(os.path.join(Path(app.root_path).parent,file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    else:
+        return send_file(os.path.join('./static/image','404.jpg'), mimetype='image/jpg', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+
 
 
 @app.route('/downloadcsv')
