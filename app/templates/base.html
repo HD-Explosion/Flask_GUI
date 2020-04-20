@@ -8,22 +8,15 @@
     </head>
     <body>
         <div>
-            HD-Explode:
+            HD-eXplosion:
             <a href="{{ url_for('ui') }}">UI</a>
             <a href="{{ url_for('error') }}">Error Report</a>
             <a href="{{ url_for('index') }}">Home</a>
             <a href="{{ url_for('login') }}">Login</a>
+            <!-- <a href="{3{ url_for('plotshow') }}">Plot</a> -->
         </div>
         <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
+
         {% block content %}{% endblock %}
     </body>
 </html>
