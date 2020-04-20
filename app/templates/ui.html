@@ -293,8 +293,8 @@
 
 
 
-    <div class="screen" style="left:670px;top:100px">
-        <img src="/plotshow">
+    <div class="screen" id="graphdiv"  style="left:670px;top:100px">
+        <img  id="graphchart" src="/plotshow">
         <p>Your figure will show here</p>
 
     </div>
@@ -308,7 +308,7 @@
 
     <div  class="text-oneLine" style="position:absolute;left:750px;top:685px">
         <span>
-            <button  ><p4>Full Screen</p4></button>
+            <button  type="button" onclick = "document.getElementById('graphdiv').style ='height:100%;width:100%;background-position: center';"><p4>Full Screen</p4></button>
             <button  type="button" onclick="window.location.href='{{ url_for('plotshow') }}';"><p4>Export as PNG</p4> </button>
             <button  type="button" onclick="window.location.href='{{ url_for('downloadeps') }}';"><p4>Export as EPS</p4></button>
             <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button>

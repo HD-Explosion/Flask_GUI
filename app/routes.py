@@ -46,8 +46,15 @@ def click_show():
 
     return redirect('/plot')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
+@app.route('/replot',methods=['get','POST'])
+def replot():
+    return render_template('ui.html',lists = names,files=filename)
+
+
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
@@ -68,6 +75,7 @@ def upload_file():
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 count -= 1
         flash('File(s) successfully uploaded')
+        global names
         names = reader.fileread(filename)
         #print(names)
         global Data1
@@ -128,31 +136,7 @@ def error():
 ## Create matrix image for testing
 @app.route('/plotshow')
 def plotshow():
-# #     raw_data = [
-# #     [[255,255,255],[255,255,255],[255,255,255]],
-# #     [[0,0,1],[255,255,255],[0,0,0]],
-# #     [[255,255,255],[0,0,0],[255,255,255]],
-# #     [[100,50,23],[55,23,76],[157,75,32]]
-# # ]
-#     # my numpy array 
-#     # arr = np.array(raw_data)
-
-    # convert numpy array to PIL Image
-    #img = Image.fromarray(arr.astype('uint8'))
-
-    # create file-object in memory
-    #file_object = io.BytesIO()
     file_png = '/home/xiaohe/Documents/HD_Project/Flask_GUI/FL_ASF1.png'
-
-    # write PNG in file-object
-    #Plt.savefig(file_object, 'PNG')
-
-    # move to beginning of file so `send_file()` it will read from start    
-    #file_object.seek(0)
-
-    #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
-    #return render_template('ui.html',user_image =file_object )
-
     return send_file(file_png, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
 
 
@@ -244,7 +228,7 @@ def plot():
 
     #     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
-    return redirect('/')
+    return redirect('/replot')
 
 
 
