@@ -97,4 +97,4 @@ def fileread(filename):
         else:
             n = n + 1
     csvFile.close()
-    return (Proteins, States, Time_Points)
+    return (Proteins, States, Time_Points,Data1)
