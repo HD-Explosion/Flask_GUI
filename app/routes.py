@@ -134,36 +134,6 @@ def upload_file():
 
         return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
-@app.route('/upload_file_merge', methods=['POST'])
-def upload_file_merge():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'files[]' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        files = request.files.getlist('files[]')
-        count = 2
-        for file in files:
-            if count == 0:
-                break
-            if file and allowed_file(file.filename):
-                global filename
-                filename = secure_filename(file.filename)
-                print(filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                count -= 1
-        flash(filename + 'successfully uploaded')
-        global names
-        names = reader.fileread(filename)
-        # print(names)
-        global Data1
-        Data1 = names[-1]
-        global Time_Points
-        Time_Points = names[-2]
-        # print(Data1)
-
-
-        return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
 @app.route('/upload_file_merge', methods=['POST'])
 def upload_file_merge():
