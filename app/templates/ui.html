@@ -260,14 +260,18 @@
          </div>
         <form action="" method="post">
             <div class="div1">
-                 <input type="radio" name="plot" value="Volcano Plot" onclick="f1(2)" checked>
-                <label for="function"> Volcano Plot</label><br>
+
+                 <input type="radio" name="plot" value="heat map" onclick="f1(2)" checked>
+                <label for="function"> Heat Map</label><br>
+
              </div>
             <div class="div2" style="width: 50px">
             </div>
             <div class="div3">
-                <input type="radio"  name="plot" value="heatmap" onclick="f1(1)">
-                <label for="function">Heatmap</label><br>
+
+                <input type="radio"  name="plot" value="volcano plot" onclick="f1(1)">
+                <label for="function">Volcano Plot</label><br>
+
             </div>
         </form>
 
@@ -312,8 +316,10 @@
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
-                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+
                 </select>
                 </li>
 
@@ -377,8 +383,10 @@
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
-                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+
                 </select>
                 </li>
 
