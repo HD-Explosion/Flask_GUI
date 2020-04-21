@@ -12,8 +12,11 @@ import urllib.request
 from werkzeug.utils import secure_filename
 from pathlib import Path
 
+
 UPLOAD_FOLDER = './uploads'
 #app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 
 
 @app.route('/')
@@ -70,11 +73,15 @@ def click_show_v():
         significance = request.form.get("significance")
         min_dif = request.form.get("min_dif")
 
+
+
+
         #name_li = request.form.getlist("name")
 
         global passedParameters
         passedParameters = [str(protein), str(state1), str(state2), size, X_scale, Y_scale_l, Y_scale_r,
                             time_point, interval, color, significance, min_dif]
+
 
         #print(protein, state1,size,X_scale,Y_scale_l,Y_scale_r)
         #print(time_point,interval,color,significance,min_dif)
@@ -155,6 +162,38 @@ def upload_file_merge():
         Time_Points = names[-2]
         # print(Data1)
 
+
+        return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
+
+@app.route('/upload_file_merge', methods=['POST'])
+def upload_file_merge():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'files[]' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        files = request.files.getlist('files[]')
+        count = 2
+        for file in files:
+            if count == 0:
+                break
+            if file and allowed_file(file.filename):
+                global filename
+                filename = secure_filename(file.filename)
+                print(filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                count -= 1
+        flash(filename + 'successfully uploaded')
+        global names
+        names = reader.fileread(filename)
+        # print(names)
+        global Data1
+        Data1 = names[-1]
+        global Time_Points
+        Time_Points = names[-2]
+        # print(Data1)
+
+
         return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
 
@@ -230,6 +269,7 @@ def downloadeps():
 
 
 
+
 @app.after_request
 def add_header(r):
     """
@@ -290,7 +330,50 @@ def plot():
     #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
 
-    K = HDX_Plots_for_web.heatmap(Data1,passedParameters[0], passedParameters[1], 
-    passedParameters[2],Time_Points, rotation='H', max=5, step=10, color='rb', min=-5, step2=10,file_name='FL_ASF1')
+
+    # passedParameters = [protein,state1,state2,size,X_scale,Y_scale_l,Y_scale_r,
+    # time_point,interval,color,significance,min_dif]
+
+    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1],
+                                  passedParameters[2], Time_Points, rotation='H', max=5, step=10, color='rb', min=-5,
+                                  step2=10, file_name='FL_ASF1')
+    #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
+    # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
+    # for k, time in enumerate(Time_points1):
+    # a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
+    # for time in Time_points1:
+    #     H = wood(df, 'Apo', 'ADP', time)
+    # return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
+
+    #     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
     return redirect('/replot')
+
+#     @app.route('/plotshow')
+# def plotshow():
+#     raw_data = [
+#     [[255,255,255],[255,255,255],[255,255,255]],
+#     [[0,0,1],[255,255,255],[0,0,0]],
+#     [[255,255,255],[0,0,0],[255,255,255]],
+#     [[100,50,23],[55,23,76],[157,75,32]]
+# ]
+#     # my numpy array
+#     arr = np.array(raw_data)
+
+#     # convert numpy array to PIL Image
+#     img = Image.fromarray(arr.astype('uint8'))
+
+#     # create file-object in memory
+#     file_object = io.BytesIO()
+
+#     # write PNG in file-object
+#     img.save(file_object, 'PNG')
+
+#     # move to beginning of file so `send_file()` it will read from start
+#     file_object.seek(0)
+
+#     #return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+#     #return render_template('ui.html',user_image =file_object )
+
+#     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+
