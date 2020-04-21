@@ -13,13 +13,18 @@ from werkzeug.utils import secure_filename
 from pathlib import Path
 
 UPLOAD_FOLDER = './uploads'
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
 def ui():
+    if os.path.exists(os.path.join(Path(app.root_path).parent,'FL_ASF1.png')):
+        os.remove(os.path.join(Path(app.root_path).parent,'FL_ASF1.png'))
+        
 
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+ 
+
 
 
 
