@@ -11,18 +11,24 @@ import os
 import urllib.request
 from werkzeug.utils import secure_filename
 from pathlib import Path
+from flask import jsonify
 
 
 UPLOAD_FOLDER = './uploads'
-#app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 
 
 @app.route('/')
 def ui():
+    if os.path.exists(os.path.join(Path(app.root_path).parent,'FL_ASF1.png')):
+        os.remove(os.path.join(Path(app.root_path).parent,'FL_ASF1.png'))
+        
 
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+ 
+
 
 
 
@@ -132,7 +138,7 @@ def upload_file():
         Time_Points = names[-2]
         # print(Data1)
 
-        return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
+        return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
 
 
 @app.route('/upload_file_merge', methods=['POST'])
@@ -153,7 +159,7 @@ def upload_file_merge():
                 print(filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
                 count -= 1
-        flash(filename + 'successfully uploaded')
+        flash(filename + ' successfully uploaded')
         global names
         names = reader.fileread(filename)
         # print(names)

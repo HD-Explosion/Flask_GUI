@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 {% extends "base.html" %}
 
@@ -211,7 +212,8 @@
                 <div id="c1">
                     <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
                     <input type="submit" value="Submit">
-                    <a href="help">Click here for a demo file</a>
+                    <p>{{ ipaddr }}</p>
+                    <!-- <a href="help">Click here for a demo file</a> -->
                 </div>
             </form>
 
@@ -260,18 +262,14 @@
          </div>
         <form action="" method="post">
             <div class="div1">
-
                  <input type="radio" name="plot" value="heat map" onclick="f1(2)" checked>
                 <label for="function"> Heat Map</label><br>
-
              </div>
             <div class="div2" style="width: 50px">
             </div>
             <div class="div3">
-
-                <input type="radio"  name="plot" value="volcano plot" onclick="f1(1)">
+                <input type="radio"  name="plot" value="volcono plot" onclick="f1(1)">
                 <label for="function">Volcano Plot</label><br>
-
             </div>
         </form>
 
@@ -316,10 +314,8 @@
 					</select></li>
 
                 <li>
-
                     State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-
                 </select>
                 </li>
 
@@ -383,10 +379,8 @@
 					</select></li>
 
                 <li>
-
                     State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-
                 </select>
                 </li>
 
