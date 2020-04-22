@@ -355,3 +355,4 @@ def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', ma
         plt.savefig(file_name + ".png", format='png', dpi=100)
         #plt.show()
     return k
+

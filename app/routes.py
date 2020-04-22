@@ -13,20 +13,27 @@ from werkzeug.utils import secure_filename
 from pathlib import Path
 from flask import jsonify
 
-UPLOAD_FOLDER = 'C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\uploads'
+
+
+UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
+
 
 
 @app.route('/')
 def ui():
-    if os.path.exists(os.path.join(Path(app.root_path).parent, 'FL_ASF1.png')):
-        os.remove(os.path.join(Path(app.root_path).parent, 'FL_ASF1.png'))
+
+    if os.path.exists(os.path.join(Path(app.root_path).parent,'FL_ASF1.png')):
+        os.remove(os.path.join(Path(app.root_path).parent,'FL_ASF1.png'))
+        
 
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 
 
-@app.route('/click_show_h',methods=['GET', 'POST'])
+@app.route('/click_show_v',methods=['GET', 'POST'])
 def click_show_h():
     if request.method == 'POST':
         protein = request.form.get("protein")
@@ -57,13 +64,14 @@ def click_show_h():
 def replot():
     return render_template('ui.html',lists = names,files=filename)
 
-@app.route('/click_show_v',methods=['GET', 'POST'])
+@app.route('/click_show_h',methods=['GET', 'POST'])
 def click_show_v():
     if request.method == 'POST':
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
+
         max = request.form.get("max")
         max_step= request.form.get("max_step")
         min = request.form.get("min")
@@ -73,9 +81,11 @@ def click_show_v():
         significance = request.form.get("significance")
         sig_filter = request.form.get("sig_filter")
 
+
         #name_li = request.form.getlist("name")
 
         global passedParameters
+
         passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
                             time_point, negative, color, significance, sig_filter]
 
@@ -117,7 +127,9 @@ def upload_file():
                 print(filename)
                 count -= 1
                 file.save(os.path.join(UPLOAD_FOLDER,filename))
+
         flash(filename + ' successfully uploaded')
+
         global names
         names = reader.fileread(filename)
         # print(names)
@@ -128,6 +140,7 @@ def upload_file():
         # print(Data1)
 
         return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
+
 
 
 #def upload_file():                                                # single-file allowed version
@@ -158,6 +171,7 @@ def upload_file():
     #
     #     return render_template('ui.html', lists = names, files=filename, ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
 
+
 @app.route('/upload_file_merge', methods=['POST'])
 def upload_file_merge():
     if request.method == 'POST':
@@ -187,6 +201,7 @@ def upload_file_merge():
         # print(Data1)
 
         return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
+
 
 # @app.route('/', methods=['POST'])
 # def save():
@@ -240,24 +255,24 @@ def error():
 @app.route('/plotshow')
 def plotshow():
     file_png = 'FL_ASF1.png'
-    if os.path.exists(os.path.join(Path(app.root_path).parent, file_png)):
-        return send_file(os.path.join(Path(app.root_path).parent, file_png), mimetype='image/png', as_attachment=True,
-                         cache_timeout=0, attachment_filename='HDX_Plot.png')
+
+    if os.path.exists(os.path.join(Path(app.root_path).parent,file_png)):
+        return send_file(os.path.join(Path(app.root_path).parent,file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
-        return send_file(os.path.join('C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\app\\static\\image', 'UTD.png'), mimetype='image/png', as_attachment=True,
-                         cache_timeout=0, attachment_filename='HDX_Plot.png')
+        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+
 
 @app.route('/downloadcsv')
 def downloadcsv():
     file_csv = 'For plot.csv'
-    return send_file(os.path.join(Path(app.root_path).parent, file_csv), mimetype='text/csv', as_attachment=True,
-                     cache_timeout=0, attachment_filename='HDX_Plot.csv')
+    return send_file(os.path.join(Path(app.root_path).parent,file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+
 
 @app.route('/downloadeps')
 def downloadeps():
     file_eps = 'FL_ASF1.eps'
-    return send_file(os.path.join(Path(app.root_path).parent, file_eps), mimetype='image/eps', as_attachment=True,
-                     cache_timeout=0, attachment_filename='HDX_Plot.eps')
+    return send_file(os.path.join(Path(app.root_path).parent,file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+
 
 @app.after_request
 def add_header(r):
@@ -318,6 +333,7 @@ def plot():
     #     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
     #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
+
     # passedParameters = [protein,state1,state2,size,X_scale,Y_scale_l,Y_scale_r,
     # time_point,interval,color,significance,min_dif]
 
@@ -363,3 +379,4 @@ def plot():
 #     #return render_template('ui.html',user_image =file_object )
 
 #     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+
