@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>Uploaded file: {{files}}</p>
+    <p>Returned Parameters:</p>
+    <form>
+    {% for lst in lists %}
+        <ul>
+            <select>
+                <li><lable>protein</lable><option name="protein">{{lst[0]}}</option></li>
+                <li><lable>state 1</lable><option name="state1">{{lst[1]}}</option></li>
+                <li><lable>state 2</lable><option name="state2">{{lst[1]}}</option></li>
+                <li><lable>time interval point</lable><option name="time_point">{{lst[2]}}</option></li>
+
+            </select>
+        </ul>
+    {% endfor %}
+    </form>
+    <button class="button" type = "submit" >Show</button>
+
+    <p>{{ protein }}</p>
+     <p>{{state1}}</p>
+     <p>{{state2}}</p>
+     <p>{{time_point}}</p>
+{% endblock %}

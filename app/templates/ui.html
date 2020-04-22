@@ -1,14 +1,14 @@
-
+<!DOCTYPE html>
 {% extends "base.html" %}
 
 {% block content %}
 
-<! DOCTYPE html>
-<html>
+
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -21,18 +21,53 @@
     html,body {
         width:100%;
         height:100%
-    }
-        body {
+        }
+    body {
         background-color: white;
         background-size: cover;
         font-family: "Lucida Sans", Helvetica, Arial, sans-serif;
         font-size: 14px;
+        }
+
+
+    li{
+        list-style: none;
+        margin: 2px;
+
     }
 
+    input[type="number"] {
+        width: 50px;
+    }
 
      h1 {
          color: #FFFFFF;
-         margin: 35px;
+
+     }
+
+     footer{
+        width: 100%;
+        height:30px;
+        position:absolute;
+        bottom:0px;
+        left:0px;
+        overflow: hidden;
+        text-align: center;
+        border-top-style:solid;
+        border-top-width: thin;
+    }
+
+     #div1,#div2,#div3{
+         display: inline-block;
+     }
+
+     #wrap{
+         display: flex;
+         justify-content:space-around;
+     }
+		
+	 .div1,.div2,.div3{
+         display: inline-block;
      }
 
      .text-oneLine{
@@ -45,12 +80,11 @@
      }
 
 
-
      .box {
         position: absolute;
-         width: 40%;
-         border: 5px solid #c82333;
-         padding: 20px;
+         width: 620px;
+         border: 5px solid darkgray;
+         padding: 15px;
          margin: 15px;
          float:left;
          border-radius: 30px;
@@ -61,11 +95,12 @@
          left:650px;
          top:100px;
          width: 45%;
-         height: 70%;
-
-         background-color: grey;
-         margin: 25px;
-         float: left;
+         height: 550px;
+         line-height: 550px;
+         text-align: center;
+         background-color: lightgrey;
+         margin: 30px auto;
+         font-size: large;
 
      }
 
@@ -77,81 +112,198 @@
      }
 
      .button {
-
          border-radius: 3px;
-
          text-align: center;
      }
 
      .btn {
-
-
          width: 150px;
          padding: 4px 0;
-
          position: relative;
-
-
          border-radius: 3px;
      }
 
 
-
         p4 {
-
 	        text-align: center;
-  	        #text-transform: uppercase;
-
+  	        text-transform: uppercase;
             user-select: none;
+            }
+
+
+        img {
+        width: 100%; 
+        height: 100%; 
+        object-fit: contain;
+            }
+
+        img.center {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #element:fullscreen {
+            width: 100vw;
+            height: 100vh;
+            background-position: center;
+        }
+
+        .el:-webkit-full-screen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .el:-moz-full-screen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .el:-ms-fullscreen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .el:fullscreen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        figure:-webkit-full-screen figcaption {
+          display: none;
+        }
+
+        figure:-moz-full-screen figcaption {
+          display: none;
+        }
+
+        figure:-ms-fullscreen figcaption {
+          display: none;
+        }
+
+        figure:fullscreen figcaption {
+          display: none;
+        }
+
+        :-webkit-full-screen .footnotes {
+          display: none;
+        }
+
+        :-moz-full-screen .footnotes {
+          display: none;
+        }
+
+        :-ms-fullscreen .footnotes {
+          display: none;
+        }
+
+        :fullscreen .footnotes {
+          display: none;
         }
     </style>
+
+    <script type="text/javascript">
+        {#var log = document.querySelector("#log");#}
+        {#function change1() {#}
+        {#    var value = document.getElementById("range1").value;#}
+        {#    log.innerText = value;#}
+        {#    console.log(value);#}
+        {# }#}
+
+
+        function f0(param){
+            for(var i =1;i<=2;i++){
+                var id =document.getElementById("c"+i);
+                id.style.display="none";
+                if(i===param){
+                    id.style.display="block";
+                 }
+            }
+        }
+
+        function f1(param){
+            for(var i =1;i<=2;i++){
+                var id =document.getElementById("d"+i);
+                id.style.display="none";
+                if(i===param){
+                    id.style.display="block";
+                 }
+            }
+        }
+
+        function fullscreen() {
+            var el = document.getElementById('graphdiv');
+
+            // use necessary prefixed versions
+            el.webkitRequestFullscreen();
+            el.mozRequestFullScreen();
+            el.msRequestFullscreen();
+
+            // finally the standard version
+            el.requestFullscreen();
+        }
+    </script>
+
 
 </head>
 
 <body>
 
-    <div class="text-oneLine">
+    <div style="margin-left: 50px">
+        <div id="div1">
+            <h1 style="color: black; ">HD-eXplosion</h1>
+        </div>
+        <div id="div2" style="width: 200px">
 
-        <h1 style="color: black; ">HD-eXplosion
-                 <span style="display: inline-list-item"><h6><button class="button" type = "button"  >Help</button></h6></span>
-        </h1>
-
-
+        </div>
+        <div id="div3" style="display: inline-list-item">
+            <button class="button" type = "button"  >Instructions</button>
+        </div>
     </div>
 
 
 
 
-    <div class="box" style="left:20px;top:170px">
-        <h4>Data</h4>
-        <br>
+    <div class="box" style="left:20px;top:100px;height:250px">
+        <h4><strong>Data </strong></h4>
+
         <span>
             <form  method="post" enctype="multipart/form-data">
-            <input type="radio"  name="upload" value="file_s">
+            <input type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
             <label for="single_file">One File</label><br>
-            <input type="radio"  name="upload" value="file_m">
+            <input type="radio"  name="upload" value="file_m" onclick="f0(2)">
             <label for="multi_files">Multiple Files</label><br>
             </form>
         </span>
-        </br>
 
-        <p>
+        <div class="div1">
+            <form  method="post" action="/upload_file" enctype="multipart/form-data" style="display: inline; float:left">
+                <div id="c1">
+                    <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
+                    <input type="submit" value="Submit">
+                    <a href="help">Click here for a demo file</a>
+                </div>
+            </form>
+
+            <form  method="post" action="/upload_file_merge" enctype="multipart/form-data" style="display: inline; float:left">
+                <div id="c2" style="display: none">
+                    <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
+                    <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
+                    <input type="submit" value="Merge">
+                    <a href="help">Click here for a demo file</a>
+                </div>
+            </form>
+        </div>
+
+         <div class="div3">
                 {% with messages = get_flashed_messages() %}
                     {% if messages %}
-                        <ul class="flashes">
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                        </ul>
+                        <p class="flashes">{{ messages }}</p>
+
                     {% endif %}
                 {% endwith %}
-        </p>
-        <form  method="post" action="/" enctype="multipart/form-data" style="display: inline; float:left">
-        <div style="float: left;display: inline">
-            <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
-            <p><label for="file">Upload DynamX Output</label>
-            <input type="submit" value="Submit"></p>
         </div>
+
+    
 
         <!--
         <div style="float: top;display: inline">
@@ -160,66 +312,167 @@
             <input type="submit" name="file_2" value="Submit">
         </div>   -->
 
-        </form>
+
 
     </div>
 
 
-     <div class="box" style="left:20px;top:500px;height:350px;">
-         <h4>Parameters</h4>
+     <div class="box" style="left:20px;top:360px;height:350px;">
+         <div class="div1">
+            <h4><strong>Parameters</strong></h4>
+         </div>
+          <div class="div2" style="width: 30px">
+
+        </div>
+         <div class="div3">
+            <h6><strong>Plot Type</strong></h6>
+         </div>
         <form action="" method="post">
-        <input type="radio" name="plot" value="Volcano Plot">
-            <label for="function"> Volcano Plot</label><br>
-            <input type="radio"  name="plot" value="HeatMap">
-            <label for="function">Heatmap</label><br>
+            <div class="div1">
+                 <input type="radio" name="plot" value="Volcano Plot" onclick="f1(2)" checked>
+                <label for="function">Heatmap </label><br>
+             </div>
+            <div class="div2" style="width: 50px">
+            </div>
+            <div class="div3">
+                <input type="radio"  name="plot" value="heatmap" onclick="f1(1)">
+                <label for="function">Volcano Plot</label><br>
+            </div>
         </form>
 
-         <div >
-             <table>
-          <form action="/" method = post>
-        <select style="float: right;">
-                <option value ="one file">Protein1</option>
-                <option value ="file merging">Protein2</option>
-            </select>
-              <input type="submit" value="Submit"/>
+        <form action="/click_show_h" method = "post">
+         <div id="d1" style="display:none">
+             <ul class="div1" >
+                <li>
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+
+                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    </select>
+
+                 </li>
+
+
+                 <li>Symbol size&nbsp&nbsp<input id="rangeId" type="range" name="size" min="1" max="10" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+				 <output name="rangeOut" id="rangeOutId">2</output>
+				 </li>
+
+
+                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="X_scale"></li>
+
+                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="Y_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="Y_scale_r"></li>
+
+                <li>Major interval&nbsp&nbsp<input type="number" placeholder="0.01" step="0.01" min="0" max="9999" name="interval"></li>
+
+                <li><button class="button" type = "submit" >Show</button></li>
+
+            </ul>
+
+
+            <ul class="div3">
+                <li>
+                    Time points&nbsp&nbsp<select  name="time_point">
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+                <li>
+                    State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
+
+                <li>
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
+                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+                <li>
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
+                    <option value ="one file">Pattern1</option>
+                    <option value ="one file">Pattern2</option>
+
+                </select></li>
+
+                <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+
+                <li>Min-difference(Da)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+
+            </ul>
+         </div>
          </form>
 
-        <select style="position:relative; top:5px">
-                <option value ="one file">All</option>
-                <option value ="file merging">0.5s</option>
-            </select>
+      
 
-        <select>
-                <option value ="one file">State1</option>
-                <option value ="file merging">State2</option>
-            </select>
+	<form action="/click_show_v" method = "post">
+    <div id="d2" >
+             <ul class="div1" >
+                <li>
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
 
-        <select>
-                <option value ="one file">State2</option>
-                <option value ="file merging">File Merging</option>
-            </select>
+                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    </select>
 
-        <select>
-                <option value ="one file">0.01</option>
-                <option value ="file merging">File Merging</option>
-            </select>
-            </table>
+                 </li>
+
+                 <li><strong>Range:</strong>
+				 </li>
+
+                 <li>Max:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="max"></li>
+
+                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="max-step"> </li>
+
+                <li><strong>Negative</strong>&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="negative"></li>
+
+                <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min"></li>
+
+                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min-step"> </li>
+
+
+                <li><button class="button" type = "submit" >Show</button></li>
+
+            </ul>
+
+
+            <ul class="div3">
+                <li>
+                    Time points&nbsp&nbsp<select  name="time_point">
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+                <li>
+                    State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
+
+                <li>
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
+                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+                <li>
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
+                    <option value ="one file">Pattern1</option>
+                    <option value ="one file">Pattern2</option>
+
+                </select></li>
+
+                <li>Significance Filter&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+
+                <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+
+            </ul>
          </div>
+         </form>
 
-        <input type="number" name="fill with xxx"></input>
-        <input type="number" name="fill with xxx"></input>
-
-        <input type="range" name="points" min="0" max="10" step="1" value="0" />
-
-         <button class="button" type = "button" >Show</button>
       </div>
 
 
 
 
-
-    <div class="screen" style="">
-
+    <div id="graphdiv" class="screen" style="left:670px;top:100px">
+        <img id="graphchart" class="center" src="/plotshow" alt="Your figure will show here" align="middle" >
 
 
     </div>
@@ -231,18 +484,24 @@
 
 
 
-    <div  clasee="text-oneLine" style="position:absolute;left:750px;top:700px">
+    <div  clasee="text-oneLine" style="position:absolute;left:750px;top:685px">
         <span>
-            <button  ><p4>Full Screen</p4></button>
-            <button   ><p4>Export as PNG</p4></button>
-            <button  ><p4>Export as EPS</p4></button>
-            <button   ><p4>Export as CSV</p4></button>
+            <button  type="button" onclick = "fullscreen()"><p4>Full Screen</p4></button>
+            <button  type="button" onclick = "document.getElementById('graphdiv').style ='height:100%;width:100%;background-position: center';"><p4>Full Screen</p4></button>
+            <button  type="button" onclick="window.location.href='{{ url_for('plotshow') }}';"><p4>Export as PNG</p4> </button>
+            <button  type="button" onclick="window.location.href='{{ url_for('downloadeps') }}';"><p4>Export as EPS</p4></button>
+            <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button>
         </span>
-        <a href="something" class="button8">New document</a>
+
     </div>
 
 
-    <script type="text/javascript">
+<footer class="footnotes">
+       If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.
+</footer>
+
+    <!--
+<script type="text/javascript">
    function hello()
    {
        $.ajax(
@@ -262,9 +521,44 @@
    }
 </script>
 
+   <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script>
+        $.ajax({
+        url: "test_post/nn",
+        type: "POST",
+        dataType: "json",
+        success: function (data) {
+            // alert(data.name + ":" + data.age);
+            $("#NAME").val(data.name);
+            $("#AGE").val(data.age);
+            console.log(data)}
+
+        })
+	</script>
+
+    <script>
+        $(function() {
+            // body...
+            $("#btn").click(function(){
+                $.ajax({
+                url: "test_post/nn",
+                type: "POST",
+                dataType: "json",
+                success: function (data) {
+                // alert(data.name + ":" + data.age);
+                $("#NAME2").val(data.name);
+                $("#AGE2").val(data.age);
+                console.log(data)}
+
+                })
+            })
+        })
+    </script>
+-->
+
+
 </body>
-</html>
-
-
 
 {% endblock%}
+
+</html>
