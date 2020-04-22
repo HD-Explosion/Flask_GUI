@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 {% extends "base.html" %}
 
@@ -83,9 +82,9 @@
 
      .box {
         position: absolute;
-         width: 580px;
+         width: 620px;
          border: 5px solid darkgray;
-         padding: 20px;
+         padding: 15px;
          margin: 15px;
          float:left;
          border-radius: 30px;
@@ -143,6 +142,63 @@
             margin: 0 auto;
         }
 
+        #element:fullscreen {
+            width: 100vw;
+            height: 100vh;
+            background-position: center;
+        }
+
+        .el:-webkit-full-screen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .el:-moz-full-screen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .el:-ms-fullscreen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        .el:fullscreen {
+          width: 100vw;
+          height: 100vh;
+        }
+
+        figure:-webkit-full-screen figcaption {
+          display: none;
+        }
+
+        figure:-moz-full-screen figcaption {
+          display: none;
+        }
+
+        figure:-ms-fullscreen figcaption {
+          display: none;
+        }
+
+        figure:fullscreen figcaption {
+          display: none;
+        }
+
+        :-webkit-full-screen .footnotes {
+          display: none;
+        }
+
+        :-moz-full-screen .footnotes {
+          display: none;
+        }
+
+        :-ms-fullscreen .footnotes {
+          display: none;
+        }
+
+        :fullscreen .footnotes {
+          display: none;
+        }
     </style>
 
     <script type="text/javascript">
@@ -172,6 +228,18 @@
                     id.style.display="block";
                  }
             }
+        }
+
+        function fullscreen() {
+            var el = document.getElementById('graphdiv');
+
+            // use necessary prefixed versions
+            el.webkitRequestFullscreen();
+            el.mozRequestFullScreen();
+            el.msRequestFullscreen();
+
+            // finally the standard version
+            el.requestFullscreen();
         }
     </script>
 
@@ -212,8 +280,7 @@
                 <div id="c1">
                     <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
                     <input type="submit" value="Submit">
-                    <p>{{ ipaddr }}</p>
-                    <!-- <a href="help">Click here for a demo file</a> -->
+                    <a href="help">Click here for a demo file</a>
                 </div>
             </form>
 
@@ -262,13 +329,13 @@
          </div>
         <form action="" method="post">
             <div class="div1">
-                 <input type="radio" name="plot" value="heat map" onclick="f1(2)" checked>
-                <label for="function"> Heat Map</label><br>
+                 <input type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
+                <label for="function">Heatmap </label><br>
              </div>
             <div class="div2" style="width: 50px">
             </div>
             <div class="div3">
-                <input type="radio"  name="plot" value="volcono plot" onclick="f1(1)">
+                <input type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
                 <label for="function">Volcano Plot</label><br>
             </div>
         </form>
@@ -314,8 +381,8 @@
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
+                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
 
@@ -340,7 +407,7 @@
     <div id="d2" >
              <ul class="div1" >
                 <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -379,8 +446,8 @@
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
+                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
 
@@ -391,9 +458,9 @@
 
                 </select></li>
 
-                <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li>Significance Filter&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
 
-                <li>Min-difference(Da)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+                <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
 
             </ul>
          </div>
@@ -404,7 +471,7 @@
 
 
 
-    <p id="graphdiv" class="screen" style="left:670px;top:100px">
+    <div id="graphdiv" class="screen" style="left:670px;top:100px">
         <img id="graphchart" class="center" src="/plotshow" alt="Your figure will show here" align="middle" >
 
 
@@ -419,6 +486,7 @@
 
     <div  clasee="text-oneLine" style="position:absolute;left:750px;top:685px">
         <span>
+            <button  type="button" onclick = "fullscreen()"><p4>Full Screen</p4></button>
             <button  type="button" onclick = "document.getElementById('graphdiv').style ='height:100%;width:100%;background-position: center';"><p4>Full Screen</p4></button>
             <button  type="button" onclick="window.location.href='{{ url_for('plotshow') }}';"><p4>Export as PNG</p4> </button>
             <button  type="button" onclick="window.location.href='{{ url_for('downloadeps') }}';"><p4>Export as EPS</p4></button>
@@ -428,7 +496,7 @@
     </div>
 
 
-<footer>
+<footer class="footnotes">
        If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.
 </footer>
 

@@ -1,0 +1,9 @@
+This project need environment and packages as below:
+
+Python 3.5 or above
+
+flask package
+
+flask_sqlalchemy
+
+bootstrap 4 (css and js files)

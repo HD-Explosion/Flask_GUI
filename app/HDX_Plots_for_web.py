@@ -356,4 +356,3 @@ def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', ma
         #plt.show()
     return k
 
-
