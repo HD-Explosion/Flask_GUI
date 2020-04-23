@@ -24,9 +24,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def ui():
-
-    if os.path.exists(os.path.join(Path(app.root_path).parent,'FL_ASF1.png')):
-        os.remove(os.path.join(Path(app.root_path).parent,'FL_ASF1.png'))
+    if os.path.exists(os.path.join(Path(app.root_path),'static/files','FL_ASF1.png')):
+        os.remove(os.path.join(Path(app.root_path),'static/files','FL_ASF1.png'))
         
 
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
