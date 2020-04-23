@@ -14,17 +14,16 @@ from pathlib import Path
 from flask import jsonify
 import glob
 
-UPLOAD_FOLDER = './uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/files')
+app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
 
 
 
 
 @app.route('/')
 def ui():
-    if os.path.exists(os.path.join(Path(app.root_path),'static/files','FL_ASF1.png')):
-        for f in glob.glob(os.path.join(Path(app.root_path),'static/files/*')):
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
+        for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
             os.remove(f)
         
 
@@ -66,20 +65,23 @@ def replot():
 @app.route('/click_show_h',methods=['GET', 'POST'])
 def click_show_h():
     if request.method == 'POST':
-        protein = request.form.get("protein")
-        state1 = request.form.get("state1")
-        state2 = request.form.get("state2")
-        time_point = request.form.get("time_point")
+        try:
+            protein = request.form.get("protein")
+            state1 = request.form.get("state1")
+            state2 = request.form.get("state2")
+            time_point = request.form.get("time_point")
 
-        max = int(request.form.get("max"))
-        max_step= int(request.form.get("max_step"))
-        min = int(request.form.get("min"))
-        min_step = int(request.form.get("min_step"))
-        negative = request.form.get("negative")
-        color = request.form.get("color")
-        significance = request.form.get("significance")
-        sig_filter = request.form.get("sig_filter")
-
+            max = int(request.form.get("max"))
+            max_step= int(request.form.get("max_step"))
+            min = int(request.form.get("min"))
+            min_step = int(request.form.get("min_step"))
+            negative = request.form.get("negative")
+            color = request.form.get("color")
+            significance = request.form.get("significance")
+            sig_filter = request.form.get("sig_filter")
+        except:
+            flash("Missing or invalid parameter input")
+            return render_template('ui.html',lists = names,files=filename)
 
         #name_li = request.form.getlist("name")
 
@@ -87,6 +89,8 @@ def click_show_h():
 
         passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
                             time_point, negative, color, significance, sig_filter]
+
+
         print(passedParameters)
 
         #print(protein, state1)
@@ -114,7 +118,7 @@ def upload_file():
                 filename = secure_filename(file.filename)
                 print(filename)
                 count -= 1
-                file.save(os.path.join(Path(app.root_path),'static/files',filename))
+                file.save(os.path.join(app.config['USER_FOLDER'],filename))
         ipaddress = "IP: " + request.remote_addr
         flash(filename + ' successfully uploaded from: ' + ipaddress)
 
@@ -244,10 +248,10 @@ def error():
 def plotshow():
     file_png = 'FL_ASF1.png'
 
-    if os.path.exists(os.path.join(Path(app.root_path),'static/files',file_png)):
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_png)):
         return send_file(os.path.join('./static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
-        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
 @app.route('/downloadcsv')
@@ -275,12 +279,12 @@ def add_header(r):
 
 
 
-ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf','docx','doc'}
+
 
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 
 
@@ -299,7 +303,7 @@ def get_param():
 
 @app.route('/plot')
 def plot():
-    Data1.to_csv(os.path.join(Path(app.root_path),'static/files','For_plot.csv'), index=False, sep=',')
+    Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
     # protein = 'h2B'
     # m = []
     # for time in Time_points1:
@@ -323,10 +327,12 @@ def plot():
 
         # passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
         #                     time_point, negative, color, significance, sig_filter]
-
-    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
+    try:
+        K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
         rotation='H', max = passedParameters[3], step = passedParameters[4], color=passedParameters[9], min = passedParameters[5],
         step2 = passedParameters[6], file_name='FL_ASF1')
+    except:
+        print("Function not impelemented properly")
 
 
 
