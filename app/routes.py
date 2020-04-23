@@ -39,11 +39,11 @@ def click_show_v():
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
-        size = request.form.get("size")
-        X_scale = request.form.get("X_scale")
-        Y_scale_l = request.form.get("Y_scale_l")
-        Y_scale_r = request.form.get("Y_scale_r")
-        interval = request.form.get("interval")
+        size = int(request.form.get("size"))
+        X_scale = int(request.form.get("X_scale"))
+        Y_scale_l = int(request.form.get("Y_scale_l"))
+        Y_scale_r = int(request.form.get("Y_scale_r"))
+        interval = int(request.form.get("interval"))
         color = request.form.get("color")
         significance = request.form.get("significance")
         min_dif = request.form.get("min_dif")
@@ -132,7 +132,7 @@ def upload_file():
 
         global names
         names = reader.fileread(filename)
-        #print(names)
+        print(names)
         global Data1
         Data1 = names[-1]
         global Time_Points
@@ -337,7 +337,7 @@ def plot():
         #                     time_point, negative, color, significance, sig_filter]
 
     K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
-        rotation='H', max = passedParameters[3], step = passedParameters[4], color='rb', min = passedParameters[5],
+        rotation='H', max = passedParameters[3], step = passedParameters[4], color=passedParameters[9], min = passedParameters[5],
         step2 = passedParameters[6], file_name='FL_ASF1')
 
 
