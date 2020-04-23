@@ -14,17 +14,16 @@ from pathlib import Path
 from flask import jsonify
 import glob
 
-UPLOAD_FOLDER = './uploads'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
+app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/files')
+app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
 
 
 
 
 @app.route('/')
 def ui():
-    if os.path.exists(os.path.join(Path(app.root_path),'static/files','FL_ASF1.png')):
-        for f in glob.glob(os.path.join(Path(app.root_path),'static/files/*')):
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
+        for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
             os.remove(f)
         
 
@@ -114,7 +113,7 @@ def upload_file():
                 filename = secure_filename(file.filename)
                 print(filename)
                 count -= 1
-                file.save(os.path.join(Path(app.root_path),'static/files',filename))
+                file.save(os.path.join(app.config['USER_FOLDER'],filename))
         ipaddress = "IP: " + request.remote_addr
         flash(filename + ' successfully uploaded from: ' + ipaddress)
 
@@ -244,7 +243,7 @@ def error():
 def plotshow():
     file_png = 'FL_ASF1.png'
 
-    if os.path.exists(os.path.join(Path(app.root_path),'static/files',file_png)):
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_png)):
         return send_file(os.path.join('./static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
@@ -275,12 +274,12 @@ def add_header(r):
 
 
 
-ALLOWED_EXTENSIONS = {'csv','txt','xls','pdf','docx','doc'}
+
 
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 
 
@@ -299,7 +298,7 @@ def get_param():
 
 @app.route('/plot')
 def plot():
-    Data1.to_csv(os.path.join(Path(app.root_path),'static/files','For_plot.csv'), index=False, sep=',')
+    Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
     # protein = 'h2B'
     # m = []
     # for time in Time_points1:
