@@ -257,7 +257,7 @@ def plotshow():
     file_png = 'FL_ASF1.png'
 
     if os.path.exists(os.path.join(Path(app.root_path),'static/files',file_png)):
-        return send_file(os.path.join(Path(app.root_path),'static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+        return send_file(os.path.join('./static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
 
@@ -265,14 +265,13 @@ def plotshow():
 @app.route('/downloadcsv')
 def downloadcsv():
     file_csv = 'For_plot.csv'
-    return send_file(os.path.join(Path(app.root_path),'static/files',file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    return send_file(os.path.join('./static/files',file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
 
 
 @app.route('/downloadeps')
 def downloadeps():
     file_eps = 'FL_ASF1.eps'
-    return send_file(os.path.join(Path(app.root_path),'static/files',file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
-
+    return send_file(os.path.join('./static/files',file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
 @app.after_request
 def add_header(r):
