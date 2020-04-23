@@ -11,6 +11,9 @@ from scipy import stats
 from matplotlib.patches import Polygon
 from matplotlib.ticker import ScalarFormatter
 
+import os
+from pathlib import Path
+from app import app
 
 def wood(df, State1, State2, Time_point):
     df[State1 + '_' + Time_point] = df[State1 + '_' + Time_point].astype('float')
@@ -332,8 +335,8 @@ def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', ma
         plt.setp(ax.get_xticklabels(), rotation=90, ha="right", va='center', rotation_mode="anchor")
         plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
         fig.tight_layout()
-        plt.savefig(file_name + ".eps", format='eps', dpi=100)
-        plt.savefig(file_name + ".png", format='png', dpi=100)
+        plt.savefig(os.path.join(Path(app.root_path),'static/files',file_name + ".eps"), format='eps', dpi=100)
+        plt.savefig(os.path.join(Path(app.root_path),'static/files',file_name + ".png"), format='png', dpi=500)
 
         #plt.show()
     else:
@@ -351,8 +354,8 @@ def heatmap(df, protien, State1, State2, Time_points, min=0., rotation = 'H', ma
         plt.setp(ax.get_yticklabels(), rotation=0, ha="right", va='center', rotation_mode="anchor")
         plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
         fig.tight_layout()
-        plt.savefig(file_name + ".eps", format='eps', dpi=100)
-        plt.savefig(file_name + ".png", format='png', dpi=100)
+        plt.savefig(os.path.join(Path(app.root_path),'static/files',file_name + ".eps"), format='eps', dpi=100)
+        plt.savefig(os.path.join(Path(app.root_path),'static/files',file_name + ".png"), format='png', dpi=500)
         #plt.show()
     return k
 

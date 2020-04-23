@@ -126,7 +126,7 @@ def upload_file():
                 filename = secure_filename(file.filename)
                 print(filename)
                 count -= 1
-                file.save(os.path.join(UPLOAD_FOLDER,filename))
+                file.save(os.path.join(Path(app.root_path),'static/files',filename))
 
         flash(filename + ' successfully uploaded')
 
@@ -256,22 +256,22 @@ def error():
 def plotshow():
     file_png = 'FL_ASF1.png'
 
-    if os.path.exists(os.path.join(Path(app.root_path).parent,file_png)):
-        return send_file(os.path.join(Path(app.root_path).parent,file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    if os.path.exists(os.path.join(Path(app.root_path),'static/files',file_png)):
+        return send_file(os.path.join(Path(app.root_path),'static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
 
 
 @app.route('/downloadcsv')
 def downloadcsv():
-    file_csv = 'For plot.csv'
-    return send_file(os.path.join(Path(app.root_path).parent,file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    file_csv = 'For_plot.csv'
+    return send_file(os.path.join(Path(app.root_path),'static/files',file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
 
 
 @app.route('/downloadeps')
 def downloadeps():
     file_eps = 'FL_ASF1.eps'
-    return send_file(os.path.join(Path(app.root_path).parent,file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+    return send_file(os.path.join(Path(app.root_path),'static/files',file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
 
 @app.after_request
@@ -312,7 +312,7 @@ def get_param():
 
 @app.route('/plot')
 def plot():
-    Data1.to_csv("For plot.csv", index=False, sep=',')
+    Data1.to_csv(os.path.join(Path(app.root_path),'static/files','For_plot.csv'), index=False, sep=',')
     # protein = 'h2B'
     # m = []
     # for time in Time_points1:
