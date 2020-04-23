@@ -12,8 +12,7 @@ import urllib.request
 from werkzeug.utils import secure_filename
 from pathlib import Path
 from flask import jsonify
-
-
+import glob
 
 UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -24,9 +23,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def ui():
-
-    if os.path.exists(os.path.join(Path(app.root_path).parent,'FL_ASF1.png')):
-        os.remove(os.path.join(Path(app.root_path).parent,'FL_ASF1.png'))
+    if os.path.exists(os.path.join(Path(app.root_path),'static/files','FL_ASF1.png')):
+        for f in glob.glob(os.path.join(Path(app.root_path),'static/files/*')):
+            os.remove(f)
         
 
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
@@ -34,7 +33,7 @@ def ui():
 
 
 @app.route('/click_show_v',methods=['GET', 'POST'])
-def click_show_h():
+def click_show_v():
     if request.method == 'POST':
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
@@ -54,7 +53,7 @@ def click_show_h():
         global passedParameters
         passedParameters = [str(protein), str(state1), str(state2), size, X_scale, Y_scale_l, Y_scale_r,
                             time_point, interval, color, significance, min_dif]
-
+        print(passedParameters)
         #print(protein, state1,size,X_scale,Y_scale_l,Y_scale_r)
         #print(time_point,interval,color,significance,min_dif)
 
@@ -65,17 +64,17 @@ def replot():
     return render_template('ui.html',lists = names,files=filename)
 
 @app.route('/click_show_h',methods=['GET', 'POST'])
-def click_show_v():
+def click_show_h():
     if request.method == 'POST':
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
 
-        max = request.form.get("max")
-        max_step= request.form.get("max_step")
-        min = request.form.get("min")
-        min_step = request.form.get("min_step")
+        max = int(request.form.get("max"))
+        max_step= int(request.form.get("max_step"))
+        min = int(request.form.get("min"))
+        min_step = int(request.form.get("min_step"))
         negative = request.form.get("negative")
         color = request.form.get("color")
         significance = request.form.get("significance")
@@ -88,6 +87,7 @@ def click_show_v():
 
         passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
                             time_point, negative, color, significance, sig_filter]
+        print(passedParameters)
 
         #print(protein, state1)
 
@@ -126,20 +126,20 @@ def upload_file():
                 filename = secure_filename(file.filename)
                 print(filename)
                 count -= 1
-                file.save(os.path.join(UPLOAD_FOLDER,filename))
-
-        flash(filename + ' successfully uploaded')
+                file.save(os.path.join(Path(app.root_path),'static/files',filename))
+        ipaddress = "IP: " + request.remote_addr
+        flash(filename + ' successfully uploaded from: ' + ipaddress)
 
         global names
         names = reader.fileread(filename)
-        # print(names)
+        #print(names)
         global Data1
         Data1 = names[-1]
         global Time_Points
         Time_Points = names[-2]
         # print(Data1)
 
-        return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
+        return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
 
 
@@ -256,23 +256,22 @@ def error():
 def plotshow():
     file_png = 'FL_ASF1.png'
 
-    if os.path.exists(os.path.join(Path(app.root_path).parent,file_png)):
-        return send_file(os.path.join(Path(app.root_path).parent,file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    if os.path.exists(os.path.join(Path(app.root_path),'static/files',file_png)):
+        return send_file(os.path.join('./static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
 
 
 @app.route('/downloadcsv')
 def downloadcsv():
-    file_csv = 'For plot.csv'
-    return send_file(os.path.join(Path(app.root_path).parent,file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    file_csv = 'For_plot.csv'
+    return send_file(os.path.join('./static/files',file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
 
 
 @app.route('/downloadeps')
 def downloadeps():
     file_eps = 'FL_ASF1.eps'
-    return send_file(os.path.join(Path(app.root_path).parent,file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
-
+    return send_file(os.path.join('./static/files',file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
 @app.after_request
 def add_header(r):
@@ -312,7 +311,7 @@ def get_param():
 
 @app.route('/plot')
 def plot():
-    Data1.to_csv("For plot.csv", index=False, sep=',')
+    Data1.to_csv(os.path.join(Path(app.root_path),'static/files','For_plot.csv'), index=False, sep=',')
     # protein = 'h2B'
     # m = []
     # for time in Time_points1:
@@ -334,12 +333,18 @@ def plot():
     #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
 
-    # passedParameters = [protein,state1,state2,size,X_scale,Y_scale_l,Y_scale_r,
-    # time_point,interval,color,significance,min_dif]
+        # passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
+        #                     time_point, negative, color, significance, sig_filter]
 
-    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1],
-                                  passedParameters[2], Time_Points, rotation='H', max=5, step=10, color='rb', min=-5,
-                                  step2=10, file_name='FL_ASF1')
+    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
+        rotation='H', max = passedParameters[3], step = passedParameters[4], color='rb', min = passedParameters[5],
+        step2 = passedParameters[6], file_name='FL_ASF1')
+
+
+
+    # K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1],
+    #                               passedParameters[2], Time_Points, rotation='H', max=5, step=10, color='rb', min=-5,
+    #                               step2=10, file_name='FL_ASF1')
     #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
     # for k, time in enumerate(Time_points1):

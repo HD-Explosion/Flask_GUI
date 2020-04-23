@@ -280,7 +280,8 @@
                 <div id="c1">
                     <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
                     <input type="submit" value="Submit">
-                    <a href="help">Click here for a demo file</a>
+                    <h6>{{ ipaddr }}</h6>
+                    <!-- <a href="help">Click here for a demo file</a> -->
                 </div>
             </form>
 
@@ -340,7 +341,7 @@
             </div>
         </form>
 
-        <form action="/click_show_h" method = "post">
+        <form action="/click_show_v" method = "post">
          <div id="d1" style="display:none">
              <ul class="div1" >
                 <li>
@@ -381,8 +382,8 @@
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="'state2">
-                       {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
 
@@ -403,7 +404,7 @@
 
       
 
-	<form action="/click_show_v" method = "post">
+	<form action="/click_show_h" method = "post">
     <div id="d2" >
              <ul class="div1" >
                 <li>
@@ -419,13 +420,13 @@
 
                  <li>Max:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="max"></li>
 
-                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="max-step"> </li>
+                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="max_step"> </li>
 
                 <li><strong>Negative</strong>&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="negative"></li>
 
-                <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min"></li>
+                <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="min"></li>
 
-                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min-step"> </li>
+                <li>Step2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_step"> </li>
 
 
                 <li><button class="button" type = "submit" >Show</button></li>
@@ -487,7 +488,6 @@
     <div  clasee="text-oneLine" style="position:absolute;left:750px;top:685px">
         <span>
             <button  type="button" onclick = "fullscreen()"><p4>Full Screen</p4></button>
-            <button  type="button" onclick = "document.getElementById('graphdiv').style ='height:100%;width:100%;background-position: center';"><p4>Full Screen</p4></button>
             <button  type="button" onclick="window.location.href='{{ url_for('plotshow') }}';"><p4>Export as PNG</p4> </button>
             <button  type="button" onclick="window.location.href='{{ url_for('downloadeps') }}';"><p4>Export as EPS</p4></button>
             <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button>
