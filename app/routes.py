@@ -246,7 +246,7 @@ def plotshow():
     if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_png)):
         return send_file(os.path.join('./static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
-        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
 @app.route('/downloadcsv')
