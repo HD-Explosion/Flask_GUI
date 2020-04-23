@@ -71,9 +71,9 @@ def click_show_h():
             state2 = request.form.get("state2")
             time_point = request.form.get("time_point")
 
-            max = int(request.form.get("max"))
+            max = float(request.form.get("max"))
             max_step= int(request.form.get("max_step"))
-            min = int(request.form.get("min"))
+            min = float(request.form.get("min"))
             min_step = int(request.form.get("min_step"))
             negative = request.form.get("negative")
             color = request.form.get("color")
