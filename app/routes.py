@@ -111,18 +111,6 @@ def upload_file():
                 break
             if file and allowed_file(file.filename):
                 global filename
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'files[]' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        files = request.files.getlist('files[]')
-        count = 2
-        for file in files:
-            if count == 0:
-                break
-            if file and allowed_file(file.filename):
-                global filename
                 filename = secure_filename(file.filename)
                 print(filename)
                 count -= 1
