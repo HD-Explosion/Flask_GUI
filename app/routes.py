@@ -126,8 +126,8 @@ def upload_file():
                 print(filename)
                 count -= 1
                 file.save(os.path.join(Path(app.root_path),'static/files',filename))
-
-        flash(filename + ' successfully uploaded')
+        ipaddress = "IP: " + request.remote_addr
+        flash(filename + ' successfully uploaded from: ' + ipaddress)
 
         global names
         names = reader.fileread(filename)
@@ -138,7 +138,7 @@ def upload_file():
         Time_Points = names[-2]
         # print(Data1)
 
-        return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
+        return render_template('ui.html',lists = names,files=filename)        #  /parameters for test
 
 
 
