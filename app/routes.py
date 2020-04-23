@@ -33,7 +33,7 @@ def ui():
 
 
 @app.route('/click_show_v',methods=['GET', 'POST'])
-def click_show_h():
+def click_show_v():
     if request.method == 'POST':
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
@@ -53,7 +53,7 @@ def click_show_h():
         global passedParameters
         passedParameters = [str(protein), str(state1), str(state2), size, X_scale, Y_scale_l, Y_scale_r,
                             time_point, interval, color, significance, min_dif]
-
+        print(passedParameters)
         #print(protein, state1,size,X_scale,Y_scale_l,Y_scale_r)
         #print(time_point,interval,color,significance,min_dif)
 
@@ -64,17 +64,17 @@ def replot():
     return render_template('ui.html',lists = names,files=filename)
 
 @app.route('/click_show_h',methods=['GET', 'POST'])
-def click_show_v():
+def click_show_h():
     if request.method == 'POST':
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
 
-        max = request.form.get("max")
-        max_step= request.form.get("max_step")
-        min = request.form.get("min")
-        min_step = request.form.get("min_step")
+        max = int(request.form.get("max"))
+        max_step= int(request.form.get("max_step"))
+        min = int(request.form.get("min"))
+        min_step = int(request.form.get("min_step"))
         negative = request.form.get("negative")
         color = request.form.get("color")
         significance = request.form.get("significance")
@@ -87,6 +87,7 @@ def click_show_v():
 
         passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
                             time_point, negative, color, significance, sig_filter]
+        print(passedParameters)
 
         #print(protein, state1)
 
@@ -131,7 +132,7 @@ def upload_file():
 
         global names
         names = reader.fileread(filename)
-        # print(names)
+        #print(names)
         global Data1
         Data1 = names[-1]
         global Time_Points
@@ -332,12 +333,18 @@ def plot():
     #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
 
-    # passedParameters = [protein,state1,state2,size,X_scale,Y_scale_l,Y_scale_r,
-    # time_point,interval,color,significance,min_dif]
+        # passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
+        #                     time_point, negative, color, significance, sig_filter]
 
-    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1],
-                                  passedParameters[2], Time_Points, rotation='H', max=5, step=10, color='rb', min=-5,
-                                  step2=10, file_name='FL_ASF1')
+    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
+        rotation='H', max = passedParameters[3], step = passedParameters[4], color='rb', min = passedParameters[5],
+        step2 = passedParameters[6], file_name='FL_ASF1')
+
+
+
+    # K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1],
+    #                               passedParameters[2], Time_Points, rotation='H', max=5, step=10, color='rb', min=-5,
+    #                               step2=10, file_name='FL_ASF1')
     #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
     # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
     # for k, time in enumerate(Time_points1):
