@@ -65,20 +65,23 @@ def replot():
 @app.route('/click_show_h',methods=['GET', 'POST'])
 def click_show_h():
     if request.method == 'POST':
-        protein = request.form.get("protein")
-        state1 = request.form.get("state1")
-        state2 = request.form.get("state2")
-        time_point = request.form.get("time_point")
+        try:
+            protein = request.form.get("protein")
+            state1 = request.form.get("state1")
+            state2 = request.form.get("state2")
+            time_point = request.form.get("time_point")
 
-        max = int(request.form.get("max"))
-        max_step= int(request.form.get("max_step"))
-        min = int(request.form.get("min"))
-        min_step = int(request.form.get("min_step"))
-        negative = request.form.get("negative")
-        color = request.form.get("color")
-        significance = request.form.get("significance")
-        sig_filter = request.form.get("sig_filter")
-
+            max = int(request.form.get("max"))
+            max_step= int(request.form.get("max_step"))
+            min = int(request.form.get("min"))
+            min_step = int(request.form.get("min_step"))
+            negative = request.form.get("negative")
+            color = request.form.get("color")
+            significance = request.form.get("significance")
+            sig_filter = request.form.get("sig_filter")
+        except:
+            flash("Missing or invalid parameter input")
+            return render_template('ui.html',lists = names,files=filename)
 
         #name_li = request.form.getlist("name")
 
@@ -86,6 +89,8 @@ def click_show_h():
 
         passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
                             time_point, negative, color, significance, sig_filter]
+
+
         print(passedParameters)
 
         #print(protein, state1)
@@ -322,10 +327,12 @@ def plot():
 
         # passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
         #                     time_point, negative, color, significance, sig_filter]
-
-    K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
+    try:
+        K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
         rotation='H', max = passedParameters[3], step = passedParameters[4], color=passedParameters[9], min = passedParameters[5],
         step2 = passedParameters[6], file_name='FL_ASF1')
+    except:
+        print("Function not impelemented properly")
 
 
 
