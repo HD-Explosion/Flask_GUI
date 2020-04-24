@@ -18,14 +18,30 @@ import json
 import uuid
 import shutil
 import datetime
-
 from app import email
-email.send_ip(app)
-
-app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
+import time
+import atexit
+from apscheduler.schedulers.background import BackgroundScheduler
+import pandas as pd
 
 global ipdict
 ipdict = {} 
+scheduler = BackgroundScheduler()
+
+ipfilename = "iplist.csv"
+#ipfilepath = os.path.join(Path(app.root_path),'static/ip',ipfilename)
+#ipfiledata = pd.read_csv(ipfilepath, dtype=str, index_col=0)
+ipfiledata = "IP TEST DATA 1:0:0:27"
+#ipfiledata = csv.read(os.path.join(Path(app.root_path),'static/ip',ipdict))
+scheduler.start()
+scheduler.add_job(email.send_ip,trigger="interval", seconds=45, args =[app,ipfilename,ipfiledata])
+
+# Shut down the scheduler when exiting the app
+atexit.register(lambda: scheduler.shutdown())
+
+app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
+
+
 
 #...
 # @app.route('/visits-counter')

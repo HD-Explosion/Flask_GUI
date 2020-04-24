@@ -1,7 +1,8 @@
 
 from flask_mail import Mail, Message
 
-def send_ip(app):
+def send_ip(app,ipfilename,ipfiledata):
+    
     mail_settings = {
         "MAIL_SERVER": 'smtp.gmail.com',
         "MAIL_PORT": 465,
@@ -16,8 +17,13 @@ def send_ip(app):
     app.config.update(mail_settings)
     mail = Mail(app)
     with app.app_context():
-        msg = Message(subject="Hello",
+        msg = Message(subject="HD_eXplosion",
                         sender=app.config.get("MAIL_USERNAME"),
                         recipients=["xiaohe.yu86@gmail.com"], # replace with your email for testing
-                        body="hi Nifu")
+                        body="IP list is attached")
+        msg.attach(
+            ipfilename,
+            'text/csv',
+            ipfiledata)
+        mail.send(msg)
         mail.send(msg)
