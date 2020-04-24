@@ -1,7 +1,8 @@
 from app import app
 from flask import render_template, send_file,request,Flask
 from app.forms import LoginForm
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for,g
+from flask import  make_response, session
 import numpy as np
 import io
 from PIL import Image
@@ -22,7 +23,7 @@ import datetime
 app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
 
 
-from flask import Flask, render_template, request, redirect, url_for, flash, make_response, session
+
 #...
 # @app.route('/visits-counter')
 # def visits():
@@ -80,22 +81,22 @@ def upload_file():
             if count == 0:
                 break
             if file and allowed_file(file.filename):
-                global filename
+                #global filename
                 filename = secure_filename(file.filename)
-                #session['FILENAME'] = filename
+                session['FILENAME'] = filename
                 #print(filename)
                 count -= 1
                 file.save(os.path.join(app.config['USER_FOLDER'],filename))
         ipaddress = "IP: " + request.remote_addr
         flash(filename + ' successfully uploaded from: ' + ipaddress)
 
-        global names
+        #global names
         names = reader.fileread(filename)
         #session['NAMES'] = names
         #print(names)
-        global Data1
+        #global Data1
         Data1 = names[-1]
-        global Time_Points
+        #global Time_Points
         Time_Points = names[-2]
         #session['TIMEPOINTS'] = names[-2]
         #session['DATA1'] = names[-1]
@@ -134,35 +135,36 @@ def upload_file():
     #     return render_template('ui.html', lists = names, files=filename, ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
 
 
-@app.route('/upload_file_merge', methods=['POST'])
-def upload_file_merge():
-    if request.method == 'POST':
-        # check if the post request has the file part
-        if 'files[]' not in request.files:
-            flash('No file part')
-            return redirect(request.url)
-        files = request.files.getlist('files[]')
-        count = 2
-        for file in files:
-            if count == 0:
-                break
-            if file and allowed_file(file.filename):
-                global filename
-                filename = secure_filename(file.filename)
-                print(filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                count -= 1
-        flash(filename + ' successfully uploaded')
-        global names
-        names = reader.fileread(filename)
-        # print(names)
-        global Data1
-        Data1 = names[-1]
-        global Time_Points
-        Time_Points = names[-2]
-        # print(Data1)
+# @app.route('/upload_file_merge', methods=['POST'])
+# def upload_file_merge():
+#     if request.method == 'POST':
+#         # check if the post request has the file part
+#         if 'files[]' not in request.files:
+#             flash('No file part')
+#             return redirect(request.url)
+#         files = request.files.getlist('files[]')
+#         count = 2
+#         for file in files:
+#             if count == 0:
+#                 break
+#             if file and allowed_file(file.filename):
+#                 #global filename
+#                 filename = secure_filename(file.filename)
+#                 session['FILENAME'] = filename
+#                 #print(filename)
+#                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#                 count -= 1
+#         flash(filename + ' successfully uploaded')
+#         global names
+#         names = reader.fileread(filename)
+#         # print(names)
+#         global Data1
+#         Data1 = names[-1]
+#         global Time_Points
+#         Time_Points = names[-2]
+#         # print(Data1)
 
-        return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
+#         return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
 
 # @app.before_request
 # def before_request()
@@ -182,6 +184,16 @@ def upload_file_merge():
 #     except:
 #         pass
 
+
+
+# @app.before_request
+# def load_user():
+#     if session["USERID"]:
+#         user = User.query.filter_by(username=session["user_id"]).first()
+#     else:
+#         user = {"name": "Guest"}  # Make it better, use an anonymous User instead
+
+#     g.user = user
 
 
 # @app.route('/remove_file',methods=['POST'])
@@ -273,6 +285,11 @@ def click_show_h():
 @app.route('/plot')
 def plot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+
+    names = reader.fileread(session['FILENAME'])
+    Data1 = names[-1]
+    Time_Points = names[-2]
+
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
     # protein = 'h2B'
     # m = []
@@ -330,8 +347,8 @@ def plot():
 
 @app.route('/replot',methods=['GET','POST'])
 def replot():
-    
-    return render_template('ui.html',lists = names,files=filename)
+    names = reader.fileread(session['FILENAME'])
+    return render_template('ui.html',lists = names,files=session['FILENAME'])
 
 ##########################################################################################################################################################
 
