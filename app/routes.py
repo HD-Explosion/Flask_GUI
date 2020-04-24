@@ -38,19 +38,18 @@ def visits():
 
 @app.route('/')
 def ui():
-    # userid = str(uuid.uuid4())
-    if session['USERID'] is not None:
+    try:
+        if session['USERID'] is not None:
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+            shutil.rmtree(app.config['USER_FOLDER'])
+            os.mkdir(app.config['USER_FOLDER'])
+        
+    except Exception:
+        session['USERID'] = str(uuid.uuid4())
         app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
-        try:
-            if os.path.exists(app.config['USER_FOLDER']) and os.path.isdir(app.config['USER_FOLDER']):
-                shutil.rmtree(app.config['USER_FOLDER'])
-        except Exception:
-            pass
-            
-    session['USERID'] = str(uuid.uuid4())
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
-    if not os.path.exists(app.config['USER_FOLDER']):
-        os.mkdir(app.config['USER_FOLDER'])
+        if not os.path.exists(app.config['USER_FOLDER']):
+            os.mkdir(app.config['USER_FOLDER'])
+
 
 
                 
@@ -87,15 +86,15 @@ def ui():
 #     file_remove = request.cookies.get('userID')
 
 
-@app.route('/start_over')
-def start_over():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
-    if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
-        for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
-            os.remove(f)
+# @app.route('/start_over')
+# def start_over():
+#     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+#     if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
+#         for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
+#             os.remove(f)
         
 
-    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+#     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 
 
