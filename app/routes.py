@@ -19,10 +19,13 @@ import uuid
 import shutil
 import datetime
 
+from app import email
+email.send_ip(app)
 
 app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
 
-
+global ipdict
+ipdict = {} 
 
 #...
 # @app.route('/visits-counter')
@@ -42,12 +45,13 @@ def ui():
     try:
         if session['USERID'] is not None:
             print('at / ')
-            print("session detected")
+            print("session detected.")
             app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+            print("Folder path and name are set..")
             shutil.rmtree(app.config['USER_FOLDER'])
-            print("old folder detected")
+            print("Old folder deleted...")
             os.mkdir(app.config['USER_FOLDER'])
-            print("new folder created")
+            print("new folder created....")
         
     except Exception:
         print("No session exist, create a new session")
@@ -90,6 +94,16 @@ def upload_file():
         ipaddress = "IP: " + request.remote_addr
         flash(filename + ' successfully uploaded from: ' + ipaddress)
 
+        if (request.remote_addr in ipdict): 
+            ipdict[request.remote_addr] += 1
+        else: 
+            ipdict[request.remote_addr] = 1
+  
+        for key, value in ipdict.items(): 
+            print ("% s : % d"%(key, value))  
+
+
+
         #global names
         names = reader.fileread(filename)
         #session['NAMES'] = names
@@ -103,6 +117,11 @@ def upload_file():
         # print(Data1)
 
         return render_template('ui.html',lists = names,files=filename)   
+
+
+
+
+
 
 
 
@@ -166,39 +185,6 @@ def upload_file():
 
 #         return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
 
-# @app.before_request
-# def before_request()
-
-#     now = datetime.datetime.now()
-#     try:
-#         last_active = session['last_active']
-#         delta = now - last_active
-#         if delta.seconds > 30:
-#             session['last_active'] = now
-#             return logout('Your session has expired after 30 minutes, you have been logged out')
-#     except:
-#         pass
-
-#     try:
-#         session['last_active'] = now
-#     except:
-#         pass
-
-
-
-# @app.before_request
-# def load_user():
-#     if session["USERID"]:
-#         user = User.query.filter_by(username=session["user_id"]).first()
-#     else:
-#         user = {"name": "Guest"}  # Make it better, use an anonymous User instead
-
-#     g.user = user
-
-
-# @app.route('/remove_file',methods=['POST'])
-# def remove_file():
-#     file_remove = request.cookies.get('userID')
 
 
 # @app.route('/start_over')
@@ -232,6 +218,8 @@ def click_show_h():
             sig_filter = request.form.get("sig_filter")
         except:
             flash("Missing or invalid parameter input")
+            names = reader.fileread(session['FILENAME'])
+            filename = session['FILENAME']
             return render_template('ui.html',lists = names,files=filename)
 
         #name_li = request.form.getlist("name")
@@ -462,7 +450,7 @@ def allowed_file(filename):
 
 
 
-#     @app.route('/plotshow')
+# @app.route('/plotshow')
 # def plotshow():
 #     raw_data = [
 #     [[255,255,255],[255,255,255],[255,255,255]],
@@ -486,4 +474,6 @@ def allowed_file(filename):
 #     file_object.seek(0)
 
 #     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+
+
 
