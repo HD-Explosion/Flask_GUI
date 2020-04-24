@@ -13,21 +13,88 @@ from werkzeug.utils import secure_filename
 from pathlib import Path
 from flask import jsonify
 import glob
+import json
+import uuid
+import shutil
+import datetime
 
-app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/files')
+
 app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
 
 
+from flask import Flask, render_template, request, redirect, url_for, flash, make_response, session
+#...
+@app.route('/visits-counter')
+def visits():
+    if 'visits' in session:
+        session['visits'] = session.get('visits') + 1  # reading and updating session data
+    else:
+        session['visits'] = 1 # setting session data
+
+
+
+    return "Total visits: {} {}".format(session.get('visits'),session['USERID'])
 
 
 @app.route('/')
 def ui():
-    if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
-        for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
-            os.remove(f)
+    try:
+        if session['USERID'] is not None:
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+            shutil.rmtree(app.config['USER_FOLDER'])
+            os.mkdir(app.config['USER_FOLDER'])
+        
+    except Exception:
+        session['USERID'] = str(uuid.uuid4())
+        app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+        if not os.path.exists(app.config['USER_FOLDER']):
+            os.mkdir(app.config['USER_FOLDER'])
+
+
+
+                
+    # resp = make_response(render_template('ui.html',lists=[['protein'],['state'],['time point']]))
+    # resp.set_cookie('userID',userid)
+
+    #return resp
+    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
+
+
+# @app.before_request
+# def before_request()
+
+#     now = datetime.datetime.now()
+#     try:
+#         last_active = session['last_active']
+#         delta = now - last_active
+#         if delta.seconds > 30:
+#             session['last_active'] = now
+#             return logout('Your session has expired after 30 minutes, you have been logged out')
+#     except:
+#         pass
+
+#     try:
+#         session['last_active'] = now
+#     except:
+#         pass
+
+
+
+# @app.route('/remove_file',methods=['POST'])
+# def remove_file():
+#     file_remove = request.cookies.get('userID')
+
+
+# @app.route('/start_over')
+# def start_over():
+#     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+#     if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
+#         for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
+#             os.remove(f)
         
 
-    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+#     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 
 
@@ -98,11 +165,14 @@ def click_show_h():
     return redirect('/plot')
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
 
 @app.route('/upload_file', methods=['POST'])
 def upload_file():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+
     if request.method == 'POST':
         # check if the post request has the file part
         if 'files[]' not in request.files:
@@ -116,7 +186,7 @@ def upload_file():
             if file and allowed_file(file.filename):
                 global filename
                 filename = secure_filename(file.filename)
-                print(filename)
+                #print(filename)
                 count -= 1
                 file.save(os.path.join(app.config['USER_FOLDER'],filename))
         ipaddress = "IP: " + request.remote_addr
@@ -124,7 +194,7 @@ def upload_file():
 
         global names
         names = reader.fileread(filename)
-        print(names)
+        #print(names)
         global Data1
         Data1 = names[-1]
         global Time_Points
@@ -246,24 +316,27 @@ def error():
 ## Create matrix image for testing
 @app.route('/plotshow')
 def plotshow():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_png = 'FL_ASF1.png'
 
     if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_png)):
-        return send_file(os.path.join('./static/files',file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+        return send_file(os.path.join(app.config['USER_FOLDER'],file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
     else:
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
 @app.route('/downloadcsv')
 def downloadcsv():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_csv = 'For_plot.csv'
-    return send_file(os.path.join('./static/files',file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    return send_file(os.path.join(app.config['USER_FOLDER'],file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
 
 
 @app.route('/downloadeps')
 def downloadeps():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_eps = 'FL_ASF1.eps'
-    return send_file(os.path.join('./static/files',file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+    return send_file(os.path.join(app.config['USER_FOLDER'],file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
 @app.after_request
 def add_header(r):
@@ -303,6 +376,7 @@ def get_param():
 
 @app.route('/plot')
 def plot():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
     # protein = 'h2B'
     # m = []
@@ -328,7 +402,7 @@ def plot():
         # passedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
         #                     time_point, negative, color, significance, sig_filter]
     try:
-        K = HDX_Plots_for_web.heatmap(Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
+        K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, passedParameters[0], passedParameters[1], passedParameters[2], Time_Points,
         rotation='H', max = passedParameters[3], step = passedParameters[4], color=passedParameters[9], min = passedParameters[5],
         step2 = passedParameters[6], file_name='FL_ASF1')
     except:

@@ -3,12 +3,12 @@ import os
 from pathlib import Path
 from app import app
 import pandas as pd
-
+from app.routes import app
 def fileread(filename):
     Time_f = 's'
     # Open csv file
     File_name = str(filename)
-    file_to_open = os.path.join(Path(app.root_path),'static/files',File_name)
+    file_to_open = os.path.join(app.config['USER_FOLDER'],File_name)
     csvFile = open(file_to_open, "r")
     reader = cs.reader(csvFile)
     Columns = []

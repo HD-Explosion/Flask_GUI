@@ -201,7 +201,7 @@
         }
     </style>
 
-    <script type="text/javascript">
+    <script type="text/javascript" >
         {#var log = document.querySelector("#log");#}
         {#function change1() {#}
         {#    var value = document.getElementById("range1").value;#}
@@ -241,6 +241,7 @@
             // finally the standard version
             el.requestFullscreen();
         }
+
     </script>
 
 
@@ -435,11 +436,12 @@
 
 
             <ul class="div3">
-                <li>
+                <!-- <li>
                     Time points&nbsp&nbsp<select  name="time_point">
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
+            -->
 
                 <li>
                     State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
