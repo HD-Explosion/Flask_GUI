@@ -23,6 +23,7 @@ import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
+import pickle
 
 global ipdict
 ipdict = {} 
@@ -122,12 +123,16 @@ def upload_file():
 
         #global names
         names = reader.fileread(filename)
+        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
+            pickle.dump(names, f)
+
+
         #session['NAMES'] = names
         #print(names)
         #global Data1
-        Data1 = names[-1]
+        #Data1 = names[-1]
         #global Time_Points
-        Time_Points = names[-2]
+        #Time_Points = names[-2]
         #session['TIMEPOINTS'] = names[-2]
         #session['DATA1'] = names[-1]
         # print(Data1)
@@ -290,7 +295,9 @@ def click_show_h():
 def plot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
 
-    names = reader.fileread(session['FILENAME'])
+    # names = reader.fileread(session['FILENAME'])
+    with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+        names = pickle.load(f)
     Data1 = names[-1]
     Time_Points = names[-2]
 
@@ -351,7 +358,11 @@ def plot():
 
 @app.route('/replot',methods=['GET','POST'])
 def replot():
-    names = reader.fileread(session['FILENAME'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+
+    #names = reader.fileread(session['FILENAME'])
+    with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+        names = pickle.load(f)
     return render_template('ui.html',lists = names,files=session['FILENAME'])
 
 ##########################################################################################################################################################
