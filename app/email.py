@@ -1,4 +1,3 @@
-
 from flask_mail import Mail, Message
 
 def send_ip(app,ipfilename,ipfiledata):
