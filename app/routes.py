@@ -120,22 +120,10 @@ def upload_file():
             print ("% s : % d"%(key, value))  
 
 
-
-        #global names
         names = reader.fileread(filename)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
-
-        #session['NAMES'] = names
-        #print(names)
-        #global Data1
-        #Data1 = names[-1]
-        #global Time_Points
-        #Time_Points = names[-2]
-        #session['TIMEPOINTS'] = names[-2]
-        #session['DATA1'] = names[-1]
-        # print(Data1)
 
         return render_template('ui.html',lists = names,files=filename)   
 
