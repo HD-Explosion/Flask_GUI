@@ -459,7 +459,7 @@
                 </select>
                 </li>
 
-                <li id="color1">
+                <!-- <li id="color1" style="display: none">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
                     <option class="color1" value ="r">r</option>
                     <option class="color1" value ="g">g</option>
@@ -468,12 +468,12 @@
                     <option class="color1" value ="o">o</option>
                     <option class="color1" value ="y">y</option>
 
-                    <option class="color1" value ="g">g</option>
+                    <option class="color1" value ="g">g</option> -->
 
 
                 </select></li>
 
-                 <li id="color2" style="display: none">
+                 <li id="color2">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
 
                     <option class="color2" value ="rb">rb</option>
@@ -501,25 +501,38 @@
                      document.getElementById('negative').onchange = function() {
                         document.getElementById('min').disabled = this.checked;
                         document.getElementById('min_step').disabled = this.checked;
+                        // var color1 = document.getElementById("color1");
+                        // var color2 = document.getElementById("color2");
+                        // if(this.checked){
+                        // color1.style.display = "block";
+                        // color2.style.display = "none";
+                        // }else{
+                        // color2.style.display = "block";
+                        // color1.style.display = "none";
 
+                        // }
+                        
                         };
 
 
-                    function negative() {
-                        var negative = document.getElementById("negative");
-                        // Get the output text
-                        var color1 = document.getElementById("color1");
-                        var color2 = document.getElementById("color2");
+                    // function negative() {
+                    //     var negative = document.getElementById("negative");
+                    //     // Get the output text
+                    //     var color1 = document.getElementById("color1");
+                    //     var color2 = document.getElementById("color2");
 
-                        // If the checkbox is checked, display the output text
-                        if (negative.checked === true){
-                            color1.style.display = "none";
-                            color2.style.display = "block";
-                        } else{
-                           color2.style.display = "none";
-                           color1.style.display = "block";
-                        }
-                    }
+                    //     // If the checkbox is checked, display the output text
+                    //     if (negative.checked === true){
+                    //         color1.style.display = "none";
+                    //         color2.style.display = "block";
+                    //     } else{
+                    //        color2.style.display = "none";
+                    //        color1.style.display = "block";
+                    //     }
+                    // }
+                    
+                    // document.getElementById('negative').onchange
+
                 </script>
 
 
