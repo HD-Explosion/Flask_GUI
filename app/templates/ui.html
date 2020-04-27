@@ -47,9 +47,9 @@
 
      footer{
         width: 100%;
-        height:30px;
+        height: fit-content;
         position:absolute;
-        bottom:0px;
+        top:735px;
         left:0px;
         overflow: hidden;
         text-align: center;
@@ -82,7 +82,7 @@
 
      .box {
         position: absolute;
-         width: 620px;
+         width: 630px;
          border: 5px solid darkgray;
          padding: 15px;
          margin: 15px;
@@ -210,6 +210,8 @@
         {# }#}
 
 
+
+
         function f0(param){
             for(var i =1;i<=2;i++){
                 var id =document.getElementById("c"+i);
@@ -229,6 +231,7 @@
                  }
             }
         }
+
 
         function fullscreen() {
             var el = document.getElementById('graphdiv');
@@ -269,28 +272,30 @@
 
         <span>
             <form  method="post" enctype="multipart/form-data">
-            <input type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
+            <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
             <label for="single_file">One File</label><br>
-            <input type="radio"  name="upload" value="file_m" onclick="f0(2)">
+            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)">
             <label for="multi_files">Multiple Files</label><br>
             </form>
         </span>
 
         <div class="div1">
-            <form  method="post" action="/upload_file" enctype="multipart/form-data" style="display: inline; float:left">
+            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
                 <div id="c1">
-                    <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
+                    <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
+                     <label for="upload_s"> Please select ONE file to upload</label></p>
                     <input type="submit" value="Submit">
                     <h6>{{ ipaddr }}</h6>
-                    <!-- <a href="help">Click here for a demo file</a> -->
+                    <a href="help">Click here for a demo file</a>
                 </div>
             </form>
 
-            <form  method="post" action="/upload_file_merge" enctype="multipart/form-data" style="display: inline; float:left">
+            <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
                 <div id="c2" style="display: none">
-                    <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
-                    <p><input type="file" name="files[]" multiple="true" autocomplete="off" required></p>
+                    <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
+                    <label for="upload_m"> You may select up to 5 files to upload</label></p>
                     <input type="submit" value="Merge">
+                    <h6>{{ ipaddr }}</h6>
                     <a href="help">Click here for a demo file</a>
                 </div>
             </form>
@@ -331,14 +336,14 @@
          </div>
         <form action="" method="post">
             <div class="div1">
-                 <input type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
-                <label for="function">Heatmap </label><br>
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
+                <label for="Heatmap">Heatmap </label><br>
              </div>
             <div class="div2" style="width: 50px">
             </div>
             <div class="div3">
-                <input type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
-                <label for="function">Volcano Plot</label><br>
+                <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
+                <label for="Volcano Plot">Volcano Plot</label><br>
             </div>
         </form>
 
@@ -354,7 +359,7 @@
                  </li>
 
 
-                 <li>Symbol size&nbsp&nbsp<input id="rangeId" type="range" name="size" min="1" max="10" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+                 <li>Symbol size&nbsp&nbsp<input id="rangeId" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
@@ -390,8 +395,8 @@
 
                 <li>
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
-                    <option value ="one file">Pattern1</option>
-                    <option value ="one file">Pattern2</option>
+                    <option value ="pattern1">Pattern1</option>
+                    <option value ="pattern2">Pattern2</option>
 
                 </select></li>
 
@@ -423,11 +428,11 @@
 
                 <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
 
-                <li><strong>Negative</strong>&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="negative"></li>
+                <li><strong>Negative</strong>&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" onclick="negative()"></li>
 
-                <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="-9999" max="9999" name="min"></li>
+                <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="9999" name="min"></li>
 
-                <li>Step2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="min_step"> </li>
+                <li>Step2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step"> </li>
 
 
                 <li><button class="button" type = "submit" >Show</button></li>
@@ -454,21 +459,32 @@
                 </select>
                 </li>
 
-                <li>
+                <li id="color1">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
-                    <option value ="r">r</option>
-                    <option value ="g">g</option>
-                    <option value ="b">b</option>
-                    <option value ="rb">rb</option>
-                    <option value ="br">br</option>
-                    <option value ="gr">gr</option>
-                    <option value ="ob">ob</option>
-                    <option value ="o">o</option>
-                    <option value ="y">y</option>
-                    <option value ="gr">gr</option>
-                    <option value ="bp">bp</option>
-                    <option value ="g">g</option>
-                    <option value ="bg">bg</option>
+                    <option class="color1" value ="r">r</option>
+                    <option class="color1" value ="g">g</option>
+                    <option class="color1" value ="b">b</option>
+
+                    <option class="color1" value ="o">o</option>
+                    <option class="color1" value ="y">y</option>
+
+                    <option class="color1" value ="g">g</option>
+
+
+                </select></li>
+
+                 <li id="color2" style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
+
+                    <option class="color2" value ="rb">rb</option>
+                    <option class="color2" value ="br">br</option>
+                    <option class="color2" value ="gr">gr</option>
+                    <option class="color2" value ="ob">ob</option>
+
+                    <option class="color2" value ="gr">gr</option>
+                    <option class="color2" value ="bp">bp</option>
+
+                    <option class="color2" value ="bg">bg</option>
 
                 </select></li>
 
@@ -481,7 +497,30 @@
          </form>
 
       </div>
+                <script>
+                     document.getElementById('negative').onchange = function() {
+                        document.getElementById('min').disabled = this.checked;
+                        document.getElementById('min_step').disabled = this.checked;
 
+                        };
+
+
+                    function negative() {
+                        var negative = document.getElementById("negative");
+                        // Get the output text
+                        var color1 = document.getElementById("color1");
+                        var color2 = document.getElementById("color2");
+
+                        // If the checkbox is checked, display the output text
+                        if (negative.checked === true){
+                            color1.style.display = "none";
+                            color2.style.display = "block";
+                        } else{
+                           color2.style.display = "none";
+                           color1.style.display = "block";
+                        }
+                    }
+                </script>
 
 
 
