@@ -18,7 +18,7 @@ def send_ip(app,ipfilename,ipfiledata):
     app.config.update(mail_settings)
     mail = Mail(app)
     with app.app_context():
-        msg = Message(subject="HD_eXplosion",
+        msg = Message(subject="HD_eXplosion test",
                         sender=app.config.get("MAIL_USERNAME"),
                         recipients=["xiaohe.yu86@gmail.com"], # replace with your email for testing
                         body="IP list is attached")
