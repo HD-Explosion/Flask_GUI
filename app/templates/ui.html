@@ -90,6 +90,11 @@
          border-radius: 30px;
      }
 
+     .range {
+         width: 100px;
+         padding: 0;
+     }
+
      .screen {
          position: absolute;
          left:650px;
@@ -359,7 +364,7 @@
                  </li>
 
 
-                 <li>Symbol size&nbsp&nbsp<input id="rangeId" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+                 <li>Symbol size&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
@@ -459,32 +464,32 @@
                 </select>
                 </li>
 
-                <!-- <li id="color1" style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
-                    <option class="color1" value ="r">r</option>
-                    <option class="color1" value ="g">g</option>
-                    <option class="color1" value ="b">b</option>
+                <li id="color1" style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                    <option  value ="r">r</option>
+                    <option  value ="g">g</option>
+                    <option  value ="b">b</option>
 
-                    <option class="color1" value ="o">o</option>
-                    <option class="color1" value ="y">y</option>
+                    <option  value ="o">o</option>
+                    <option  value ="y">y</option>
 
-                    <option class="color1" value ="g">g</option> -->
+                    <option  value ="g">g</option>
 
 
                 </select></li>
 
-                 <li id="color2">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
+                 <li id="color2" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2">
 
-                    <option class="color2" value ="rb">rb</option>
-                    <option class="color2" value ="br">br</option>
-                    <option class="color2" value ="gr">gr</option>
-                    <option class="color2" value ="ob">ob</option>
+                    <option value ="rb">rb</option>
+                    <option  value ="br">br</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="ob">ob</option>
 
-                    <option class="color2" value ="gr">gr</option>
-                    <option class="color2" value ="bp">bp</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="bp">bp</option>
 
-                    <option class="color2" value ="bg">bg</option>
+                    <option  value ="bg">bg</option>
 
                 </select></li>
 
@@ -501,38 +506,33 @@
                      document.getElementById('negative').onchange = function() {
                         document.getElementById('min').disabled = this.checked;
                         document.getElementById('min_step').disabled = this.checked;
-                        // var color1 = document.getElementById("color1");
-                        // var color2 = document.getElementById("color2");
-                        // if(this.checked){
-                        // color1.style.display = "block";
-                        // color2.style.display = "none";
-                        // }else{
-                        // color2.style.display = "block";
-                        // color1.style.display = "none";
-
-                        // }
-                        
+                        var color1 = document.getElementById("color1");
+                        var color2 = document.getElementById("color2");
+                        if(this.checked) {
+                            color1.style.display = "block";
+                            color2.style.display = "none";
+                        } else {
+                            color2.style.display = "block";
+                            color1.style.display = "none";
+                        }
                         };
 
 
-                    // function negative() {
-                    //     var negative = document.getElementById("negative");
-                    //     // Get the output text
-                    //     var color1 = document.getElementById("color1");
-                    //     var color2 = document.getElementById("color2");
+                    function negative() {
+                        var negative = document.getElementById("negative");
+                        // Get the output text
+                        var color1 = document.getElementById("color1");
+                        var color2 = document.getElementById("color2");
 
-                    //     // If the checkbox is checked, display the output text
-                    //     if (negative.checked === true){
-                    //         color1.style.display = "none";
-                    //         color2.style.display = "block";
-                    //     } else{
-                    //        color2.style.display = "none";
-                    //        color1.style.display = "block";
-                    //     }
-                    // }
-                    
-                    // document.getElementById('negative').onchange
-
+                        // If the checkbox is checked, display the output text
+                        if (negative.checked === true){
+                            color1.style.display = "none";
+                            color2.style.display = "block";
+                        } else{
+                           color2.style.display = "none";
+                           color1.style.display = "block";
+                        }
+                    }
                 </script>
 
 
