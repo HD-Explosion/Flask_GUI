@@ -191,7 +191,7 @@ def v(df, times, proteins, state1, state2, colors, filename, md=0.5, ma=0.01):
 
 
 
-def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = "on",p = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0):
+def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0):
     k = 0
     sec = list(df[protien])
     while np.core.numeric.NaN in sec:
@@ -226,7 +226,8 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = "on",p = 0.5
     if f:
         for i in range(rows):
             for j in range(cols):
-                if pv[i, j] >= p:
+                print(pv[i,j])
+                if pv[i, j] >= pp:
                     t[i, j] = 0
 
     # plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
