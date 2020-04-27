@@ -25,6 +25,10 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
 import pickle
 
+UPLOAD_FOLDER = 'C:\\Users\\zhangxc\\PycharmProjects\\Flask_GUI-master\\app\\static\\files'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 global ipdict
 ipdict = {} 
 scheduler = BackgroundScheduler()
@@ -40,7 +44,7 @@ scheduler.add_job(email.send_ip,trigger="interval", seconds=45, args =[app,ipfil
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
 
-app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
+app.config['ALLOWED_EXTENSIONS'] = {'csv','txt'}
 
 
 
@@ -57,7 +61,7 @@ app.config['ALLOWED_EXTENSIONS'] = {'csv','txt','xls','pdf','docx','doc'}
 #     return "Total visits: {} {}".format(session.get('visits'),session['USERID'])
 
 ################################################################################################################################################
-@app.route('/')
+@app.route('/',methods=['GET','POST'])
 def ui():
     try:
         if session['USERID'] is not None:
@@ -87,8 +91,8 @@ def ui():
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 ########################################################################################################################################
-@app.route('/upload_file', methods=['POST'])
-def upload_file():
+@app.route('/upload_multi_files', methods=['GET','POST'])
+def upload_multi_files():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
 
     if request.method == 'POST':
@@ -127,14 +131,52 @@ def upload_file():
 
         return render_template('ui.html',lists = names,files=filename)   
 
+@app.route('/upload_single_file', methods=['GET','POST'])
+def upload_single_file():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static', session['USERID'])
 
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            session['FILENAME'] = filename
+            file.save(os.path.join(app.config['USER_FOLDER'], filename))
+            ipaddress = "IP: " + request.remote_addr
+            flash(filename + ' successfully uploaded from: ' + ipaddress)
+        else:
+            flash('Allowed file types are csv')
+            return redirect(request.url)
 
+        if (request.remote_addr in ipdict):
+            ipdict[request.remote_addr] += 1
+        else:
+            ipdict[request.remote_addr] = 1
 
+        for key, value in ipdict.items():
+            print("% s : % d" % (key, value))
 
+        # global names
+        names = reader.fileread(filename)
+        # session['NAMES'] = names
+        # print(names)
+        # global Data1
+        Data1 = names[-1]
+        # global Time_Points
+        Time_Points = names[-2]
+        # session['TIMEPOINTS'] = names[-2]
+        # session['DATA1'] = names[-1]
+        # print(Data1)
 
+        return render_template('ui.html', lists=names, files=filename)
 
-
-#def upload_file():                                                # single-file allowed version
+    #def upload_file():                                                # single-file allowed version
     # if request.method == 'POST':
     #     # check if the post request has the file part
     #     if 'file' not in request.files:
@@ -279,7 +321,7 @@ def click_show_h():
 
 #############################################################################################################################################
 
-@app.route('/plot')
+@app.route('/plot',methods=['GET','POST'])
 def plot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
 
@@ -355,7 +397,7 @@ def replot():
 
 ##########################################################################################################################################################
 
-@app.route('/plotshow')
+@app.route('/plotshow',methods=['GET','POST'])
 def plotshow():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_png = 'FL_ASF1.png'
@@ -366,14 +408,14 @@ def plotshow():
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
-@app.route('/downloadcsv')
+@app.route('/downloadcsv',methods=['GET','POST'])
 def downloadcsv():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_csv = 'For_plot.csv'
     return send_file(os.path.join(app.config['USER_FOLDER'],file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
 
 
-@app.route('/downloadeps')
+@app.route('/downloadeps',methods=['GET','POST'])
 def downloadeps():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_eps = 'FL_ASF1.eps'
