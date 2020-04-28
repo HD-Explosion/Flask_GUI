@@ -222,11 +222,9 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
             pv = np.vstack((pv, p))
             print(t.mean())
     [rows, cols] = t.shape
-    print(rows, cols)
     if f:
         for i in range(rows):
             for j in range(cols):
-                print(pv[i,j])
                 if pv[i, j] >= pp:
                     t[i, j] = 0
 

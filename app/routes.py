@@ -250,44 +250,44 @@ def click_show_h():
             state1 = request.form.get("state1")
             state2 = request.form.get("state2")
             time_point = request.form.get("time_point")
-
             max = float(request.form.get("max"))
             max_step= int(request.form.get("max_step"))
-            min = float(request.form.get("min"))
-            min_step = int(request.form.get("min_step"))
             negative = request.form.get("negative")
             color1 = request.form.get("color1")
             color2 = request.form.get("color2")
-            if negative:
-                color = color2
-            else:
-                color = color1
             significance = float(request.form.get("significance"))
             sig_filter = request.form.get("sig_filter")
+
+            if negative:
+                min = float(request.form.get("min"))
+                min_step = int(request.form.get("min_step"))
+                color = color2
+                session["COLOR"] = 2
+                session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
+                    time_point, negative, color, significance, sig_filter]
+            else:
+                color = color1
+                session["COLOR"] = 1
+                session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
+                    time_point, negative, color, significance, sig_filter]
+
+            
         except:
             flash("Missing or invalid parameter input")
             with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
                 names = pickle.load(f)
-
             Data1 = names[-1]
             Time_Points = names[-2]
             filename = session['FILENAME']
+
             return render_template('ui.html',lists = names,files=filename)
 
-        #name_li = request.form.getlist("name")
-
-        # global PassedParameters
-        # PassedParameters = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
-        #                     time_point, negative, color, significance, sig_filter]
-
-        session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
-                            time_point, negative, color, significance, sig_filter]
 
 
-        #print(session['PASSEDPARAMETERS'])
 
+        print(session['PASSEDPARAMETERS'])
         print(color)
-
+        print(negative)
     return redirect('/plot')
 
 
@@ -325,7 +325,7 @@ def click_show_h():
 @app.route('/plot',methods=['GET','POST'])
 def plot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
-
+    # read parameters from saved file
     with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         names = pickle.load(f)
     Data1 = names[-1]
@@ -356,12 +356,11 @@ def plot():
 
         # ' = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
         #                     time_point, negative, color, significance, sig_filter]
-    print(session['PASSEDPARAMETERS'])
 
-    #try:
+#try:
     K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0], 
     session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points, 
-    # f = session['PASSEDPARAMETERS'][-1], p = session['PASSEDPARAMETERS'][-2],
+    f = session['PASSEDPARAMETERS'][-1], pp = session['PASSEDPARAMETERS'][-2],
     rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4], 
     color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5], 
     step2 = session['PASSEDPARAMETERS'][6], file_name='FL_ASF1')
@@ -384,6 +383,9 @@ def plot():
     #     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
 
     return redirect('/replot')
+
+
+
 
 
 
