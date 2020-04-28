@@ -437,14 +437,22 @@ def plotshow():
 def downloadcsv():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_csv = 'For_plot.csv'
-    return send_file(os.path.join(app.config['USER_FOLDER'],file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_csv)):
+        return send_file(os.path.join(app.config['USER_FOLDER'],file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    else:
+        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
 @app.route('/downloadeps',methods=['GET','POST'])
 def downloadeps():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
     file_eps = 'FL_ASF1.eps'
-    return send_file(os.path.join(app.config['USER_FOLDER'],file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_eps)):
+        return send_file(os.path.join(app.config['USER_FOLDER'],file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+    else:
+        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
 
