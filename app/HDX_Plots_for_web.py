@@ -234,7 +234,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
 
     # plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     # plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
-    fig, ax = plt.subplots(figsize=(len(sec)*0.0612318+1.3243, 5.5))
+    fig, ax = plt.subplots(figsize=(len(sec)*0.0612318+1.3243, 3))
     clmap = [(1.0, 1.0, 1.0)]
     if color == 'r':
         for c in range(step - 1):
@@ -329,13 +329,15 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     cmap = mpl.colors.ListedColormap(clmap)
     if rotation == 'H' or rotation == 'h':
         im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
-        cbar = ax.figure.colorbar(im, ax=ax)
-        cbar.ax.set_ylabel(protien + '_' + State1 + '-' + State2, rotation=-90, va="bottom")
+        cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', fraction=.1, pad=0.4)
+        cbar.ax.set_xlabel(protien + '_' + State1 + '-' + State2, labelpad=15, va="bottom")
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
         ax.set_xticks(np.arange(len(sec)))
         ax.set_yticks(np.arange(len(Time_points)))
         ax.set_xticklabels(sec)
         ax.set_yticklabels(Time_points)
+        ax.set_ylabel('Time')
+        ax.set_xlabel('Piptide Number')
         ax.set_facecolor('white')
         ax.tick_params(axis='x', labelsize=3.5, pad=0.9, length=3.2)
         ax.tick_params(axis='y', labelsize=10)
