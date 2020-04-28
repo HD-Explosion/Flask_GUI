@@ -381,11 +381,11 @@
 
 
             <ul class="div3">
-                <li>
+                <!-- <li>
                     Time points&nbsp&nbsp<select  name="time_point">
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
-                </li>
+                </li> -->
 
                 <li>
                     State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
@@ -398,10 +398,20 @@
                 </select>
                 </li>
 
-                <li>
+ 
+
+
+                <li id="color" >
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
-                    <option value ="pattern1">Pattern1</option>
-                    <option value ="pattern2">Pattern2</option>
+                    <option value ="rb">rb</option>
+                    <option  value ="br">br</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="ob">ob</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="bp">bp</option>
+                    <option  value ="bg">bg</option>
+                </select></li>
+          
 
                 </select></li>
 
@@ -431,13 +441,13 @@
 
                  <li>Max:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
 
-                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="max_step"> </li>
 
                 <li><strong>Negative</strong>&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
 
                 <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="9999" name="min" disabled></li>
 
-                <li>Step2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+                <li>Step2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="0.01" min="0" max="9999" name="min_step" disabled> </li>
 
 
                 <li><button class="button" type = "submit" >Show</button></li>
