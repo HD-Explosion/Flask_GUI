@@ -18,6 +18,17 @@
 
 <title>HD eXplosion</title>
     <style>
+
+    .error {
+    color: rgb(218, 18, 18);
+    font-size: 20px
+        }
+
+    .uploadnotice {
+    color: rgb(14, 17, 218);
+    font-size: 18px
+        }
+
     html,body {
         width:100%;
         height:100%
@@ -257,6 +268,7 @@
 
 <body>
 
+
     <div style="margin-left: 50px">
         <div id="div1">
             <h1 style="color: black; ">HD-eXplosion</h1>
@@ -307,12 +319,17 @@
         </div>
 
          <div class="div3">
-                {% with messages = get_flashed_messages() %}
+                <!-- {% with messages = get_flashed_messages() %}
                     {% if messages %}
                         <p class="flashes">{{ messages }}</p>
 
                     {% endif %}
-                {% endwith %}
+                {% endwith %} -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                  <div class="{{ category }}">{{ message }}</div>
+                {% endfor %}
+              {% endwith %}
         </div>
 
     
@@ -381,11 +398,11 @@
 
 
             <ul class="div3">
-                <!-- <li>
+                <li>
                     Time points&nbsp&nbsp<select  name="time_point">
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
-                </li> -->
+                </li>
 
                 <li>
                     State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
