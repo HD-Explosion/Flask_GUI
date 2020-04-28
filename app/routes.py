@@ -168,33 +168,6 @@ def upload_single_file():
 
         return render_template('ui.html', lists=names, files=filename)
 
-    #def upload_file():                                                # single-file allowed version
-    # if request.method == 'POST':
-    #     # check if the post request has the file part
-    #     if 'file' not in request.files:
-    #         flash('No file part')
-    #         return redirect(request.url)
-    #     file = request.files['file']
-    #     if file.filename == '':
-    #         flash('No selected file')
-    #         return redirect(request.url)
-    #     if file and allowed_file(file.filename):
-    #         global filename
-    #         filename = secure_filename(file.filename)
-    #         print(filename)
-    #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    #
-    #     flash(filename + ' successfully uploaded')
-    #     global names
-    #     names = reader.fileread(filename)
-    #     # print(names)
-    #     global Data1
-    #     Data1 = names[-1]
-    #     global Time_Points
-    #     Time_Points = names[-2]
-    #     # print(Data1)
-    #
-    #     return render_template('ui.html', lists = names, files=filename, ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
 
 
 # @app.route('/upload_file_merge', methods=['POST'])
@@ -251,7 +224,7 @@ def click_show_h():
             state2 = request.form.get("state2")
             time_point = request.form.get("time_point")
             max = float(request.form.get("max"))
-            max_step= float(request.form.get("max_step"))
+            max_step= int(request.form.get("max_step"))
             negative = request.form.get("negative")
             color1 = request.form.get("color1")
             color2 = request.form.get("color2")
@@ -260,7 +233,7 @@ def click_show_h():
 
             if negative:
                 min = float(request.form.get("min"))
-                min_step = float(request.form.get("min_step"))
+                min_step = int(request.form.get("min_step"))
                 color = color2
                 session["COLOR"] = 2
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
@@ -481,12 +454,6 @@ def allowed_file(filename):
 
 
 ###############################################################################################################################################################
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-
-
 
 
 # @app.route('/', methods=['POST'])
