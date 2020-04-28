@@ -148,7 +148,7 @@ def upload_single_file():
             session['FILENAME'] = filename
             file.save(os.path.join(app.config['USER_FOLDER'], filename))
             ipaddress = "IP: " + request.remote_addr
-            flash(filename + ' successfully uploaded from: ' + ipaddress)
+            flash(filename + ' successfully uploaded from: ' + ipaddress,'uploadnotice')
         else:
             flash('Allowed file types are csv')
             return redirect(request.url)
@@ -246,7 +246,7 @@ def click_show_h():
 
             
         except:
-            flash("Missing or invalid parameter input")
+            flash("WARNING: Missing parameter or invalid input!!!",'error')
             with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
                 names = pickle.load(f)
             Data1 = names[-1]
