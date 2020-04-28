@@ -14,7 +14,9 @@ from matplotlib.ticker import ScalarFormatter
 import os
 from pathlib import Path
 
-
+from matplotlib import rcParams
+rcParams['font.family'] = 'sans-serif'
+rcParams['font.sans-serif'] = ['Arial']
 
 
 def wood(df, State1, State2, Time_point):
@@ -328,7 +330,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     if rotation == 'H' or rotation == 'h':
         im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
         cbar = ax.figure.colorbar(im, ax=ax)
-        cbar.ax.set_ylabel('Dif', rotation=-90, va="bottom")
+        cbar.ax.set_ylabel(protien + '_' + State1 + '-' + State2, rotation=-90, va="bottom")
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
         ax.set_xticks(np.arange(len(sec)))
         ax.set_yticks(np.arange(len(Time_points)))
@@ -338,7 +340,6 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         ax.tick_params(axis='x', labelsize=3.5, pad=0.9, length=3.2)
         ax.tick_params(axis='y', labelsize=10)
         plt.setp(ax.get_xticklabels(), rotation=90, ha="right", va='center', rotation_mode="anchor")
-        plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
         fig.tight_layout()
         plt.savefig(os.path.join(UserFolder,file_name + ".eps"), format='eps', dpi=100)
         plt.savefig(os.path.join(UserFolder,file_name + ".png"), format='png', dpi=500)
@@ -363,4 +364,3 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         plt.savefig(os.path.join(UserFolder,file_name + ".png"), format='png', dpi=500)
         #plt.show()
     return k
-
