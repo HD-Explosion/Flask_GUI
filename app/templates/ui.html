@@ -18,16 +18,37 @@
 
 <title>HD eXplosion</title>
     <style>
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+	padding: 0;
+	margin: 0;
+	}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	}
+fieldset,img {
+	border: 0;
+	}
+address,caption,cite,code,dfn,em,th,var {
+	font-weight: normal;
+	font-style: normal;
+	}
+ol,ul {
+	list-style: none;
+	}
+caption,th {
+	text-align: left;
+	}
+{#h1,h2,h3,h4,h5,h6 {#}
+{#	font-weight: normal;#}
+{#	font-size: 100%;#}
+{#	}#}
+q:before,q:after {
+	content:'';
+	}
+abbr,acronym { border: 0;
+	}
 
-    .error {
-    color: rgb(218, 18, 18);
-    font-size: 20px
-        }
-
-    .uploadnotice {
-    color: rgb(14, 17, 218);
-    font-size: 18px
-        }
 
     html,body {
         width:100%;
@@ -81,6 +102,16 @@
          display: inline-block;
      }
 
+      .error {
+        color: rgb(218, 18, 18);
+        font-size: 20px
+            }
+
+    .uploadnotice {
+        color: rgb(14, 17, 218);
+        font-size: 18px
+            }
+
      .text-oneLine{
          display:block;
          word-break:keep-all;
@@ -114,7 +145,7 @@
          height: 550px;
          line-height: 550px;
          text-align: center;
-         background-color: lightgrey;
+         background-color: white;
          margin: 30px auto;
          font-size: large;
 
@@ -261,6 +292,10 @@
             el.requestFullscreen();
         }
 
+        function sub_file() {
+                            var message = document.getElementById("message").innerHTML;
+                            alert( message );
+                        }
     </script>
 
 
@@ -276,7 +311,7 @@
         <div id="div2" style="width: 200px">
 
         </div>
-        <div id="div3" style="display: inline-list-item">
+        <div id="div3" style="float: right; margin-right: 50px; display: inline-list-item">
             <button class="button" type = "button"  >Instructions</button>
         </div>
     </div>
@@ -301,7 +336,7 @@
                 <div id="c1">
                     <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
                      <label for="upload_s"> Please select ONE file to upload</label></p>
-                    <input type="submit" value="Submit">
+                    <input type="submit" value="Submit" onclick="sub_file()">
                     <h6>{{ ipaddr }}</h6>
                     <a href="help">Click here for a demo file</a>
                 </div>
@@ -311,7 +346,7 @@
                 <div id="c2" style="display: none">
                     <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
                     <label for="upload_m"> You may select up to 5 files to upload</label></p>
-                    <input type="submit" value="Merge">
+                    <input type="submit" value="Merge" onclick="sub_file()"> <input type="button" value="Download Merged csv File">
                     <h6>{{ ipaddr }}</h6>
                     <a href="help">Click here for a demo file</a>
                 </div>
@@ -327,7 +362,8 @@
                 {% endwith %} -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
-                  <div class="{{ category }}">{{ message }}</div>
+                  <div id="message" class="{{ category }}" >{{ message }}</div>
+
                 {% endfor %}
               {% endwith %}
         </div>
@@ -353,19 +389,19 @@
           <div class="div2" style="width: 30px">
 
         </div>
-         <div class="div3">
-            <h6><strong>Plot Type</strong></h6>
-         </div>
+
         <form action="" method="post">
             <div class="div1">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
-                <label for="Heatmap">Heatmap </label><br>
-             </div>
-            <div class="div2" style="width: 50px">
+            <h6><strong>Plot Type</strong></h6>
             </div>
+            <div class="div2">
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
+                <label for="Heatmap">Chiclet </label><br>
+             </div>
+
             <div class="div3">
                 <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
-                <label for="Volcano Plot">Volcano Plot</label><br>
+                <label for="Volcano Plot">Volcano </label><br>
             </div>
         </form>
 
@@ -385,24 +421,24 @@
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
+                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="Y_scale_r"></li>
 
-                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="X_scale"></li>
-
-                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="Y_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="Y_scale_r"></li>
+                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="0" max="9999" name="Y_scale"></li>
 
                 <li>Major interval&nbsp&nbsp<input type="number" placeholder="0.01" step="0.01" min="0" max="9999" name="interval"></li>
 
-                <li><button class="button" type = "submit" >Show</button></li>
+                <li>
+                    Time points&nbsp&nbsp<select  name="time_point">
+                                            <option>All</option>
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
 
             </ul>
 
 
             <ul class="div3">
-                <li>
-                    Time points&nbsp&nbsp<select  name="time_point">
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
+                
 
                 <li>
                     State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
@@ -435,6 +471,8 @@
                 <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
 
                 <li>Min-difference(Da)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+            
+                <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
@@ -443,31 +481,61 @@
       
 
 	<form action="/click_show_h" method = "post">
-    <div id="d2" >
+    <div id="d2" style="display: none">
              <ul class="div1" >
-                <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+
+                 <li><strong>Protein</strong>
+				 </li>
+
+                 <li>
+                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
 
                  </li>
 
-                 <li><strong>Range:</strong>
+                <li><strong>Comparison</strong>
 				 </li>
 
-                 <li>Max:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+                <li>
+                    State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
 
-                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+                <li>
+                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
 
-                <li><strong>Negative</strong>&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+                 <li id="color1" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                    <option  value ="r">r</option>
+                    <option  value ="g">g</option>
+                    <option  value ="b">b</option>
+                    <option  value ="o">o</option>
+                    <option  value ="y">y</option>
+                    <option  value ="g">g</option>
 
-                <li>Min:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="9999" name="min" disabled></li>
+                </select></li>
 
-                <li>Step2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+                 <li id="color2" style="display: none" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2">
 
+                    <option value ="rb">rb</option>
+                    <option  value ="br">br</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="ob">ob</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="bp">bp</option>
+                    <option  value ="bg">bg</option>
 
-                <li><button class="button" type = "submit" >Show</button></li>
+                </select></li>
+
+                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+
+                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
 
             </ul>
 
@@ -480,49 +548,20 @@
                 </li>
             -->
 
-                <li>
-                    State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
-                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-					</select></li>
+                 <li><strong>Range</strong>
+				 </li>
 
-                <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
+                 <li>Max&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
 
-                <li id="color1" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
-                    <option  value ="r">r</option>
-                    <option  value ="g">g</option>
-                    <option  value ="b">b</option>
+                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
 
-                    <option  value ="o">o</option>
-                    <option  value ="y">y</option>
+                <li>Blow 0&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
 
-                    <option  value ="g">g</option>
+                <li>Min&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
 
+                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
 
-                </select></li>
-
-                 <li id="color2" style="display: none" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2">
-
-                    <option value ="rb">rb</option>
-                    <option  value ="br">br</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="ob">ob</option>
-
-                    <option  value ="gr">gr</option>
-                    <option  value ="bp">bp</option>
-
-                    <option  value ="bg">bg</option>
-
-                </select></li>
-
-                <li>Significance Filter&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
-
-                <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
