@@ -251,12 +251,62 @@ def click_show_h():
             state2 = request.form.get("state2")
             time_point = request.form.get("time_point")
             max = float(request.form.get("max"))
-            max_step= int(request.form.get("max_step"))
+            max_step= float(request.form.get("max_step"))
             negative = request.form.get("negative")
             color1 = request.form.get("color1")
             color2 = request.form.get("color2")
             significance = float(request.form.get("significance"))
             sig_filter = request.form.get("sig_filter")
+
+            if negative:
+                min = float(request.form.get("min"))
+                min_step = float(request.form.get("min_step"))
+                color = color2
+                session["COLOR"] = 2
+                session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
+                    time_point, negative, color, significance, sig_filter]
+            else:
+                color = color1
+                session["COLOR"] = 1
+                session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
+                    time_point, negative, color, significance, sig_filter]
+
+            
+        except:
+            flash("Missing or invalid parameter input")
+            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                names = pickle.load(f)
+            Data1 = names[-1]
+            Time_Points = names[-2]
+            filename = session['FILENAME']
+
+            return render_template('ui.html',lists = names,files=filename)
+
+
+
+
+        print(session['PASSEDPARAMETERS'])
+        print(color)
+        print(negative)
+    return redirect('/plot')
+
+
+@app.route('/click_show_v',methods=['GET', 'POST'])
+def click_show_v():
+    if request.method == 'POST':
+        try:
+            protein = request.form.get("protein")
+            state1 = request.form.get("state1")
+            state2 = request.form.get("state2")
+            time_point = request.form.get("time_point")
+            size = int(request.form.get("size"))
+            X_scale = int(request.form.get("X_scale"))
+            Y_scale_l = int(request.form.get("Y_scale_l"))
+            Y_scale_r = int(request.form.get("Y_scale_r"))
+            interval = int(request.form.get("interval"))
+            color = request.form.get("color")
+            significance = request.form.get("significance")
+            min_dif = request.form.get("min_dif")
 
             if negative:
                 min = float(request.form.get("min"))
@@ -289,34 +339,6 @@ def click_show_h():
         print(color)
         print(negative)
     return redirect('/plot')
-
-
-# @app.route('/click_show_v',methods=['GET', 'POST'])
-# def click_show_v():
-#     if request.method == 'POST':
-#         protein = request.form.get("protein")
-#         state1 = request.form.get("state1")
-#         state2 = request.form.get("state2")
-#         time_point = request.form.get("time_point")
-#         size = int(request.form.get("size"))
-#         X_scale = int(request.form.get("X_scale"))
-#         Y_scale_l = int(request.form.get("Y_scale_l"))
-#         Y_scale_r = int(request.form.get("Y_scale_r"))
-#         interval = int(request.form.get("interval"))
-#         color = request.form.get("color")
-#         significance = request.form.get("significance")
-#         min_dif = request.form.get("min_dif")
-
-#         #name_li = request.form.getlist("name")
-
-
-#         ' = [str(protein), str(state1), str(state2), size, X_scale, Y_scale_l, Y_scale_r,
-#                             time_point, interval, color, significance, min_dif]
-#         print(')
-#         #print(protein, state1,size,X_scale,Y_scale_l,Y_scale_r)
-#         #print(time_point,interval,color,significance,min_dif)
-
-#     return redirect('/plot')
 
 
 

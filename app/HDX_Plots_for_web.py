@@ -117,7 +117,7 @@ def uptakeplot(df, proteins, Time_points1=[], States=[], cols=1, rows=1, file_na
     return text
 
 
-def v(df, times, proteins, state1, state2, colors, filename, md=0.5, ma=0.01):
+def v(df, times, proteins, state1, state2, size, colors, filename, md=0.5, ma=0.01):
     df1 = pd.DataFrame(columns=['Time point', 'Sequence', 'Difference', 'p-Value'])
     fig, ax = plt.subplots(figsize=(5, 5))
     ax.set_yscale("log")
@@ -180,14 +180,16 @@ def v(df, times, proteins, state1, state2, colors, filename, md=0.5, ma=0.01):
                 else:
                     d_out.append(di)
                     p_out.append(p[a])
-            ax.scatter(d_out, p_out, s=6, zorder=(i+1)*5, color='None', edgecolor='0.8')
-            ax.scatter(d_in_n, p_in_n, s=6, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
-            ax.scatter(d_in_p, p_in_p, s=6, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
+            ax.scatter(d_out, p_out, s=size, zorder=(i+1)*5, color='None', edgecolor='0.8')
+            ax.scatter(d_in_n, p_in_n, s=size, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
+            ax.scatter(d_in_p, p_in_p, s=size, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
     plt.savefig(filename, format='eps', dpi=1000)
     plt.show()
     df1.to_csv("SSRP1.csv", index=False, sep=',')
     return 0
+
+
 
 
 
