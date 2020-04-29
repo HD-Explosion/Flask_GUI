@@ -395,7 +395,7 @@ abbr,acronym { border: 0;
             <h6><strong>Plot Type</strong></h6>
             </div>
             <div class="div2">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)">
                 <label for="Heatmap">Chiclet </label><br>
              </div>
 
@@ -429,7 +429,7 @@ abbr,acronym { border: 0;
 
                 <li>
                     Time points&nbsp&nbsp<select  name="time_point">
-                                            <option>All</option>
+                                            <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -456,13 +456,9 @@ abbr,acronym { border: 0;
 
                 <li id="color" >
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
-                    <option value ="rb">rb</option>
-                    <option  value ="br">br</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="ob">ob</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="bp">bp</option>
-                    <option  value ="bg">bg</option>
+                    <option value = 'pattern1' >pattern1</option>
+                    <option  value ='pattern2'>pattern2</option>
+
                 </select></li>
           
 
