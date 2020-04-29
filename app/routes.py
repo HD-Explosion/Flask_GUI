@@ -99,19 +99,22 @@ def upload_multi_files():
             flash('No file part')
             return redirect(request.url)
         files = request.files.getlist('files[]')
-        count = 2
+        count = 5
+        filenames = []
         for file in files:
             if count == 0:
                 break
             if file and allowed_file(file.filename):
-                #global filename
                 filename = secure_filename(file.filename)
-                session['FILENAME'] = filename
-                #print(filename)
+                print(filename)
                 count -= 1
                 file.save(os.path.join(app.config['USER_FOLDER'],filename))
+                filenames.append(filename)
+        session['FILENAME'] = filenames
+
         ipaddress = "IP: " + request.remote_addr
-        flash(filename + ' successfully uploaded from: ' + ipaddress)
+        for item in filenames:
+            flash(item + '  successfully uploaded from: ' + ipaddress)
 
         if (request.remote_addr in ipdict):
             ipdict[request.remote_addr] += 1
@@ -123,15 +126,17 @@ def upload_multi_files():
 
 
 
-        names = reader.fileread(filename)
+        names = reader.filesread(filenames[0],filenames[1])
+        print(names)
         # Check the file formart if thr return from reader is 0, wrong formart
         if names == 0:
-            return render_template('ui.html',lists = names,files=filename)
+            return render_template('ui.html',lists = names,files=filenames)
+
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
 
-        return render_template('ui.html',lists = names,files=filename)
+        return render_template('ui.html',lists = names,files=filenames)
 
 @app.route('/upload_single_file', methods=['GET','POST'])
 def upload_single_file():
@@ -166,6 +171,7 @@ def upload_single_file():
 
 
         names = reader.fileread(filename)
+        print(names)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
