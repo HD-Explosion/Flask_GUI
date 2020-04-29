@@ -171,7 +171,11 @@ def upload_single_file():
 
 
         names = reader.fileread(filename)
-        print(names)
+
+        if names == 0:
+            flash('Wrong file format')
+            return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
         return render_template('ui.html', lists=names, files=filename)
@@ -294,17 +298,17 @@ def click_show_v():
             color = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
         elif color == "pattern2":
             color = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(200/255, 200/255, 100/255),(150/255, 160/255, 80/255),(50/255, 50/255, 50/255)]
-            
+
         significance = float(request.form.get("significance"))
         min_dif = float(request.form.get("min_dif"))
 
 
-        session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size, 
+        session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
         X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
         print(session["PASSEDPARAMETERS"])
         session["USERPLOTSTATUS"] = "volcanoplot"
 
-            
+
         #except:
         # flash("Missing or invalid parameter input","error")
         # app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
@@ -332,7 +336,7 @@ def plot():
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
 
     if session["USERPLOTSTATUS"] == "heatmap":
-        
+
         # protein = 'h2B'
         # m = []
         # for time in Time_points1:
@@ -358,11 +362,11 @@ def plot():
             #                     time_point, negative, color, significance, sig_filter]
 
     #try:
-        K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0], 
-        session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points, 
+        K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
+        session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
         f = session['PASSEDPARAMETERS'][-1], pp = session['PASSEDPARAMETERS'][-2],
-        rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4], 
-        color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5], 
+        rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
+        color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
         step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot')
         #except:
         #    print("Function not impelemented properly")
@@ -385,7 +389,7 @@ def plot():
         return redirect('/replot')
 
     else:
-        #session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, 
+        #session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point,
         # size, X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
         #colors = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
 
