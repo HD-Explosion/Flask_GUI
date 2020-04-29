@@ -65,7 +65,7 @@ def ui():
         if session['USERID'] is not None:
             print('at / ')
             print("session detected.")
-            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
             print("Folder path and name are set..")
             shutil.rmtree(app.config['USER_FOLDER'])
             print("Old folder deleted...")
@@ -75,7 +75,7 @@ def ui():
     except Exception:
         print("No session exist, create a new session")
         session['USERID'] = str(uuid.uuid4())
-        app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+        app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
         if not os.path.exists(app.config['USER_FOLDER']):
             os.mkdir(app.config['USER_FOLDER'])
 
@@ -91,7 +91,7 @@ def ui():
 ########################################################################################################################################
 @app.route('/upload_multi_files', methods=['GET','POST'])
 def upload_multi_files():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
 
     if request.method == 'POST':
         # check if the post request has the file part
@@ -135,7 +135,7 @@ def upload_multi_files():
 
 @app.route('/upload_single_file', methods=['GET','POST'])
 def upload_single_file():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static', session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
 
     if request.method == 'POST':
         # check if the post request has the file part
@@ -251,6 +251,8 @@ def click_show_h():
 
         except:
             flash("WARNING: Missing parameter or invalid input!!!",'error')
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+
             with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
                 names = pickle.load(f)
             Data1 = names[-1]
@@ -263,8 +265,7 @@ def click_show_h():
 
 
         print(session['PASSEDPARAMETERS'])
-        print(color)
-        print(negative)
+
     return redirect('/plot')
 
 
@@ -276,12 +277,19 @@ def click_show_v():
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
+        if time_point == "ALL":
+            time_point = ['10', '100', '1000', '10000', '100000']
         size = int(request.form.get("size"))
         X_scale_l = float(request.form.get("X_scale_l"))
         X_scale_r = float(request.form.get("X_scale_r"))
         Y_scale = int(request.form.get("Y_scale"))
         interval = float(request.form.get("interval"))
         color = request.form.get("color")
+        if color == "pattern1":
+            color = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
+        elif color == "pattern2":
+            color = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(200/255, 200/255, 100/255),(150/255, 160/255, 80/255),(50/255, 50/255, 50/255)]
+            
         significance = float(request.form.get("significance"))
         min_dif = float(request.form.get("min_dif"))
 
@@ -294,6 +302,8 @@ def click_show_v():
             
         #except:
         # flash("Missing or invalid parameter input","error")
+        # app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+
         # with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         #     names = pickle.load(f)
         # Data1 = names[-1]
@@ -309,7 +319,7 @@ def click_show_v():
 
 @app.route('/plot',methods=['GET','POST'])
 def plot():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         names = pickle.load(f)
     Data1 = names[-1]
@@ -372,10 +382,10 @@ def plot():
     else:
         #session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, 
         # size, X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
-        colors = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
+        #colors = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
 
         a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, Time_Points, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
-         session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], colors, file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
+         session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
          ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
          xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7])
 
@@ -391,6 +401,7 @@ def plot():
 
 @app.route('/replot',methods=['GET','POST'])
 def replot():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         names = pickle.load(f)
     return render_template('ui.html',lists = names,files=session['FILENAME'])
@@ -399,7 +410,7 @@ def replot():
 
 @app.route('/plotshow',methods=['GET','POST'])
 def plotshow():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     file_png = 'Plot.png'
 
     if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_png)):
@@ -410,7 +421,7 @@ def plotshow():
 
 @app.route('/downloadcsv',methods=['GET','POST'])
 def downloadcsv():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     file_csv = 'For_plot.csv'
 
     if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_csv)):
@@ -421,7 +432,7 @@ def downloadcsv():
 
 @app.route('/downloadeps',methods=['GET','POST'])
 def downloadeps():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     file_eps = 'Plot.eps'
 
     if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_eps)):
