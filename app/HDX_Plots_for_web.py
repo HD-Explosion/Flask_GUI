@@ -119,17 +119,17 @@ def uptakeplot(df, proteins, Time_points1=[], States=[], cols=1, rows=1, file_na
     return text
 
 
-def v(df, times, proteins, state1, state2, size, colors, filename, md=0.5, ma=0.01):
+def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2, ymin=5):
     df1 = pd.DataFrame(columns=['Time point', 'Sequence', 'Difference', 'p-Value'])
     fig, ax = plt.subplots(figsize=(5, 5))
     ax.set_yscale("log")
-    ax.set_xlim(-1, 2)
-    ax.set_ylim(0.5, 0.000001)
-    ax.xaxis.set_ticks(list(np.arange(-1, 2, 0.5)), minor=True)
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(0.5, 10** ymin)
+    ax.xaxis.set_ticks(list(np.arange(xmin, xmax, msi)), minor=True)
     formatter = ScalarFormatter()
     ax.yaxis.set_major_formatter(formatter)
     y = []
-    for i in range(1, 6):
+    for i in range(1, (-ymin)):
         y.append(1/10**i)
     print(y)
     ax.set_yticks(y)
@@ -139,7 +139,8 @@ def v(df, times, proteins, state1, state2, size, colors, filename, md=0.5, ma=0.
     verts = [(11, ma), (md, ma), (md, 0.000000001), (11, 0.000000001)]
     poly = Polygon(verts, fill=False, edgecolor='0', linestyle='--', lw='2', zorder=0)
     ax.add_patch(poly)
-    for protein in proteins:
+    for protein in [proteins]:
+        print(protein)
         sec = list(df[protein])
         while np.core.numeric.NaN in sec:
             sec.remove(np.core.numeric.NaN)
@@ -186,9 +187,10 @@ def v(df, times, proteins, state1, state2, size, colors, filename, md=0.5, ma=0.
             ax.scatter(d_in_n, p_in_n, s=size, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             ax.scatter(d_in_p, p_in_p, s=size, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
-    plt.savefig(filename, format='eps', dpi=1000)
-    plt.show()
-    df1.to_csv("SSRP1.csv", index=False, sep=',')
+    plt.savefig(os.path.join(UserFolder,file_name + ".eps"), format='eps', dpi=100)
+    plt.savefig(os.path.join(UserFolder,file_name + ".png"), format='png', dpi=500)
+    #plt.show()
+    #df1.to_csv("SSRP1.csv", index=False, sep=',')
     return 0
 
 
