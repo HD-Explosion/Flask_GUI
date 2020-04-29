@@ -134,9 +134,9 @@ def upload_multi_files():
 
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
+        session["USERFILESTATUS"] = "multiple"
 
-
-        return render_template('ui.html',lists = names,files=filenames)
+        return render_template('ui.html',lists = names,files=filenames,filestatus = session["USERFILESTATUS"])
 
 @app.route('/upload_single_file', methods=['GET','POST'])
 def upload_single_file():
@@ -174,8 +174,8 @@ def upload_single_file():
         print(names)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
-
-        return render_template('ui.html', lists=names, files=filename)
+        session["USERFILESTATUS"] = "single"
+        return render_template('ui.html', lists=names, files=filename, filestatus = session["USERFILESTATUS"])
 
 
 
@@ -253,7 +253,7 @@ def click_show_h():
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
                     time_point, negative, color, significance, sig_filter]
 
-            session["USERSTATUS"] = "heatmap"
+            session["USERPLOTSTATUS"] = "heatmap"
 
         except:
             flash("WARNING: Missing parameter or invalid input!!!",'error')
@@ -264,7 +264,7 @@ def click_show_h():
             Data1 = names[-1]
             Time_Points = names[-2]
             filename = session['FILENAME']
-            session["USERSTATUS"] = "heatmap"
+            session["USERPLOTSTATUS"] = "heatmap"
             return render_template('ui.html',lists = names,files=filename)
 
 
@@ -303,7 +303,7 @@ def click_show_v():
         session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size, 
         X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
         print(session["PASSEDPARAMETERS"])
-        session["USERSTATUS"] = "volcanoplot"
+        session["USERPLOTSTATUS"] = "volcanoplot"
 
             
         #except:
@@ -315,7 +315,7 @@ def click_show_v():
         # Data1 = names[-1]
         # Time_Points = names[-2]
         # filename = session['FILENAME']
-        # session["USERSTATUS"] = "volcanoplot"
+        # session["USERPLOTSTATUS"] = "volcanoplot"
         # return render_template('ui.html',lists = names,files=filename)
 
     return redirect('/plot')
@@ -332,7 +332,7 @@ def plot():
     Time_Points = names[-2]
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
 
-    if session["USERSTATUS"] == "heatmap":
+    if session["USERPLOTSTATUS"] == "heatmap":
         
         # protein = 'h2B'
         # m = []
