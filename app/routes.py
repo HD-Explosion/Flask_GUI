@@ -28,7 +28,7 @@ import pickle
 
 
 global ipdict
-ipdict = {} 
+ipdict = {}
 scheduler = BackgroundScheduler()
 
 ipfilename = "iplist.csv"
@@ -71,7 +71,7 @@ def ui():
             print("Old folder deleted...")
             os.mkdir(app.config['USER_FOLDER'])
             print("new folder created....")
-        
+
     except Exception:
         print("No session exist, create a new session")
         session['USERID'] = str(uuid.uuid4())
@@ -81,7 +81,7 @@ def ui():
 
 
 
-                
+
     # resp = make_response(render_template('ui.html',lists=[['protein'],['state'],['time point']]))
     # resp.set_cookie('userID',userid)
 
@@ -113,22 +113,25 @@ def upload_multi_files():
         ipaddress = "IP: " + request.remote_addr
         flash(filename + ' successfully uploaded from: ' + ipaddress)
 
-        if (request.remote_addr in ipdict): 
+        if (request.remote_addr in ipdict):
             ipdict[request.remote_addr] += 1
-        else: 
+        else:
             ipdict[request.remote_addr] = 1
-  
-        for key, value in ipdict.items(): 
-            print ("% s : % d"%(key, value))  
+
+        for key, value in ipdict.items():
+            print ("% s : % d"%(key, value))
 
 
 
         names = reader.fileread(filename)
+        # Check the file formart if thr return from reader is 0, wrong formart
+        if names == 0:
+            return render_template('ui.html',lists = names,files=filename)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
 
-        return render_template('ui.html',lists = names,files=filename)   
+        return render_template('ui.html',lists = names,files=filename)
 
 @app.route('/upload_single_file', methods=['GET','POST'])
 def upload_single_file():
@@ -161,7 +164,7 @@ def upload_single_file():
         for key, value in ipdict.items():
             print("% s : % d" % (key, value))
 
-        
+
         names = reader.fileread(filename)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
@@ -209,7 +212,7 @@ def upload_single_file():
 #     if os.path.exists(os.path.join(app.config['USER_FOLDER'],'Plot.png')):
 #         for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
 #             os.remove(f)
-        
+
 
 #     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
@@ -245,6 +248,7 @@ def click_show_h():
                     time_point, negative, color, significance, sig_filter]
 
             session["USERSTATUS"] = "heatmap"
+
         except:
             flash("WARNING: Missing parameter or invalid input!!!",'error')
             with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
@@ -298,12 +302,10 @@ def click_show_v():
         # session["USERSTATUS"] = "volcanoplot"
         # return render_template('ui.html',lists = names,files=filename)
 
-
     return redirect('/plot')
 
 
 
-#############################################################################################################################################
 
 @app.route('/plot',methods=['GET','POST'])
 def plot():
@@ -531,6 +533,3 @@ def allowed_file(filename):
 #     file_object.seek(0)
 
 #     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
-
-
-

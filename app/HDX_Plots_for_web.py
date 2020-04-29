@@ -203,10 +203,14 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     while np.core.numeric.NaN in sec:
         sec.remove(np.core.numeric.NaN)
     for time in Time_points:
-        t1 = list(df[protien + '_' + State1 + '_' + time])[0:len(sec)]
-        t2 = list(df[protien + '_' + State2 + '_' + time])[0:len(sec)]
-        s1 = list(df[protien + '_' + State1 + '_' + time + '_SD'])[0:len(sec)]
-        s2 = list(df[protien + '_' + State2 + '_' + time + '_SD'])[0:len(sec)]
+        # Check tiem points is readable
+        try:
+            t1 = list(df[protien + '_' + State1 + '_' + time])[0:len(sec)]
+            t2 = list(df[protien + '_' + State2 + '_' + time])[0:len(sec)]
+            s1 = list(df[protien + '_' + State1 + '_' + time + '_SD'])[0:len(sec)]
+            s2 = list(df[protien + '_' + State2 + '_' + time + '_SD'])[0:len(sec)]
+        except:
+            return 0
         s1 = np.nan_to_num(s1)
         s2 = np.nan_to_num(s2)
         t1 = np.nan_to_num(t1)
