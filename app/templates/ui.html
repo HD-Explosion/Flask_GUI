@@ -321,15 +321,50 @@ abbr,acronym { border: 0;
 
     <div class="box" style="left:20px;top:100px;height:250px">
         <h4><strong>Data </strong></h4>
-
+        {% if filestatus %}
+        <span>
+            <form  method="post" enctype="multipart/form-data">
+            <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" >
+            <label for="single_file">One File</label><br>
+            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" checked>
+            <label for="multi_files">Multiple Files</label><br>
+            </form>
+        </span>
+        {% else %}
         <span>
             <form  method="post" enctype="multipart/form-data">
             <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
             <label for="single_file">One File</label><br>
-            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)">
+            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" >
             <label for="multi_files">Multiple Files</label><br>
             </form>
-        </span>
+        {% endif %}
+
+        {% if filestatus %}
+        <div class="div1">
+            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
+                <div id="c1" style="display: none">
+                    <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
+                     <label for="upload_s"> Please select ONE file to upload</label></p>
+                    <input type="submit" value="Submit" onclick="sub_file()">
+                    <h6>{{ ipaddr }}</h6>
+                    <a href="help">Click here for a demo file</a>
+                </div>
+            </form>
+        
+            
+            <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
+                <div id="c2">
+                    <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
+                    <label for="upload_m"> You may select up to 5 files to upload</label></p>
+                    <input type="submit" value="Merge" onclick="sub_file()"> <input type="button" value="Download Merged csv File">
+                    <h6>{{ ipaddr }}</h6>
+                    <a href="help">Click here for a demo file</a>
+                </div>
+            </form>
+        </div>
+
+        {% else %}
 
         <div class="div1">
             <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
@@ -341,7 +376,8 @@ abbr,acronym { border: 0;
                     <a href="help">Click here for a demo file</a>
                 </div>
             </form>
-
+        
+            
             <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
                 <div id="c2" style="display: none">
                     <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
@@ -353,6 +389,7 @@ abbr,acronym { border: 0;
             </form>
         </div>
 
+        {% endif %}
          <div class="div3">
                 <!-- {% with messages = get_flashed_messages() %}
                     {% if messages %}

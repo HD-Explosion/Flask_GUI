@@ -174,8 +174,7 @@ def upload_single_file():
         print(names)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
-        session["USERFILESTATUS"] = "single"
-        return render_template('ui.html', lists=names, files=filename, filestatus = session["USERFILESTATUS"])
+        return render_template('ui.html', lists=names, files=filename)
 
 
 
