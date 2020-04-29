@@ -124,9 +124,11 @@ def upload_multi_files():
 
 
         names = reader.fileread(filename)
-        # Check the file formart if thr return from reader is 0, wrong formart
+        print(names)
+        # Check the file format if thr return from reader is 0, wrong format
         if names == 0:
-            return render_template('ui.html',lists = names,files=filename)
+            flash('Worng filr format')
+            return render_template('ui.html',lists=[['protein'],['state'],['time point']])
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
@@ -166,6 +168,9 @@ def upload_single_file():
 
 
         names = reader.fileread(filename)
+        if names == 0:
+            flash('Wrong file format')
+            return render_template('ui.html',lists=[['protein'],['state'],['time point']])
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
