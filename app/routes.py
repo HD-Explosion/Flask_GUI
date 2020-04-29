@@ -176,8 +176,6 @@ def upload_single_file():
             flash('Wrong file format')
             return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
-        print(names)
-
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
         return render_template('ui.html', lists=names, files=filename)
