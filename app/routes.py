@@ -28,7 +28,7 @@ import pickle
 
 
 global ipdict
-ipdict = {} 
+ipdict = {}
 scheduler = BackgroundScheduler()
 
 ipfilename = "iplist.csv"
@@ -71,7 +71,7 @@ def ui():
             print("Old folder deleted...")
             os.mkdir(app.config['USER_FOLDER'])
             print("new folder created....")
-        
+
     except Exception:
         print("No session exist, create a new session")
         session['USERID'] = str(uuid.uuid4())
@@ -81,7 +81,7 @@ def ui():
 
 
 
-                
+
     # resp = make_response(render_template('ui.html',lists=[['protein'],['state'],['time point']]))
     # resp.set_cookie('userID',userid)
 
@@ -113,22 +113,25 @@ def upload_multi_files():
         ipaddress = "IP: " + request.remote_addr
         flash(filename + ' successfully uploaded from: ' + ipaddress)
 
-        if (request.remote_addr in ipdict): 
+        if (request.remote_addr in ipdict):
             ipdict[request.remote_addr] += 1
-        else: 
+        else:
             ipdict[request.remote_addr] = 1
-  
-        for key, value in ipdict.items(): 
-            print ("% s : % d"%(key, value))  
+
+        for key, value in ipdict.items():
+            print ("% s : % d"%(key, value))
 
 
 
         names = reader.fileread(filename)
+        # Check the file formart if thr return from reader is 0, wrong formart
+        if names == 0:
+            return render_template('ui.html',lists = names,files=filename)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
 
 
-        return render_template('ui.html',lists = names,files=filename)   
+        return render_template('ui.html',lists = names,files=filename)
 
 @app.route('/upload_single_file', methods=['GET','POST'])
 def upload_single_file():
@@ -161,7 +164,7 @@ def upload_single_file():
         for key, value in ipdict.items():
             print("% s : % d" % (key, value))
 
-        
+
         names = reader.fileread(filename)
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
@@ -209,7 +212,7 @@ def upload_single_file():
 #     if os.path.exists(os.path.join(app.config['USER_FOLDER'],'FL_ASF1.png')):
 #         for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
 #             os.remove(f)
-        
+
 
 #     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
@@ -244,7 +247,7 @@ def click_show_h():
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
                     time_point, negative, color, significance, sig_filter]
 
-            
+
         except:
             flash("WARNING: Missing parameter or invalid input!!!",'error')
             with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
@@ -294,7 +297,7 @@ def click_show_v():
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
                     time_point, negative, color, significance, sig_filter]
 
-            
+
         except:
             flash("Missing or invalid parameter input")
             with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
@@ -353,15 +356,19 @@ def plot():
         #                     time_point, negative, color, significance, sig_filter]
 
 #try:
-    K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0], 
-    session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points, 
+    K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
+    session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
     f = session['PASSEDPARAMETERS'][-1], pp = session['PASSEDPARAMETERS'][-2],
-    rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4], 
-    color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5], 
+    rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
+    color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
     step2 = session['PASSEDPARAMETERS'][6], file_name='FL_ASF1')
     #except:
     #    print("Function not impelemented properly")
 
+    # Make sure the the input state have right time_point
+    # If return 0, the file down have right layout
+    if K == 0:
+        return redirect('/replot')
 
 
     # K = HDX_Plots_for_web.heatmap(Data1, '[0], '[1],
@@ -531,6 +538,3 @@ def allowed_file(filename):
 #     file_object.seek(0)
 
 #     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
-
-
-

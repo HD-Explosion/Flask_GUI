@@ -98,6 +98,9 @@ def fileread(filename):
                         Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
                         Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
         else:
+            # Check the formart of the file is right
+            if item != ['Protein', 'Start', 'End', 'Sequence', 'Modification', 'Fragment', 'MaxUptake', 'MHP', 'State', 'Exposure', 'Center', 'Center SD', 'Uptake', 'Uptake SD', 'RT', 'RT SD']:
+                return 0
             n = n + 1
     csvFile.close()
     return (Proteins, States, Time_Points,Data1)
