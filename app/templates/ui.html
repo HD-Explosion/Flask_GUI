@@ -421,11 +421,11 @@ abbr,acronym { border: 0;
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
-                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="Y_scale_r"></li>
+                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></li>
 
-                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="0" max="9999" name="Y_scale"></li>
+                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
 
-                <li>Major interval&nbsp&nbsp<input type="number" placeholder="0.01" step="0.01" min="0" max="9999" name="interval"></li>
+                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval"></li>
 
                 <li>
                     Time points&nbsp&nbsp<select  name="time_point">
