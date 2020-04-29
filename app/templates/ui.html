@@ -395,7 +395,7 @@ abbr,acronym { border: 0;
             <h6><strong>Plot Type</strong></h6>
             </div>
             <div class="div2">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
                 <label for="Heatmap">Chiclet </label><br>
              </div>
 
@@ -484,11 +484,8 @@ abbr,acronym { border: 0;
     <div id="d2" style="display: none">
              <ul class="div1" >
 
-                 <li><strong>Protein</strong>
-				 </li>
-
                  <li>
-                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -555,7 +552,7 @@ abbr,acronym { border: 0;
 
                 <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
 
-                <li>Blow 0&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+                <li>Below 0&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
 
                 <li>Min&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
 
