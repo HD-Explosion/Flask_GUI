@@ -150,10 +150,13 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             sec.remove(np.core.numeric.NaN)
         for i, time in enumerate(times):
             print(time)
-            x1 = list(df[protein + '_' + state1 + '_' + time])
-            s1 = list(df[protein + '_' + state1 + '_' + time + '_SD'])
-            x2 = list(df[protein + '_' + state2 + '_' + time])
-            s2 = list(df[protein + '_' + state2 + '_' + time + '_SD'])
+            try:
+                x1 = list(df[protein + '_' + state1 + '_' + time])
+                s1 = list(df[protein + '_' + state1 + '_' + time + '_SD'])
+                x2 = list(df[protein + '_' + state2 + '_' + time])
+                s2 = list(df[protein + '_' + state2 + '_' + time + '_SD'])
+            except:
+                continue
             while np.core.numeric.NaN in x1:
                 x1.remove(np.core.numeric.NaN)
             while np.core.numeric.NaN in s1:
