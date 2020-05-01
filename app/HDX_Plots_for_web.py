@@ -180,11 +180,9 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             p_out = []
             for a, di in enumerate(d):
                 if di >= md and p[a] <= ma:
-                    print(sec[a])
                     d_in_p.append(di)
                     p_in_p.append(p[a])
                 elif di <= -1 * md and p[a] <= ma:
-                    print(sec[a])
                     d_in_n.append(di)
                     p_in_n.append(p[a])
                 else:
