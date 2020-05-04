@@ -225,6 +225,9 @@ def click_show_v():
         X_scale_r = float(request.form.get("X_scale_r"))
         Y_scale = int(request.form.get("Y_scale"))
         interval = float(request.form.get("interval"))
+        showlist = request.form.get("show_list")
+        plotxsize = float(request.form.get("plot_X_size"))
+        plotysize = float(request.form.get("plot_Y_size"))
         color = request.form.get("color")
         if color == "pattern1":
             color = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
@@ -236,7 +239,7 @@ def click_show_v():
 
 
         session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
-        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
+        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif,plotxsize,plotysize,showlist]
         print(session["PASSEDPARAMETERS"])
         session["USERPLOTSTATUS"] = "volcanoplot"
 
@@ -292,7 +295,9 @@ def plot():
         a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, Time_Points, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
          session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
          ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
-         xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7])
+         xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
+         sizeX = session['PASSEDPARAMETERS'][12],sizeY = session['PASSEDPARAMETERS'][13],
+         lif = session['PASSEDPARAMETERS'][14] )
 
         return redirect('/replot')
 
