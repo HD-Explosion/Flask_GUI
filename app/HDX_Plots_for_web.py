@@ -119,9 +119,9 @@ def uptakeplot(df, proteins, Time_points1=[], States=[], cols=1, rows=1, file_na
     return text
 
 
-def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2, ymin=5):
+def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2.0, ymin=5.0, sizeX=6.0, sizeY=6.0, lif=False):
     df1 = pd.DataFrame(columns=['Time point', 'Sequence', 'Difference', 'p-Value'])
-    fig, ax = plt.subplots(figsize=(6, 6))
+    fig, ax = plt.subplots(figsize=(sizeX, sizeY))
     ax.set_yscale("log")
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(0.5, 10** ymin)
@@ -182,9 +182,13 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
                 if di >= md and p[a] <= ma:
                     d_in_p.append(di)
                     p_in_p.append(p[a])
+                    if lif and di <= xmax and di >= xmin and p[a] >= 10 ** ymin:
+                        ax.text(di, p[a], sec[a], fontsize=6)
                 elif di <= -1 * md and p[a] <= ma:
                     d_in_n.append(di)
                     p_in_n.append(p[a])
+                    if lif and di <= xmax and di >= xmin and p[a] >= 10 ** ymin:
+                        ax.text(di, p[a], sec[a], fontsize=6)
                 else:
                     d_out.append(di)
                     p_out.append(p[a])
