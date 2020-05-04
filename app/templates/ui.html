@@ -11,13 +11,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
+
 <title>HD eXplosion</title>
     <style>
+        {# first reset all css tag to keep style consistency across browers#}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
 	padding: 0;
 	margin: 0;
@@ -58,6 +60,9 @@ abbr,acronym { border: 0;
         font-size: 14px;
         }
 
+    ul {
+        margin: 10px;
+    }
 
     li{
         list-style: none;
@@ -78,7 +83,7 @@ abbr,acronym { border: 0;
         width: 100%;
         height: fit-content;
         position:absolute;
-        top:735px;
+        top:740px;
         left:0px;
         overflow: hidden;
         text-align: center;
@@ -186,6 +191,21 @@ abbr,acronym { border: 0;
             margin: 0 auto;
         }
 
+        .rb {
+            background-image: url('../static/image/rb.gif');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+        .gr {
+            background-image: url('../static/image/img_rb.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+
+
+
         #element:fullscreen {
             width: 100vw;
             height: 100vh;
@@ -247,8 +267,6 @@ abbr,acronym { border: 0;
 
     <script type="text/javascript" >
 
-
-
         function f0(param){
             for(var i =1;i<=2;i++){
                 var id =document.getElementById("c"+i);
@@ -283,9 +301,30 @@ abbr,acronym { border: 0;
         }
 
         function sub_file() {
-                            var message = document.getElementById("message").innerHTML;
-                            alert( message );
+            // alert function in progress
+            var message = document.getElementById("message").innerHTML;
+            alert( message );
                         }
+
+        function plot_status() {
+            var s = document.getElementById('plot_status').getAttribute('s');
+            if (s == 'heatmap'){
+                var id =document.getElementById("d1");
+                id.style.display="none";
+
+                var id =document.getElementById("d2");
+                id.style.display="block";
+            }
+            if (s == 'volcanoplot') {
+                var id =document.getElementById("d2");
+                id.style.display="none";
+
+                var id =document.getElementById("d1");
+                id.style.display="block";
+            }
+        }
+
+
     </script>
 
 
@@ -328,6 +367,7 @@ abbr,acronym { border: 0;
             <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" >
             <label for="multi_files">Multiple Files</label><br>
             </form>
+        </span>
         {% endif %}
 
         {% if filestatus %}
@@ -395,21 +435,13 @@ abbr,acronym { border: 0;
               {% endwith %}
         </div>
 
-    
-
-        <!--
-        <div style="float: top;display: inline">
-            <input type="file" name="file_2" autocomplete="off" required><br>
-            <label for="file_2">Upload Second DynamX Output</label>
-            <input type="submit" name="file_2" value="Submit">
-        </div>   -->
-
-
 
     </div>
 
 
-     <div class="box" style="left:20px;top:360px;height:350px;">
+    <div id="plot_status" s="{{plot_status}}" style="display: none"><p> {{ plot_status }}</p> </div>
+
+     <div class="box" style="left:20px;top:360px;height:355px">
          <div class="div1">
             <h4><strong>Parameters</strong></h4>
          </div>
@@ -417,12 +449,14 @@ abbr,acronym { border: 0;
 
         </div>
 
+
+     {% if plot_status == 'heatmap' %}
         <form action="" method="post">
             <div class="div1">
             <h6><strong>Plot Type</strong></h6>
             </div>
             <div class="div2">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)">
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
                 <label for="Heatmap">Chiclet </label><br>
              </div>
 
@@ -432,9 +466,44 @@ abbr,acronym { border: 0;
             </div>
         </form>
 
+     {% elif plot_status == 'volcanoplot' %}
+      <form action="" method="post">
+            <div class="div1">
+            <h6><strong>Plot Type</strong></h6>
+            </div>
+            <div class="div2">
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
+                <label for="Heatmap">Chiclet </label><br>
+             </div>
+
+            <div class="div3">
+                <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)" checked>
+                <label for="Volcano Plot">Volcano </label><br>
+            </div>
+        </form>
+
+     {% else %}
+      <form action="" method="post">
+            <div class="div1">
+            <h6><strong>Plot Type</strong></h6>
+            </div>
+            <div class="div2">
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
+                <label for="Heatmap">Chiclet </label><br>
+             </div>
+
+            <div class="div3">
+                <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
+                <label for="Volcano Plot">Volcano </label><br>
+            </div>
+        </form>
+     {% endif %}
+
+
+     {% if plot_status == 'heatmap' %}
         <form action="/click_show_v" method = "post">
-         <div id="d1" style="display:none">
-             <ul class="div1" >
+         <div id="d1" style="display: none">
+             <ul class="div1" style="float: left">
                 <li>
                     Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
 
@@ -455,7 +524,7 @@ abbr,acronym { border: 0;
                 <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval"></li>
 
                 <li>
-                    Time points&nbsp&nbsp<select  name="time_point">
+                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point">
                                             <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -465,50 +534,56 @@ abbr,acronym { border: 0;
 
 
             <ul class="div3">
-                
+
 
                 <li>
-                    State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
 
- 
+
 
 
                 <li id="color" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
+                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
                     <option value = 'pattern1' >pattern1</option>
                     <option  value ='pattern2'>pattern2</option>
 
                 </select></li>
-          
 
-                </select></li>
 
-                <li>Significance&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
 
-                <li>Min-difference(Da)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
-            
+                <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+
+                <li>Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+
+                <li>Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="1" max="99" name="text_size" value="6"></li>
+
+                <li>Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" type="checkbox"  name="show_list" ></li>
+
+                <li>Size of plot box &nbsp&nbsp&nbsp&nbspX&nbsp<input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></li>
+
+
                 <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
          </form>
 
-      
+
 
 	<form action="/click_show_h" method = "post">
-    <div id="d2" style="display: none">
-             <ul class="div1" >
+    <div id="d2" style="display: block">
+             <ul class="div1" style="float: left">
 
                  <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -519,43 +594,29 @@ abbr,acronym { border: 0;
 				 </li>
 
                 <li>
-                    State1&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
 
-                 <li id="color1" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
-                    <option  value ="r">r</option>
-                    <option  value ="g">g</option>
-                    <option  value ="b">b</option>
-                    <option  value ="o">o</option>
-                    <option  value ="y">y</option>
-                    <option  value ="g">g</option>
 
-                </select></li>
+                 <li><strong>Range</strong>
+				 </li>
 
-                 <li id="color2" style="display: none" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2">
+                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max" value="{{ paras[3] }}"></li>
 
-                    <option value ="rb">rb</option>
-                    <option  value ="br">br</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="ob">ob</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="bp">bp</option>
-                    <option  value ="bg">bg</option>
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step" value="{{ paras[4] }}"> </li>
 
-                </select></li>
+                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" value="{{ paras[8] }}"></li>
 
-                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" disabled></li>
 
-                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" disabled> </li>
 
             </ul>
 
@@ -568,24 +629,421 @@ abbr,acronym { border: 0;
                 </li>
             -->
 
-                 <li><strong>Range</strong>
-				 </li>
+                 <li id="color1" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" value="{{ paras[9] }}">
+                    <option  value ="r">r</option>
+                    <option  value ="g">g</option>
+                    <option  value ="b">b</option>
+                    <option  value ="o">o</option>
+                    <option  value ="y">y</option>
+                    <option  value ="g">g</option>
 
-                 <li>Max&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+                </select></li>
 
-                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+                 <li id="color2"  style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" value="{{ paras[9] }}">
 
-                <li>Below 0&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+                    <option value ="rb">rb
+                        <img src="../static/image/img_rb.jpg" alt="rb_icon" style="width:100px;height:50px">
+                    </option>
+                    <option  value ="br">br
+                        <img src="img_br.png" alt="br_icon" style="width:15px">
+                    </option>
+                    <option  value ="gr">gr
+                        <img src="img_gr.png" alt="gr_icon" style="width:15px">
+                    </option>
+                    <option  value ="ob">ob
+                        <img src="img_ob.png" alt="ob_icon" style="width:15px">
+                    </option>
+                    <option  value ="rg">rg
+                        <img src="img_rg.png" alt="rg_icon" style="width:15px">
+                    </option>
+                    <option  value ="bp">bp
+                        <img src="img_bp.png" alt="bp_icon" style="width:15px">
+                    </option>
+                    <option  value ="bg">bg
+                        <img src="img_bg.png" alt="bg_icon" style="width:15px">
+                    </option>
 
-                <li>Min&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+                </select></li>
 
-                <li>Step&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" value="{{ paras[11] }}" name="sig_filter"></li>
+
+                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
+
 
                 <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
          </form>
+
+
+      {% elif plot_status == 'volcanoplot' %}
+
+      <form action="/click_show_v" method = "post">
+         <div id="d1" style="display: block" >
+             <ul class="div1" style="float: left">
+                <li>
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+
+                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    </select>
+
+                 </li>
+
+
+                 <li>Symbol size &nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
+				 <output name="rangeOut" id="rangeOutId">{{ paras[4] }}</output>
+				 </li>
+
+                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l" value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r" value="{{ paras[6] }}"></li>
+
+                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}"></li>
+
+                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}"></li>
+
+                <li>
+                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point" value="{{ paras[3] }}">
+                                            <option value = "ALL">All</option>
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+            </ul>
+
+
+            <ul class="div3">
+
+
+                <li>
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
+
+                <li>
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+
+
+
+                <li id="color" >
+                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color" value="{{ paras[9] }}">
+                    <option value = 'pattern1' >pattern1</option>
+                    <option  value ='pattern2'>pattern2</option>
+
+                </select></li>
+
+
+
+
+                <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
+
+                <li>Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="{{ paras[11] }}"></li>
+
+                <li>Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="1" max="99" name="text_size" value="6"></li>
+
+                <li>Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" type="checkbox"  name="show_list" ></li>
+
+                <li>Size of plot box &nbsp&nbsp&nbsp&nbspX&nbsp<input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></li>
+
+
+                <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+
+            </ul>
+         </div>
+         </form>
+
+
+
+	<form action="/click_show_h" method = "post">
+    <div id="d2" style="display:none">
+             <ul class="div1" style="float: left">
+
+                 <li>
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+
+                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    </select>
+
+                 </li>
+
+                <li><strong>Comparison</strong>
+				 </li>
+
+                <li>
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
+
+                <li>
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+
+                 <li><strong>Range</strong>
+				 </li>
+
+                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+
+                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+
+                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+
+
+            </ul>
+
+
+            <ul class="div3">
+                <!-- <li>
+                    Time points&nbsp&nbsp<select  name="time_point">
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+            -->
+
+                <li id="color1" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                    <option  value ="r">r</option>
+                    <option  value ="g">g</option>
+                    <option  value ="b">b</option>
+                    <option  value ="o">o</option>
+                    <option  value ="y">y</option>
+                    <option  value ="g">g</option>
+
+                </select></li>
+
+                 <li id="color2"  style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2">
+
+                    <option value ="rb">rb
+                        <img src="../static/image/img_rb.jpg" alt="rb_icon" style="width:100px;height:50px">
+                    </option>
+                    <option  value ="br">br
+                        <img src="img_br.png" alt="br_icon" style="width:15px">
+                    </option>
+                    <option  value ="gr">gr
+                        <img src="img_gr.png" alt="gr_icon" style="width:15px">
+                    </option>
+                    <option  value ="ob">ob
+                        <img src="img_ob.png" alt="ob_icon" style="width:15px">
+                    </option>
+                    <option  value ="rg">rg
+                        <img src="img_rg.png" alt="rg_icon" style="width:15px">
+                    </option>
+                    <option  value ="bp">bp
+                        <img src="img_bp.png" alt="bp_icon" style="width:15px">
+                    </option>
+                    <option  value ="bg">bg
+                        <img src="img_bg.png" alt="bg_icon" style="width:15px">
+                    </option>
+
+                </select></li>
+
+                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+
+                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+
+
+                <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+
+            </ul>
+         </div>
+         </form>
+
+
+      {% else %}
+        <form action="/click_show_v" method = "post">
+         <div id="d1" style="display:none">
+             <ul class="div1" style="float: left">
+                <li>
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+
+                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    </select>
+
+                 </li>
+
+
+                 <li>Symbol size&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+				 <output name="rangeOut" id="rangeOutId">2</output>
+				 </li>
+
+                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></li>
+
+                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+
+                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval"></li>
+
+                <li>
+                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point">
+                                            <option value = "ALL">All</option>
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+            </ul>
+
+
+            <ul class="div3">
+
+
+                <li>
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
+
+                <li>
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+
+
+
+                <li id="color" >
+                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
+                    <option value = 'pattern1' >pattern1</option>
+                    <option  value ='pattern2'>pattern2</option>
+
+                </select></li>
+
+
+                </select></li>
+
+                <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+
+                <li>Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+
+                <li>Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="1" max="99" name="text_size" value="6"></li>
+
+                <li>Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" type="checkbox"  name="show_list" ></li>
+
+                <li>Size of plot box &nbsp&nbsp&nbsp&nbspX&nbsp<input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></li>
+
+                <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+
+            </ul>
+         </div>
+         </form>
+
+
+
+	<form action="/click_show_h" method = "post">
+    <div id="d2" style="display: none" >
+             <ul class="div1" style="float: left">
+
+                 <li>
+                 <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+
+                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                    </select>
+
+                 </li>
+
+                <li><strong>Comparison</strong>
+				 </li>
+
+                <li>
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+					</select></li>
+
+                <li>
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
+
+                 <li><strong>Range</strong>
+				 </li>
+
+                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+
+                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+
+                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+
+
+
+            </ul>
+
+
+            <ul class="div3" >
+                <!-- <li>
+                    Time points&nbsp&nbsp<select  name="time_point">
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+            -->
+
+             <li id="color1" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                    <option  value ="r">r</option>
+                    <option  value ="g">g</option>
+                    <option  value ="b">b</option>
+                    <option  value ="o">o</option>
+                    <option  value ="y">y</option>
+                    <option  value ="g">g</option>
+
+                </select></li>
+
+                 <li id="color2"  style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" >
+
+                     <option value="cb" data-image="../static/image/rb.gif">cb</option>  <!-- here is in progress of try to make background image-->
+
+                    <option value ="rb" class="rb">rb
+
+                    </option>
+                    <option  value ="br" style="background-image:url('https://www.crwflags.com/fotw/images/c/cz@acp.gif');">br
+
+                    </option>
+                    <option  value ="gr" class="gr">gr
+
+                    </option>
+                    <option  value ="ob" class="ob">ob
+
+                    </option>
+                    <option  value ="rg" class="rg">rg
+
+                    </option>
+                    <option  value ="bp" class="bp">bp
+
+                    </option>
+                    <option  value ="bg" class="bg">bg
+
+                    </option>
+
+                </select></li>
+
+                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+
+                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+
+
+                <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+
+            </ul>
+         </div>
+         </form>
+    {% endif %}
+
 
       </div>
                 <script>
@@ -604,22 +1062,6 @@ abbr,acronym { border: 0;
                         }
                         };
 
-
-                    // function negative() {
-                    //     var negative = document.getElementById("negative");
-                    //     // Get the output text
-                    //     var color1 = document.getElementById("color1");
-                    //     var color2 = document.getElementById("color2");
-
-                    //     // If the checkbox is checked, display the output text
-                    //     if (negative.checked === true){
-                    //         color1.style.display = "none";
-                    //         color2.style.display = "block";
-                    //     } else{
-                    //        color2.style.display = "none";
-                    //        color1.style.display = "block";
-                    //     }
-                    // }
                 </script>
 
 
@@ -650,6 +1092,7 @@ abbr,acronym { border: 0;
 
 <footer class="footnotes">
        If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.
+
 </footer>
 
 
