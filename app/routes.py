@@ -286,12 +286,15 @@ def click_show_h():
 def click_show_v():
     if request.method == 'POST':
         #try:
+        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                names = pickle.load(f)
+  
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
         if time_point == "ALL":
-            time_point = ['10', '100', '1000', '10000', '100000']
+            time_point = names[-2]
         size = int(request.form.get("size"))
         X_scale_l = float(request.form.get("X_scale_l"))
         X_scale_r = float(request.form.get("X_scale_r"))
