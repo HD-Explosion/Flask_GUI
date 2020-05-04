@@ -19,6 +19,7 @@
 
 <title>HD eXplosion</title>
     <style>
+        {# first reset all css tag to keep style consistency across browers#}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
 	padding: 0;
 	margin: 0;
@@ -436,16 +437,6 @@ abbr,acronym { border: 0;
                 {% endfor %}
               {% endwith %}
         </div>
-
-    
-
-        <!--
-        <div style="float: top;display: inline">
-            <input type="file" name="file_2" autocomplete="off" required><br>
-            <label for="file_2">Upload Second DynamX Output</label>
-            <input type="submit" name="file_2" value="Submit">
-        </div>   -->
-
 
 
     </div>
@@ -1074,22 +1065,6 @@ abbr,acronym { border: 0;
                         }
                         };
 
-
-                    // function negative() {
-                    //     var negative = document.getElementById("negative");
-                    //     // Get the output text
-                    //     var color1 = document.getElementById("color1");
-                    //     var color2 = document.getElementById("color2");
-
-                    //     // If the checkbox is checked, display the output text
-                    //     if (negative.checked === true){
-                    //         color1.style.display = "none";
-                    //         color2.style.display = "block";
-                    //     } else{
-                    //        color2.style.display = "none";
-                    //        color1.style.display = "block";
-                    //     }
-                    // }
                 </script>
 
 
@@ -1123,61 +1098,6 @@ abbr,acronym { border: 0;
 
 </footer>
 
-    <!--
-<script type="text/javascript">
-   function hello()
-   {
-       $.ajax(
-      {
-         type: "POST",
-         url: "/hello",
-         dataType: "html",
-         success: function(msg)
-         {
-             console.log(msg);
-             $("#display").html(msg);
-         },
-         error: function (xhr, status, error) {
-            console.log(error);
-        }
-      });
-   }
-</script>
-
-   <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-	<script>
-        $.ajax({
-        url: "test_post/nn",
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-            // alert(data.name + ":" + data.age);
-            $("#NAME").val(data.name);
-            $("#AGE").val(data.age);
-            console.log(data)}
-
-        })
-	</script>
-
-    <script>
-        $(function() {
-            // body...
-            $("#btn").click(function(){
-                $.ajax({
-                url: "test_post/nn",
-                type: "POST",
-                dataType: "json",
-                success: function (data) {
-                // alert(data.name + ":" + data.age);
-                $("#NAME2").val(data.name);
-                $("#AGE2").val(data.age);
-                console.log(data)}
-
-                })
-            })
-        })
-    </script>
--->
 
 
 </body>
