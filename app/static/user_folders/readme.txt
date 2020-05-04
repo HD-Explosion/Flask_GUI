@@ -1,1 +1,0 @@
-This folder is used to save all user created folders.
