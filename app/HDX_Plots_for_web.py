@@ -150,10 +150,13 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             sec.remove(np.core.numeric.NaN)
         for i, time in enumerate(times):
             print(time)
-            x1 = list(df[protein + '_' + state1 + '_' + time])
-            s1 = list(df[protein + '_' + state1 + '_' + time + '_SD'])
-            x2 = list(df[protein + '_' + state2 + '_' + time])
-            s2 = list(df[protein + '_' + state2 + '_' + time + '_SD'])
+            try:
+                x1 = list(df[protein + '_' + state1 + '_' + time])
+                s1 = list(df[protein + '_' + state1 + '_' + time + '_SD'])
+                x2 = list(df[protein + '_' + state2 + '_' + time])
+                s2 = list(df[protein + '_' + state2 + '_' + time + '_SD'])
+            except:
+                continue
             while np.core.numeric.NaN in x1:
                 x1.remove(np.core.numeric.NaN)
             while np.core.numeric.NaN in s1:
@@ -177,11 +180,9 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             p_out = []
             for a, di in enumerate(d):
                 if di >= md and p[a] <= ma:
-                    print(sec[a])
                     d_in_p.append(di)
                     p_in_p.append(p[a])
                 elif di <= -1 * md and p[a] <= ma:
-                    print(sec[a])
                     d_in_n.append(di)
                     p_in_n.append(p[a])
                 else:
@@ -339,9 +340,16 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     cmap = mpl.colors.ListedColormap(clmap)
     if rotation == 'H' or rotation == 'h':
         im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
-        cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', fraction=.1, pad=0.4)
+        cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', fraction=.12, pad=0.4)
+        print(6*(step+step2+1))
+        print(len(sec)*0.0612318+1.3243)
+        if 10.8 > len(sec)*0.0612318+1.3243:
+            cbar.ax.tick_params(labelsize=len(sec)*0.0612318+1.3243/(step+step2+1)*20)
+        else:
+            cbar.ax.tick_params(labelsize=10)
         cbar.ax.set_xlabel(protien + '_' + State1 + '-' + State2, labelpad=15, va="bottom")
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
+        cbar.set_ticklabels(np.linspace(min, max, step + step2 + 1))
         ax.set_xticks(np.arange(len(sec)))
         ax.set_yticks(np.arange(len(Time_points)))
         ax.set_xticklabels(sec)
