@@ -39,10 +39,7 @@ ol,ul {
 caption,th {
 	text-align: left;
 	}
-{#h1,h2,h3,h4,h5,h6 {#}
-{#	font-weight: normal;#}
-{#	font-size: 100%;#}
-{#	}#}
+
 q:before,q:after {
 	content:'';
 	}
@@ -249,13 +246,6 @@ abbr,acronym { border: 0;
     </style>
 
     <script type="text/javascript" >
-        {#var log = document.querySelector("#log");#}
-        {#function change1() {#}
-        {#    var value = document.getElementById("range1").value;#}
-        {#    log.innerText = value;#}
-        {#    console.log(value);#}
-        {# }#}
-
 
 
 
@@ -321,15 +311,50 @@ abbr,acronym { border: 0;
 
     <div class="box" style="left:20px;top:100px;height:250px">
         <h4><strong>Data </strong></h4>
-
+        {% if filestatus %}
+        <span>
+            <form  method="post" enctype="multipart/form-data">
+            <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" >
+            <label for="single_file">One File</label><br>
+            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" checked>
+            <label for="multi_files">Multiple Files</label><br>
+            </form>
+        </span>
+        {% else %}
         <span>
             <form  method="post" enctype="multipart/form-data">
             <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
             <label for="single_file">One File</label><br>
-            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)">
+            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" >
             <label for="multi_files">Multiple Files</label><br>
             </form>
-        </span>
+        {% endif %}
+
+        {% if filestatus %}
+        <div class="div1">
+            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
+                <div id="c1" style="display: none">
+                    <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
+                     <label for="upload_s"> Please select ONE file to upload</label></p>
+                    <input type="submit" value="Submit" onclick="sub_file()">
+                    <h6>{{ ipaddr }}</h6>
+                    <a href="help">Click here for a demo file</a>
+                </div>
+            </form>
+            <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button> -->
+            
+            <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
+                <div id="c2">
+                    <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
+                    <label for="upload_m"> You may select up to 5 files to upload</label></p>
+                    <input type="submit" value="Merge" onclick="sub_file()"> <input type="button"  onclick="window.location.href='{{ url_for('downloadcsv') }}';" value="Download Merged csv File">
+                    <h6>{{ ipaddr }}</h6>
+                    <a href="help">Click here for a demo file</a>
+                </div>
+            </form>
+        </div>
+
+        {% else %}
 
         <div class="div1">
             <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
@@ -341,18 +366,20 @@ abbr,acronym { border: 0;
                     <a href="help">Click here for a demo file</a>
                 </div>
             </form>
-
+        
+            
             <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
                 <div id="c2" style="display: none">
                     <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
                     <label for="upload_m"> You may select up to 5 files to upload</label></p>
-                    <input type="submit" value="Merge" onclick="sub_file()"> <input type="button" value="Download Merged csv File">
+                    <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button" value="Download Merged csv File">
                     <h6>{{ ipaddr }}</h6>
                     <a href="help">Click here for a demo file</a>
                 </div>
             </form>
         </div>
 
+        {% endif %}
          <div class="div3">
                 <!-- {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -395,7 +422,7 @@ abbr,acronym { border: 0;
             <h6><strong>Plot Type</strong></h6>
             </div>
             <div class="div2">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
+                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)">
                 <label for="Heatmap">Chiclet </label><br>
              </div>
 
@@ -421,15 +448,15 @@ abbr,acronym { border: 0;
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
-                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="Y_scale_r"></li>
+                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></li>
 
-                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="0" max="9999" name="Y_scale"></li>
+                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
 
-                <li>Major interval&nbsp&nbsp<input type="number" placeholder="0.01" step="0.01" min="0" max="9999" name="interval"></li>
+                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval"></li>
 
                 <li>
                     Time points&nbsp&nbsp<select  name="time_point">
-                                            <option>All</option>
+                                            <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -456,13 +483,9 @@ abbr,acronym { border: 0;
 
                 <li id="color" >
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">
-                    <option value ="rb">rb</option>
-                    <option  value ="br">br</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="ob">ob</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="bp">bp</option>
-                    <option  value ="bg">bg</option>
+                    <option value = 'pattern1' >pattern1</option>
+                    <option  value ='pattern2'>pattern2</option>
+
                 </select></li>
           
 
@@ -629,61 +652,6 @@ abbr,acronym { border: 0;
        If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.
 </footer>
 
-    <!--
-<script type="text/javascript">
-   function hello()
-   {
-       $.ajax(
-      {
-         type: "POST",
-         url: "/hello",
-         dataType: "html",
-         success: function(msg)
-         {
-             console.log(msg);
-             $("#display").html(msg);
-         },
-         error: function (xhr, status, error) {
-            console.log(error);
-        }
-      });
-   }
-</script>
-
-   <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
-	<script>
-        $.ajax({
-        url: "test_post/nn",
-        type: "POST",
-        dataType: "json",
-        success: function (data) {
-            // alert(data.name + ":" + data.age);
-            $("#NAME").val(data.name);
-            $("#AGE").val(data.age);
-            console.log(data)}
-
-        })
-	</script>
-
-    <script>
-        $(function() {
-            // body...
-            $("#btn").click(function(){
-                $.ajax({
-                url: "test_post/nn",
-                type: "POST",
-                dataType: "json",
-                success: function (data) {
-                // alert(data.name + ":" + data.age);
-                $("#NAME2").val(data.name);
-                $("#AGE2").val(data.age);
-                console.log(data)}
-
-                })
-            })
-        })
-    </script>
--->
 
 
 </body>
