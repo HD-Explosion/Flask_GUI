@@ -19,6 +19,7 @@ import uuid
 import shutil
 import datetime
 from app import email
+from app import clean
 import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -29,6 +30,8 @@ import pickle
 
 global ipdict
 ipdict = {}
+
+alluser_folders = os.path.join(Path(app.root_path),'static/user_folders')
 scheduler = BackgroundScheduler()
 
 ipfilename = "iplist.csv"
@@ -37,7 +40,8 @@ ipfilename = "iplist.csv"
 ipfiledata = "IP TEST DATA 1:0:0:27"
 #ipfiledata = csv.read(os.path.join(Path(app.root_path),'static/ip',ipdict))
 scheduler.start()
-scheduler.add_job(email.send_ip,trigger="interval", seconds=45, args =[app,ipfilename,ipfiledata])
+scheduler.add_job(email.send_ip,trigger="interval", weeks=2, args =[app,ipfilename,ipfiledata])
+scheduler.add_job(clean.remove_userfolder,trigger="interval", weeks=2, args =[alluser_folders])
 
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
