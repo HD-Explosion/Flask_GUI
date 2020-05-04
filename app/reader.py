@@ -109,9 +109,10 @@ def fileread(filename):
 
 
 
-def filesread(filename1,filename2):
+def filesread(filenames):
 # Open csv file
-    File_names = [filename1, filename2]
+ 
+    File_names = filenames
     Columns = []
     States = []
     Time_f = 's'
