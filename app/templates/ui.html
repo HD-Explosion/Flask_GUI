@@ -1009,16 +1009,16 @@ abbr,acronym { border: 0;
 
                 
 
-                <div class="btn-group" style="margin:10px;">    <!-- CURRENCY, BOOTSTRAP DROPDOWN -->
+                <div class="btn-group" style="margin:5px;">    <!-- CURRENCY, BOOTSTRAP DROPDOWN -->
                     <!--<a class="btn btn-primary" href="javascript:void(0);">Currency</a>-->                    
                     <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> Color <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="javascript:void(0);">
-                            <img src="./static/image/rb.gif" /></a>
+                        <li><a href="javascript:void(0);" >
+                            <img style = "width: 60px; height: 30px;" src="./static/image/rb.gif" /></a>
                         </li>
     
-                        <li><a href="javascript:void(0);">
-                            <img src="./static/image/img_rb.jpg" /></a>
+                        <li><a href="javascript:void(0);" >
+                            <img style = "width: 60px; height: 30px;" src="./static/image/img_rb.jpg" /></a>
                         </li>
                     </ul>
                 </div>
@@ -1028,7 +1028,7 @@ abbr,acronym { border: 0;
                 $(".dropdown-menu li a").click(function () {
                     var selText = $(this).text();
                     var imgSource = $(this).find('img').attr('src');
-                    var img = '<img src="' + imgSource + '"/>';        
+                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';        
                     $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
                 });
                 </script>
