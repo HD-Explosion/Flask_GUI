@@ -19,6 +19,7 @@ import uuid
 import shutil
 import datetime
 from app import email
+from app import clean
 import time
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -29,6 +30,8 @@ import pickle
 
 global ipdict
 ipdict = {}
+
+alluser_folders = os.path.join(Path(app.root_path),'static/user_folders')
 scheduler = BackgroundScheduler()
 
 ipfilename = "iplist.csv"
@@ -37,7 +40,8 @@ ipfilename = "iplist.csv"
 ipfiledata = "IP TEST DATA 1:0:0:27"
 #ipfiledata = csv.read(os.path.join(Path(app.root_path),'static/ip',ipdict))
 scheduler.start()
-scheduler.add_job(email.send_ip,trigger="interval", seconds=45, args =[app,ipfilename,ipfiledata])
+scheduler.add_job(email.send_ip,trigger="interval", weeks=2, args =[app,ipfilename,ipfiledata])
+scheduler.add_job(clean.remove_userfolder,trigger="interval", weeks=2, args =[alluser_folders])
 
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
@@ -282,12 +286,15 @@ def click_show_h():
 def click_show_v():
     if request.method == 'POST':
         #try:
+        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                names = pickle.load(f)
+  
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
         if time_point == "ALL":
-            time_point = ['10', '100', '1000', '10000', '100000']
+            time_point = names[-2]
         size = int(request.form.get("size"))
         X_scale_l = float(request.form.get("X_scale_l"))
         X_scale_r = float(request.form.get("X_scale_r"))

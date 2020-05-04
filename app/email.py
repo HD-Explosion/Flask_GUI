@@ -7,7 +7,7 @@ def send_ip(app,ipfilename,ipfiledata):
         "MAIL_PORT": 465,
         "MAIL_USE_TLS": False,
         "MAIL_USE_SSL": True,
-        "MAIL_SUPPRESS_SEND": True,
+        "MAIL_SUPPRESS_SEND": False,
         "MAIL_USERNAME": 'darcylabweb@gmail.com',
         "MAIL_PASSWORD": 'darcylab1'
     }
