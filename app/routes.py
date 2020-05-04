@@ -417,7 +417,7 @@ def replot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         names = pickle.load(f)
-    return render_template('ui.html',lists = names,files=session['FILENAME'])
+    return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'] )
 
 ##########################################################################################################################################################
 
