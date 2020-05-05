@@ -18,8 +18,11 @@ import json
 import uuid
 import shutil
 import datetime
+import csv
 from app import email
+from app import clean
 import time
+from datetime import datetime
 import atexit
 from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
@@ -27,40 +30,34 @@ import pickle
 
 
 
-global ipdict
-ipdict = {}
-scheduler = BackgroundScheduler()
-
+# add schedule task to remove temp files every 2 weeks and send ip list every 2 weeks
+alluser_folders = os.path.join(Path(app.root_path),'static/user_folders')
 ipfilename = "iplist.csv"
-#ipfilepath = os.path.join(Path(app.root_path),'static/ip',ipfilename)
-#ipfiledata = pd.read_csv(ipfilepath, dtype=str, index_col=0)
-ipfiledata = "IP TEST DATA 1:0:0:27"
-#ipfiledata = csv.read(os.path.join(Path(app.root_path),'static/ip',ipdict))
+ip_folder = os.path.join(Path(app.root_path),'static/ip','iplist.csv')
+scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_job(email.send_ip,trigger="interval", seconds=45, args =[app,ipfilename,ipfiledata])
-
+scheduler.add_job(email.send_ip,trigger="interval", hours=1, args =[app,ipfilename,ip_folder])
+scheduler.add_job(clean.remove_userfolder,trigger="interval", weeks=2, args =[alluser_folders])
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
+
+
 
 app.config['ALLOWED_EXTENSIONS'] = {'csv','txt'}
 
 
 
-#...
-# @app.route('/visits-counter')
-# def visits():
-#     if 'visits' in session:
-#         session['visits'] = session.get('visits') + 1  # reading and updating session data
-#     else:
-#         session['visits'] = 1 # setting session data
-
-
-
-#     return "Total visits: {} {}".format(session.get('visits'),session['USERID'])
-
 ################################################################################################################################################
 @app.route('/',methods=['GET','POST'])
 def ui():
+    # track user ip and append to iplist.csv
+    visitor_ip = request.remote_addr.encode()
+    ip_folder = os.path.join(Path(app.root_path),'static/ip','iplist.csv')
+    visit_time = str(datetime.now()).encode()
+    with open(ip_folder,'ab') as file:
+        file.write(visitor_ip + "  ".encode() + visit_time)
+        file.write('\n'.encode())
+
     try:
         if session['USERID'] is not None:
             print('at / ')
@@ -70,7 +67,8 @@ def ui():
             shutil.rmtree(app.config['USER_FOLDER'])
             print("Old folder deleted...")
             os.mkdir(app.config['USER_FOLDER'])
-            print("new folder created....")
+            print("New folder created....")
+
 
     except Exception:
         print("No session exist, create a new session")
@@ -80,12 +78,6 @@ def ui():
             os.mkdir(app.config['USER_FOLDER'])
 
 
-
-
-    # resp = make_response(render_template('ui.html',lists=[['protein'],['state'],['time point']]))
-    # resp.set_cookie('userID',userid)
-
-    #return resp
     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 ########################################################################################################################################
@@ -116,17 +108,7 @@ def upload_multi_files():
         for item in filenames:
             flash(item + '  successfully uploaded from: ' + ipaddress)
 
-        if (request.remote_addr in ipdict):
-            ipdict[request.remote_addr] += 1
-        else:
-            ipdict[request.remote_addr] = 1
-
-        for key, value in ipdict.items():
-            print ("% s : % d"%(key, value))
-
-
-
-        names = reader.filesread(filenames[0],filenames[1])
+        names = reader.filesread(filenames)
         print(names)
         # Check the file formart if thr return from reader is 0, wrong formart
         if names == 0:
@@ -161,15 +143,6 @@ def upload_single_file():
             flash('Allowed file types are csv')
             return redirect(request.url)
 
-        if (request.remote_addr in ipdict):
-            ipdict[request.remote_addr] += 1
-        else:
-            ipdict[request.remote_addr] = 1
-
-        for key, value in ipdict.items():
-            print("% s : % d" % (key, value))
-
-
         names = reader.fileread(filename)
 
         if names == 0:
@@ -181,49 +154,6 @@ def upload_single_file():
         return render_template('ui.html', lists=names, files=filename)
 
 
-
-# @app.route('/upload_file_merge', methods=['POST'])
-# def upload_file_merge():
-#     if request.method == 'POST':
-#         # check if the post request has the file part
-#         if 'files[]' not in request.files:
-#             flash('No file part')
-#             return redirect(request.url)
-#         files = request.files.getlist('files[]')
-#         count = 2
-#         for file in files:
-#             if count == 0:
-#                 break
-#             if file and allowed_file(file.filename):
-#                 #global filename
-#                 filename = secure_filename(file.filename)
-#                 session['FILENAME'] = filename
-#                 #print(filename)
-#                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#                 count -= 1
-#         flash(filename + ' successfully uploaded')
-#         global names
-#         names = reader.fileread(filename)
-#         # print(names)
-#         global Data1
-#         Data1 = names[-1]
-#         global Time_Points
-#         Time_Points = names[-2]
-#         # print(Data1)
-
-#         return render_template('ui.html',lists = names,files=filename,ipaddr = ("ip: " + request.remote_addr))        #  /parameters for test
-
-
-
-# @app.route('/start_over')
-# def start_over():
-#     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static',session['USERID'])
-#     if os.path.exists(os.path.join(app.config['USER_FOLDER'],'Plot.png')):
-#         for f in glob.glob(os.path.join(app.config['USER_FOLDER'],'*')):
-#             os.remove(f)
-
-
-#     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 
 ########################################################################################################################################
@@ -270,29 +200,35 @@ def click_show_h():
             session["USERPLOTSTATUS"] = "heatmap"
             return render_template('ui.html',lists = names,files=filename)
 
-
-
-
         print(session['PASSEDPARAMETERS'])
 
     return redirect('/plot')
+
+
 
 
 @app.route('/click_show_v',methods=['GET', 'POST'])
 def click_show_v():
     if request.method == 'POST':
         #try:
+        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                names = pickle.load(f)
+  
         protein = request.form.get("protein")
         state1 = request.form.get("state1")
         state2 = request.form.get("state2")
         time_point = request.form.get("time_point")
         if time_point == "ALL":
-            time_point = ['10', '100', '1000', '10000', '100000']
+            time_point = names[-2]
         size = int(request.form.get("size"))
         X_scale_l = float(request.form.get("X_scale_l"))
         X_scale_r = float(request.form.get("X_scale_r"))
         Y_scale = int(request.form.get("Y_scale"))
         interval = float(request.form.get("interval"))
+        textsize = float(request.form.get("text_size"))
+        showlist = request.form.get("show_list")
+        plotxsize = float(request.form.get("plot_X_size"))
+        plotysize = float(request.form.get("plot_Y_size"))
         color = request.form.get("color")
         if color == "pattern1":
             color = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
@@ -304,7 +240,7 @@ def click_show_v():
 
 
         session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
-        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
+        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize]
         print(session["PASSEDPARAMETERS"])
         session["USERPLOTSTATUS"] = "volcanoplot"
 
@@ -337,29 +273,6 @@ def plot():
 
     if session["USERPLOTSTATUS"] == "heatmap":
 
-        # protein = 'h2B'
-        # m = []
-        # for time in Time_points1:
-        #     state1 = 'AB'
-        #     x1 = list(Data1[protein + '_' + state1 + '_' + time + '_SD'])
-        #     while np.core.numeric.NaN in x1:
-        #         x1.remove(np.core.numeric.NaN)
-        #     m += x1
-        # print(np.array(m).astype(float).mean())
-        # t1 = t.ppf(1-0.01, 3)
-        # print(t1)
-        # T = uptakeplot(Data1, Proteins, Time_points1, States1, 5, 4, file_name='H3H4_4deg.pdf',
-        #                color=[(192 / 255, 0, 0), 'k', (192 / 255, 0, 0), (22 / 255, 54 / 255, 92 / 255),
-        #                       'sienna'])
-        # for time in Time_points1:
-        #     for state in States1:
-        #         Data1[state + '_' + time] = Data1[state + '_' + time].astype('float')
-        #     Data1['Sub1' + '_' + time] = Data1['Mtr4' + '_' + time] - Data1['Mtr4+RNA' + '_' + time]
-        #     Data1['Sub3' + '_' + time] = Data1['TRAMP Complex' + '_' + time] - Data1['TRAMP Complex+RNA' + '_' + time]
-        # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255), 'sienna']
-
-            # ' = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
-            #                     time_point, negative, color, significance, sig_filter]
 
     #try:
         K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
@@ -373,19 +286,6 @@ def plot():
 
 
 
-        # K = HDX_Plots_for_web.heatmap(Data1, '[0], '[1],
-        #                               '[2], Time_Points, rotation='H', max=5, step=10, color='rb', min=-5,
-        #                               step2=10, file_name='Plot')
-        #         # a = v(Data1, Time_points1, [P], S1, S2, colors=c, filename='{} {}-{}_v.eps'.format(P, S1, S2))
-        # c = ['k', (192 / 255, 0, 0), (1, 165 / 255, 0),(22 / 255, 54 / 255, 92 / 255),'sienna']
-        # for k, time in enumerate(Time_points1):
-        # a = v(Data1, Time_points1, ['Nap1'], 'Nap1 Alone', 'Nap1 Bound', colors=c, filename='Taz2_v_new_{}s.eps')
-        # for time in Time_points1:
-        #     H = wood(df, 'Apo', 'ADP', time)
-        # return render_template('parameters.html',lists = [Proteins,States,Time_Points],files=filename)
-
-        #     return send_file(file_object, mimetype='application/postscript', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
-
         return redirect('/replot')
 
     else:
@@ -396,13 +296,11 @@ def plot():
         a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, Time_Points, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
          session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
          ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
-         xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7])
+         xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
+         sizeX = session['PASSEDPARAMETERS'][12],sizeY = session['PASSEDPARAMETERS'][13],
+         lif = session['PASSEDPARAMETERS'][14] )
 
         return redirect('/replot')
-
-
-
-
 
 
 ########################################################################################################################################################
@@ -478,16 +376,6 @@ def allowed_file(filename):
 ###############################################################################################################################################################
 
 
-# @app.route('/', methods=['POST'])
-# def save():
-#     name = request.form['name']
-
-#     if request.method == 'POST':
-#         params = request.data.getlist('params[]')
-
-#     return params
-
-
 # @app.route('/index')
 
 # def index():
@@ -520,36 +408,3 @@ def allowed_file(filename):
 # @app.route('/error')
 # def error():
 #     return render_template('error.html')
-
-
-
-
-
-
-
-
-
-# @app.route('/plotshow')
-# def plotshow():
-#     raw_data = [
-#     [[255,255,255],[255,255,255],[255,255,255]],
-#     [[0,0,1],[255,255,255],[0,0,0]],
-#     [[255,255,255],[0,0,0],[255,255,255]],
-#     [[100,50,23],[55,23,76],[157,75,32]]
-# ]
-#     # my numpy array
-#     arr = np.array(raw_data)
-
-#     # convert numpy array to PIL Image
-#     img = Image.fromarray(arr.astype('uint8'))
-
-#     # create file-object in memory
-#     file_object = io.BytesIO()
-
-#     # write PNG in file-object
-#     img.save(file_object, 'PNG')
-
-#     # move to beginning of file so `send_file()` it will read from start
-#     file_object.seek(0)
-
-#     return send_file(file_object, mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
