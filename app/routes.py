@@ -225,6 +225,7 @@ def click_show_v():
         X_scale_r = float(request.form.get("X_scale_r"))
         Y_scale = int(request.form.get("Y_scale"))
         interval = float(request.form.get("interval"))
+        textsize = float(request.form.get("text_size"))
         showlist = request.form.get("show_list")
         plotxsize = float(request.form.get("plot_X_size"))
         plotysize = float(request.form.get("plot_Y_size"))
@@ -239,7 +240,7 @@ def click_show_v():
 
 
         session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
-        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif,plotxsize,plotysize,showlist]
+        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize]
         print(session["PASSEDPARAMETERS"])
         session["USERPLOTSTATUS"] = "volcanoplot"
 
