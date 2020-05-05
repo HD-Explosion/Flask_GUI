@@ -191,12 +191,12 @@ abbr,acronym { border: 0;
             margin: 0 auto;
         }
 
-        .rb {
+        /* .rb {
             background-image: url('../static/image/rb.gif');
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
-        }
+        } */
         .gr {
             background-image: url('../static/image/img_rb.jpg');
             background-repeat: no-repeat;
@@ -420,6 +420,8 @@ abbr,acronym { border: 0;
         </div>
 
         {% endif %}
+
+
          <div class="div3">
                 <!-- {% with messages = get_flashed_messages() %}
                     {% if messages %}
@@ -643,7 +645,7 @@ abbr,acronym { border: 0;
                  <li id="color2"  style="display: none">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" value="{{ paras[9] }}">
 
-                    <option value ="rb">rb
+                    <option value ="rb">
                         <img src="../static/image/img_rb.jpg" alt="rb_icon" style="width:100px;height:50px">
                     </option>
                     <option  value ="br">br
@@ -991,7 +993,6 @@ abbr,acronym { border: 0;
                 </select>
                 </li>
             -->
-
              <li id="color1" >
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
                     <option  value ="r">r</option>
@@ -1003,16 +1004,49 @@ abbr,acronym { border: 0;
 
                 </select></li>
 
+                
+
+                <div class="btn-group" style="margin:5px;">    <!-- CURRENCY, BOOTSTRAP DROPDOWN -->
+                    <!--<a class="btn btn-primary" href="javascript:void(0);">Currency</a>-->                    
+                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#"> Color <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" >
+                            <img style = "width: 60px; height: 30px;" src="./static/image/rb.gif" /></a>
+                        </li>
+    
+                        <li><a href="javascript:void(0);" >
+                            <img style = "width: 60px; height: 30px;" src="./static/image/img_rb.jpg" /></a>
+                        </li>
+                    </ul>
+                </div>
+    
+                <script>
+
+                $(".dropdown-menu li a").click(function () {
+                    var selText = $(this).text();
+                    var imgSource = $(this).find('img').attr('src');
+                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';        
+                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
+                });
+                </script>
+
+
+
+
+
+
+
+
                  <li id="color2"  style="display: none">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" >
 
-                     <option value="cb" data-image="../static/image/rb.gif">cb</option>  <!-- here is in progress of try to make background image-->
+                     <option value="cb" >cb</option>  <!-- here is in progress of try to make background image-->
 
                     <option value ="rb" class="rb">rb
 
                     </option>
-                    <option  value ="br" style="background-image:url('https://www.crwflags.com/fotw/images/c/cz@acp.gif');">br
-
+                    <option  value ="br">br
+        
                     </option>
                     <option  value ="gr" class="gr">gr
 
