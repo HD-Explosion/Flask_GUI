@@ -210,65 +210,65 @@ def click_show_h():
 @app.route('/click_show_v',methods=['GET', 'POST'])
 def click_show_v():
     if request.method == 'POST':
-        #try:
-        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+        try:
+            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                    names = pickle.load(f)
+    
+            protein = request.form.get("protein")
+            state1 = request.form.get("state1")
+            state2 = request.form.get("state2")
+            time_point = request.form.get("time_point")
+            if time_point == "ALL":
+                time_point = names[-2]
+            size = int(request.form.get("size"))
+            X_scale_l = float(request.form.get("X_scale_l"))
+            X_scale_r = float(request.form.get("X_scale_r"))
+            Y_scale = int(request.form.get("Y_scale"))
+            interval = float(request.form.get("interval"))
+            textsize = float(request.form.get("text_size"))
+            showlist = request.form.get("show_list")
+            plotxsize = float(request.form.get("plot_X_size"))
+            plotysize = float(request.form.get("plot_Y_size"))
+            color = request.form.get("color")
+
+            print(color)
+
+            if color == "pattern1":
+                color = ['#000000', '#B40000', '#000096', '#F09600', '#009600', '#009696']
+            elif color == "pattern2":
+                color = ['#170E34', '#162850', '#264A6D', '#005CA5', '#00909D', '#DAE0E6']
+            elif color == "pattern3":
+                color = ['#511845', '#8F1941', '#C7203C', '#F0593A', '#F7AFA6', '#FFD769']
+            elif color == "pattern4":
+                color = ['#BE3726', '#F05D29', '#F1892E', '#F1B23C', '#F1D540', '#BBD873']
+            elif color == "pattern5":
+                color = ['#C54129', '#DD762E', '#718161', '#D7C492', '#4D3E3E', '#170E34']
+            elif color == "pattern6":
+                color = ['#E34798', '#D180B4', '#BC94C4', '#DFA2C8', '#DFA2C8', '#FCE2DA']
+            elif color == "pattern7":
+                color = ['#FFE65D', '#FCB628', '#889756', '#527435', '#434E53', '#5B8B84']           
+
+            significance = float(request.form.get("significance"))
+            min_dif = float(request.form.get("min_dif"))
+
+
+            session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
+            X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize]
+            print(session["PASSEDPARAMETERS"])
+            session["USERPLOTSTATUS"] = "volcanoplot"
+
+
+        except:
+            flash("Missing or invalid parameter input","error")
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+
+            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
                 names = pickle.load(f)
-  
-        protein = request.form.get("protein")
-        state1 = request.form.get("state1")
-        state2 = request.form.get("state2")
-        time_point = request.form.get("time_point")
-        if time_point == "ALL":
-            time_point = names[-2]
-        size = int(request.form.get("size"))
-        X_scale_l = float(request.form.get("X_scale_l"))
-        X_scale_r = float(request.form.get("X_scale_r"))
-        Y_scale = int(request.form.get("Y_scale"))
-        interval = float(request.form.get("interval"))
-        textsize = float(request.form.get("text_size"))
-        showlist = request.form.get("show_list")
-        plotxsize = float(request.form.get("plot_X_size"))
-        plotysize = float(request.form.get("plot_Y_size"))
-        color = request.form.get("color")
-
-        print(color)
-
-        if color == "pattern1":
-            color = ['#000000', '#B40000', '#000096', '#F09600', '#009600', '#009696']
-        elif color == "pattern2":
-            color = ['#170E34', '#162850', '#264A6D', '#005CA5', '#00909D', '#DAE0E6']
-        elif color == "pattern3":
-            color = ['#511845', '#8F1941', '#C7203C', '#F0593A', '#F7AFA6', '#FFD769']
-        elif color == "pattern4":
-            color = ['#BE3726', '#F05D29', '#F1892E', '#F1B23C', '#F1D540', '#BBD873']
-        elif color == "pattern5":
-            color = ['#C54129', '#DD762E', '#718161', '#D7C492', '#4D3E3E', '#170E34']
-        elif color == "pattern6":
-            color = ['#E34798', '#D180B4', '#BC94C4', '#DFA2C8', '#DFA2C8', '#FCE2DA']
-        elif color == "pattern7":
-            color = ['#FFE65D', '#FCB628', '#889756', '#527435', '#434E53', '#5B8B84']           
-
-        significance = float(request.form.get("significance"))
-        min_dif = float(request.form.get("min_dif"))
-
-
-        session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
-        X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize]
-        print(session["PASSEDPARAMETERS"])
-        session["USERPLOTSTATUS"] = "volcanoplot"
-
-
-        #except:
-        # flash("Missing or invalid parameter input","error")
-        # app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-
-        # with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
-        #     names = pickle.load(f)
-        # Data1 = names[-1]
-        # Time_Points = names[-2]
-        # filename = session['FILENAME']
-        # session["USERPLOTSTATUS"] = "volcanoplot"
-        # return render_template('ui.html',lists = names,files=filename)
+            Data1 = names[-1]
+            Time_Points = names[-2]
+            filename = session['FILENAME']
+            session["USERPLOTSTATUS"] = "volcanoplot"
+            return render_template('ui.html',lists = names,files=filename)
 
     return redirect('/plot')
 
@@ -285,35 +285,32 @@ def plot():
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
 
     if session["USERPLOTSTATUS"] == "heatmap":
-
-
-    #try:
-        K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
-        session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
-        f = session['PASSEDPARAMETERS'][-1], pp = session['PASSEDPARAMETERS'][-2],
-        rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
-        color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
-        step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot')
-        #except:
-        #    print("Function not impelemented properly")
-
-
-
-        return redirect('/replot')
+        try:
+            K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
+            session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
+            f = session['PASSEDPARAMETERS'][-1], pp = session['PASSEDPARAMETERS'][-2],
+            rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
+            color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
+            step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot')
+        except:
+            print("Function not impelemented properly")
+            return redirect('/replot')
 
     else:
         #session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point,
         # size, X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif]
         #colors = [(75/255, 140/255, 97/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255),(12/255, 110/255, 22/255)]
-
-        a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, Time_Points, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
-         session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
-         ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
-         xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
-         sizeX = session['PASSEDPARAMETERS'][12],sizeY = session['PASSEDPARAMETERS'][13],
-         lif = session['PASSEDPARAMETERS'][14] )
-
-        return redirect('/replot')
+        try:
+            a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, Time_Points, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
+            session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
+            ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
+            xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
+            sizeX = session['PASSEDPARAMETERS'][12],sizeY = session['PASSEDPARAMETERS'][13],
+            lif = session['PASSEDPARAMETERS'][14] )
+            return redirect('/replot')
+        except:
+            print("Function not impelemented properly")
+            return redirect('/replot')
 
 
 ########################################################################################################################################################
