@@ -576,6 +576,65 @@ abbr,acronym { border: 0;
 
                 <li id="color">
                     <div>Color</div>
+                    <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select <span class="caret"></span></button>
+                        <ul class="dropdown-menu"  style="width: fit-content" >
+                            <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
+                                <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
+                            </li>
+                
+                            <li ><input type="hidden" value="pattern2" name="colors"/><a href="javascript:void(0);" >
+                                <img style = "width: 100%; height: 100%;" src="./static/image/170E34.png" /> </a>
+                            </li>
+                
+                            <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
+                
+                                <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
+                            </li>
+                
+                            <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
+                
+                                <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
+                            </li>
+                
+                            <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
+                
+                                <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
+                            </li>
+                
+                            <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
+                
+                                <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
+                            </li>
+                
+                            <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
+                
+                                <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
+                            </li>
+                            
+                     </ul>
+                
+                
+                     
+                    </div>
+                
+                
+                
+                            <script>
+                                $(".dropdown-menu li a").click(function () {
+                                    $(this).parent().find('input').attr('name', 'color');
+                                    var selText = $(this).text();
+                                    var imgSource = $(this).find('img').attr('src');
+                                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
+                                    var color = $(this).parent().find('input').val();
+                                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
+                                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
+                                    
+                
+                                });
+                
+                                </script>
+                
 
 
                 </li>
@@ -723,9 +782,20 @@ abbr,acronym { border: 0;
 
                 <li>
                     Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point" value="{{ paras[3] }}" style="width: 120px">
-                    <option>{{ paras[3] }}</option>
-                    <option value = "ALL">All</option>
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                        {% if paras[3] is not string %}
+                        <option value = "ALL"> All</option>
+                    {% else %}
+                        <option>{{ paras[3] }}</option>
+                        <option value = "ALL"> All</option>
+                    {% endif %}
+
+                    {% for lst in lists[2] %}
+                        {% if lst != paras[3] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    
+                    {% endfor %}
+
                 </select>
                 </li>
 
@@ -751,17 +821,10 @@ abbr,acronym { border: 0;
 
 
 
-<!-- {#                <li id="color" >#}
-{#                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color" value="{{ paras[9] }}">#}
-{#                    <option value = 'pattern1' >pattern1</option>#}
-{#                    <option  value ='pattern2'>pattern2</option>#}
-{##}
-{#                </select></li>#} -->
-
 <li id="color">
     <div>Color</div>
     <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Pattern <span class="caret"></span></button>
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select<span class="caret"></span></button>
         <ul class="dropdown-menu"  style="width: fit-content" >
             <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
                 <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
@@ -997,7 +1060,7 @@ abbr,acronym { border: 0;
             <li id="color">
                 <div>Color</div>
                 <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Pattern <span class="caret"></span></button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" >Select<span class="caret"></span></button>
                     <ul class="dropdown-menu"  style="width: fit-content" >
                         <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
                             <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
