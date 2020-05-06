@@ -230,7 +230,9 @@ def click_show_v():
         plotxsize = float(request.form.get("plot_X_size"))
         plotysize = float(request.form.get("plot_Y_size"))
         color = request.form.get("color")
+
         print(color)
+
         if color == "pattern1":
             color = ['#000000', '#B40000', '#000096', '#F09600', '#009600', '#009696']
         elif color == "pattern2":
