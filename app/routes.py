@@ -36,7 +36,7 @@ ipfilename = "iplist.csv"
 ip_folder = os.path.join(Path(app.root_path),'static/ip','iplist.csv')
 scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_job(email.send_ip,trigger="interval", hours=2, args =[app,ipfilename,ip_folder])
+scheduler.add_job(email.send_ip,trigger="interval", weeks=2, args =[app,ipfilename,ip_folder])
 scheduler.add_job(clean.remove_userfolder,trigger="interval", weeks=2, args =[alluser_folders])
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
