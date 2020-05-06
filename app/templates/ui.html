@@ -375,7 +375,7 @@ abbr,acronym { border: 0;
 
         {% if filestatus %}
         <div class="div1">
-            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
+            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left" onsubmit="sub_file()">
                 <div id="c1" style="display: none">
                     <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
                      <label for="upload_s"> Please select ONE file to upload</label></p>
@@ -400,7 +400,7 @@ abbr,acronym { border: 0;
         {% else %}
 
         <div class="div1">
-            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left">
+            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left" onsubmit="sub_file()">
                 <div id="c1">
                     <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
                      <label for="upload_s"> Please select ONE file to upload</label></p>
@@ -434,19 +434,30 @@ abbr,acronym { border: 0;
                 {% endwith %} -->
                 {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
-                  <div id="message" class="{{ category }}" style="display: none" value="{{ message }}">{{ message }}</div>
-        <script type="text/javascript">
-                         function sub_file() {
-                            // alert function in progress
+                  <div id="message" class="{{ category }}" style="display: none"  value="{{ message }}" >{{ message }}</div>
+                    <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
+		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			{{message}}
 
-
-                                    var message = document.getElementById('message').getAttribute("value");
-                                    alert( message );
-               }
-        </script>
+		  </div>
                 {% endfor %}
               {% endwith %}
 
+            <!-- <script type="text/javascript">
+                         function sub_file() {
+                            // alert function in progress
+                               //setTimeout(function() {
+                                   var message = (document).getElementById('message').innerText;
+                                    alert(message);
+                              //},3000);
+                             }
+
+                   //                var message = (document).getElementById('message').innerText;
+                    //                alert(message);
+
+                    //         }
+
+            </script> -->
 
 
         </div>
@@ -604,13 +615,13 @@ abbr,acronym { border: 0;
 				 </li>
 
                 <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1" value="{{ paras[1] }}">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1" value="{{ paras[1] }}" style="width: 100px">
                      <option>{{ paras[1] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2" value="{{ paras[2] }}">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2" value="{{ paras[2] }}" style="width: 100px">
                      <option>{{ paras[2] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -711,7 +722,7 @@ abbr,acronym { border: 0;
                 <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}"></li>
 
                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point" value="{{ paras[3] }}" style="width: 50px">
+                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point" value="{{ paras[3] }}" style="width: 120px">
                     <option>{{ paras[3] }}</option>
                     <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
@@ -725,13 +736,13 @@ abbr,acronym { border: 0;
 
 
                 <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1" value="{{ paras[1] }}">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1" value="{{ paras[1] }}" style="width: 100px">
                     <option>{{ paras[1] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2" value="{{ paras[2] }}">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2" value="{{ paras[2] }}" style="width: 100px">
                     <option>{{paras[2] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
