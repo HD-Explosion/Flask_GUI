@@ -569,64 +569,9 @@ abbr,acronym { border: 0;
                 </li>
 
 
-
-
-{#                <li id="color" >#}
-{#                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">#}
-{#                    <option value = 'pattern1' >pattern1</option>#}
-{#                    <option  value ='pattern2'>pattern2</option>#}
-{##}
-{#                </select></li>#}
-
                 <li id="color">
                     <div>Color</div>
 
-                <div class="btn-group" style="top:-15px; left: 145px; ">    <!-- CURRENCY, BOOTSTRAP DROPDOWN -->
-                    <!--<a class="btn btn-primary" href="javascript:void(0);">Currency</a>-->
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Pattern <span class="caret"></span></button>
-                    <ul class="dropdown-menu"  style="width: fit-content">
-                       <li class="pattern1"><input type="hidden"  value="pattern1" name="color"><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/000000.png" /> Pattern 1</a></input>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern2" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/170E34.png" /> Pattern 2 </a>
-                        </li>
-
-                         <li><input type="hidden" value="pattern3" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/511845.png" /> Pattern 3 </a>
-                        </li>
-
-                         <li><input type="hidden" value="pattern4" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/BE3726.png" /> Pattern 4 </a>
-                        </li>
-
-                         <li><input type="hidden" value="pattern5" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/C54129.png" /> Pattern 5</a>
-                        </li>
-
-                         <li><input type="hidden" value="pattern6" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/E34798.png" /> Pattern 6 </a>
-                        </li>
-
-                         <li><input type="hidden" value="pattern7" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/FFE65D.png" /> Pattern 7 </a>
-                        </li>
-                    </ul>
-                </div>
-
-                          <script>
-
-                $(".dropdown-menu li a").click(function () {
-                    var selText = $(this).text();
-                    var imgSource = $(this).find('img').attr('src');
-                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
-                    var color = $(this).parent().find('input').val();
-                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
-                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
-                });
-
-                </script>
 
                 </li>
 
@@ -695,12 +640,6 @@ abbr,acronym { border: 0;
 
 
             <ul class="div3">
-                <!-- <li>
-                    Time points&nbsp&nbsp<select  name="time_point">
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-            -->
 
                  <li id="color1" >
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" value="{{ paras[9] }}">
@@ -807,64 +746,75 @@ abbr,acronym { border: 0;
 
 
 
-{#                <li id="color" >#}
+<!-- {#                <li id="color" >#}
 {#                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color" value="{{ paras[9] }}">#}
 {#                    <option value = 'pattern1' >pattern1</option>#}
 {#                    <option  value ='pattern2'>pattern2</option>#}
 {##}
-{#                </select></li>#}
+{#                </select></li>#} -->
 
-                 <li id="color">
-                    <div>Color</div>
+<li id="color">
+    <div>Color</div>
+    <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Pattern <span class="caret"></span></button>
+        <ul class="dropdown-menu"  style="width: fit-content" >
+            <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
+                <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
+            </li>
 
-                <div class="btn-group" style="top:-15px; left: 145px; ">    <!-- CURRENCY, BOOTSTRAP DROPDOWN -->
-                    <!--<a class="btn btn-primary" href="javascript:void(0);">Currency</a>-->
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" value="{{ paras[9] }}"> Pattern <span class="caret"></span></button>
-                    <ul class="dropdown-menu"  style="width: fit-content">
-                        <li class="pattern1"><input type="hidden"  value="pattern1" name="color"><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/000000.png" /> Pattern 1</a></input>
-                        </li>
+            <li ><input type="hidden" value="pattern2" name="colors"/><a href="javascript:void(0);" >
+                <img style = "width: 100%; height: 100%;" src="./static/image/170E34.png" /> </a>
+            </li>
 
-                        <li ><input type="hidden" value="pattern2" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/170E34.png" /> Pattern 2 </a>
-                        </li>
+            <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
 
-                         <li><input type="hidden" value="pattern3" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/511845.png" /> Pattern 3 </a>
-                        </li>
+                <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
+            </li>
 
-                         <li><input type="hidden" value="pattern4" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/BE3726.png" /> Pattern 4 </a>
-                        </li>
+            <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
 
-                         <li><input type="hidden" value="pattern5" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/C54129.png" /> Pattern 5</a>
-                        </li>
+                <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
+            </li>
 
-                         <li><input type="hidden" value="pattern6" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/E34798.png" /> Pattern 6 </a>
-                        </li>
+            <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
 
-                         <li><input type="hidden" value="pattern7" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/FFE65D.png" /> Pattern 7 </a>
-                        </li>
-                    </ul>
-                </div>
+                <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
+            </li>
 
-                       <script>
+            <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
 
+                <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
+            </li>
+
+            <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
+
+                <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
+            </li>
+            
+     </ul>
+
+
+     
+    </div>
+
+
+
+            <script>
                 $(".dropdown-menu li a").click(function () {
+                    $(this).parent().find('input').attr('name', 'color');
                     var selText = $(this).text();
                     var imgSource = $(this).find('img').attr('src');
                     var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
                     var color = $(this).parent().find('input').val();
                     $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
                     $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
+                    
+
                 });
 
                 </script>
 
-                </li>
+                
 
 
                 <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
@@ -1038,65 +988,68 @@ abbr,acronym { border: 0;
 
 
 
-{#                <li id="color" >#}
-{#                    Color &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color">#}
-{#                    <option value = 'pattern1' >pattern1</option>#}
-{#                    <option  value ='pattern2'>pattern2</option>#}
-{##}
-{#                </select></li>#}
 
-                 <li id="color">
-                    <div>Color</div>
-
-                <div class="btn-group" style="top:-15px; left: 145px; ">    <!-- CURRENCY, BOOTSTRAP DROPDOWN -->
-                    <!--<a class="btn btn-primary" href="javascript:void(0);">Currency</a>-->
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Pattern <span class="caret"></span></button>
+            <li id="color">
+                <div>Color</div>
+                <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Pattern <span class="caret"></span></button>
                     <ul class="dropdown-menu"  style="width: fit-content" >
-                        <li class="pattern1"><input type="hidden"  value="pattern1" name="color"><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/000000.png" /> Pattern 1</a></input>
+                        <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
+                            <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
                         </li>
 
-                        <li ><input type="hidden" value="pattern2" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/170E34.png" /> Pattern 2 </a>
+                        <li ><input type="hidden" value="pattern2" name="colors"/><a href="javascript:void(0);" >
+                            <img style = "width: 100%; height: 100%;" src="./static/image/170E34.png" /> </a>
                         </li>
 
-                         <li><input type="hidden" value="pattern3" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/511845.png" /> Pattern 3 </a>
+                        <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
+         
+                            <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
                         </li>
 
-                         <li><input type="hidden" value="pattern4" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/BE3726.png" /> Pattern 4 </a>
+                        <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
+         
+                            <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
                         </li>
 
-                         <li><input type="hidden" value="pattern5" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/C54129.png" /> Pattern 5</a>
+                        <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
+         
+                            <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
                         </li>
 
-                         <li><input type="hidden" value="pattern6" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/E34798.png" /> Pattern 6 </a>
+                        <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
+         
+                            <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
                         </li>
 
-                         <li><input type="hidden" value="pattern7" name="color"/><a href="javascript:void(0);" >
-                            <img style = "width: 60px; height: 30px;" src="./static/image/FFE65D.png" /> Pattern 7 </a>
+                        <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
+         
+                            <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
                         </li>
-                    </ul>
+                        
+                 </ul>
+
+
+                 
                 </div>
-
-                <script>
-
-                $(".dropdown-menu li a").click(function () {
-                    var selText = $(this).text();
-                    var imgSource = $(this).find('img').attr('src');
-                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
-                    var color = $(this).parent().find('input').val();
-                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
-                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
-                });
-
-                </script>
+            
 
 
-                </li>
+                        <script>
+                            $(".dropdown-menu li a").click(function () {
+                                $(this).parent().find('input').attr('name', 'color');
+                                var selText = $(this).text();
+                                var imgSource = $(this).find('img').attr('src');
+                                var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
+                                var color = $(this).parent().find('input').val();
+                                $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
+                                $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
+                                
+
+                            });
+            
+                            </script>
+
 
 
                 <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
@@ -1117,94 +1070,94 @@ abbr,acronym { border: 0;
 
 
 
-	<form action="/click_show_h" method = "post">
-    <div id="d2" style="display: none" >
-             <ul class="div1" style="float: left">
-
-                 <li>
-                 <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
-
-                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
-                    </select>
-
-                 </li>
-
-                <li><strong>Comparison</strong>
-				 </li>
-
-                <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
-                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-					</select></li>
-
-                <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
-
-                 <li><strong>Range</strong>
-				 </li>
-
-                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
-
-                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
-
-                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
-
-
-
-            </ul>
-
-
-            <ul class="div3" >
-                <!-- <li>
-                    Time points&nbsp&nbsp<select  name="time_point">
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-            -->
-             <li id="color1" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
-                    <option  value ="r">r</option>
-                    <option  value ="g">g</option>
-                    <option  value ="b">b</option>
-                    <option  value ="o">o</option>
-                    <option  value ="y">y</option>
-                    <option  value ="g">g</option>
-
-                </select></li>
-
-
-                 <li id="color2"  style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" >
-
-
-                    <option value ="rb" class="rb">rb</option>
-                    <option  value ="br" class="br">br</option>
-                    <option  value ="gr" class="gr">gr</option>
-                    <option  value ="ob" class="ob">ob</option>
-                    <option  value ="rg" class="rg">rg</option>
-                    <option  value ="bp" class="bp">bp</option>
-                    <option  value ="bg" class="bg">bg</option>
-
-                </select></li>
-
-                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
-
-                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
-
-
-                <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
-
-            </ul>
-         </div>
-         </form>
+         <form action="/click_show_h" method = "post">
+            <div id="d2" style="display: none" >
+                     <ul class="div1" style="float: left">
+        
+                         <li>
+                         <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+        
+                                {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                            </select>
+        
+                         </li>
+        
+                        <li><strong>Comparison</strong>
+                         </li>
+        
+                        <li>
+                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                                {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                            </select></li>
+        
+                        <li>
+                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                               {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+        
+        
+                         <li><strong>Range</strong>
+                         </li>
+        
+                         <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+        
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+        
+                        <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+        
+                        <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+        
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+        
+        
+        
+                    </ul>
+        
+        
+                    <ul class="div3" >
+                        <!-- <li>
+                            Time points&nbsp&nbsp<select  name="time_point">
+                            {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+                    -->
+                     <li id="color1" >
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                            <option  value ="r">r</option>
+                            <option  value ="g">g</option>
+                            <option  value ="b">b</option>
+                            <option  value ="o">o</option>
+                            <option  value ="y">y</option>
+                            <option  value ="g">g</option>
+        
+                        </select></li>
+        
+        
+                         <li id="color2"  style="display: none">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" >
+        
+        
+                            <option value ="rb" class="rb">rb</option>
+                            <option  value ="br" class="br">br</option>
+                            <option  value ="gr" class="gr">gr</option>
+                            <option  value ="ob" class="ob">ob</option>
+                            <option  value ="rg" class="rg">rg</option>
+                            <option  value ="bp" class="bp">bp</option>
+                            <option  value ="bg" class="bg">bg</option>
+        
+                        </select></li>
+        
+                         <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+        
+                        <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+        
+        
+                        <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+        
+                    </ul>
+                 </div>
+                 </form>
     {% endif %}
 
 
