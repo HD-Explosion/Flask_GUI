@@ -560,7 +560,7 @@ abbr,acronym { border: 0;
          <div id="d1" style="display: none">
              <ul class="div1" style="float: left">
                 <li>
-                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein">
+                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" style="width: 100px">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -570,12 +570,12 @@ abbr,acronym { border: 0;
                 <li><strong>Comparison</strong></li>
 
                 <li >
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" style="width: 100px">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li >
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" style="width: 100px">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -596,7 +596,7 @@ abbr,acronym { border: 0;
             <ul class="div3" style="margin-left: 30px">
 
                  <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" >
+                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" style="width: 80px">
                                             <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -691,7 +691,7 @@ abbr,acronym { border: 0;
              <ul class="div1" style="float: left">
 
                  <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" value="{{ paras[0] }}">
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
                          <option>{{ paras[0] }}</option>
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -702,13 +702,13 @@ abbr,acronym { border: 0;
 				 </li>
 
                 <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" value="{{ paras[1] }}" style="width: 100px">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" value="{{ paras[1] }}" style="width: 100px" style="width: 100px">
                      <option>{{ paras[1] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" value="{{ paras[2] }}" style="width: 100px" style="width: 100px">
                      <option>{{ paras[2] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -794,7 +794,7 @@ abbr,acronym { border: 0;
          <div id="d1" style="display: block" >
              <ul class="div1" style="float: left">
                 <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" value="{{ paras[0] }}">
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
                         <option>{{paras[0] }}</option>
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -946,7 +946,7 @@ abbr,acronym { border: 0;
              <ul class="div1" style="float: left">
 
                  <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="protein">
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="protein" style="width: 100px">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -957,12 +957,12 @@ abbr,acronym { border: 0;
 				 </li>
 
                 <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" style="width: 100px">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" style="width: 100px">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -1037,7 +1037,7 @@ abbr,acronym { border: 0;
          <div id="d1" style="display:none">
              <ul class="div1" style="float: left">
                 <li>
-                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein">
+                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" style="width: 100px">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -1047,12 +1047,12 @@ abbr,acronym { border: 0;
                 <li><strong>Comparison</strong></li>
 
                 <li >
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" style="width: 100px">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li >
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" style="width: 100px">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -1074,7 +1074,7 @@ abbr,acronym { border: 0;
             <ul class="div3" style="margin-left: 30px">
 
                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" >
+                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" style="width: 80px">
                                             <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -1168,7 +1168,7 @@ abbr,acronym { border: 0;
                      <ul class="div1" style="float: left">
         
                          <li>
-                         <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein">
+                         <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" style="width: 100px">
         
                                 {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                             </select>
@@ -1179,12 +1179,12 @@ abbr,acronym { border: 0;
                          </li>
         
                         <li>
-                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1">
+                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" style="width: 100px">
                                 {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                             </select></li>
         
                         <li>
-                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2">
+                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" style="width: 100px">
                                {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                         </select>
                         </li>
