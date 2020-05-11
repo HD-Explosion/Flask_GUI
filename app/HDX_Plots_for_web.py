@@ -249,7 +249,10 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
 
     # plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     # plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
-    fig, ax = plt.subplots(figsize=(len(sec)*0.0612318+1.3243, 3))
+    if rotation == 'H':
+        fig, ax = plt.subplots(figsize=(len(sec)*0.0612318+1.3243, 3))
+    else:
+        fig, ax = plt.subplots(figsize=(3, len(sec)*0.0612318+1.3243))
     clmap = [(1.0, 1.0, 1.0)]
     if color == 'r':
         for c in range(step - 1):
@@ -345,8 +348,6 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     if rotation == 'H' or rotation == 'h':
         im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
         cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', fraction=.12, pad=0.4)
-        print(6*(step+step2+1))
-        print(len(sec)*0.0612318+1.3243)
         if 10.8 > len(sec)*0.0612318+1.3243:
             cbar.ax.tick_params(labelsize=len(sec)*0.0612318+1.3243/(step+step2+1)*20)
         else:
@@ -371,18 +372,20 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         #plt.show()
     else:
         im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
-        cbar = ax.figure.colorbar(im, ax=ax)
-        cbar.ax.set_ylabel('Dif', rotation=-90, va="bottom", fontsize=5)
+        cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', pad=0.4)
+        cbar.ax.set_xlabel(protien + '_' + State1 + '-' + State2, labelpad=15, va="bottom")
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
+        cbar.set_ticklabels(np.linspace(min, max, step + step2 + 1))
         ax.set_yticks(np.arange(len(sec)))
         ax.set_xticks(np.arange(len(Time_points)))
         ax.set_yticklabels(sec)
         ax.set_xticklabels(Time_points)
+        ax.set_ylabel('Time')
+        ax.set_xlabel('Piptide Number')
         ax.set_facecolor('white')
         ax.tick_params(axis='y', labelsize=3.5, pad=0.9, length=3.2)
         ax.tick_params(axis='x', labelsize=10)
         plt.setp(ax.get_yticklabels(), rotation=0, ha="right", va='center', rotation_mode="anchor")
-        plt.title(protien + '_' + State1 + '-' + State2, {'fontsize': 4})
         fig.tight_layout()
         plt.savefig(os.path.join(UserFolder,file_name + ".eps"), format='eps', dpi=100)
         plt.savefig(os.path.join(UserFolder,file_name + ".png"), format='png', dpi=500)
