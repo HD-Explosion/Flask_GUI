@@ -306,7 +306,7 @@ def plot():
         try:
             K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
             session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
-            f = session['PASSEDPARAMETERS'][-1], pp = session['PASSEDPARAMETERS'][-2],
+            f = session['PASSEDPARAMETERS'][11], pp = session['PASSEDPARAMETERS'][10],
             rotation='H', max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
             color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
             step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot')
