@@ -61,7 +61,7 @@ abbr,acronym { border: 0;
         }
 
     ul {
-        margin: 10px;
+        margin: 8px;
     }
 
     li{
@@ -83,7 +83,7 @@ abbr,acronym { border: 0;
         width: 100%;
         height: fit-content;
         position:absolute;
-        top:745px;
+        top:770px;
         left:0px;
         overflow: hidden;
         text-align: center;
@@ -191,14 +191,39 @@ abbr,acronym { border: 0;
             margin: 0 auto;
         }
 
-        /* .rb {
-            background-image: url('../static/image/rb.gif');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: cover;
-        } */
+       .C_right {
+             position: absolute;
+           left: 200px;
+       }
 
+        .C_left {
+            position: absolute;
+            left: 120px;
+        }
 
+        .C_right_w {
+
+        }
+
+        .C_right_ul {
+            position:absolute;
+            left: 275px;
+        }
+
+        .V_right {
+            position: absolute;
+           left: 402px;
+       }
+
+        .V_left {
+            position: absolute;
+            left: 122px;
+        }
+
+        .V_right_w {
+
+            left: 250px;
+        }
 
         .dropdown-toggle {
             background:#FFF !important;
@@ -336,39 +361,39 @@ abbr,acronym { border: 0;
 <body>
 
 
-    <div style="margin-left: 50px">
-        <div id="div1">
-            <h1 style="color: black; ">HD-eXplosion</h1>
+    <div >
+        <div id="div1" style=" margin-left: 0;width: 400px;height: 80px; float: left;position:absolute;top: 36px;left:-60px">
+            <img src="./static/image/HD-eXplosion.jpg" alt="HD-eXplosion">
         </div>
         <div id="div2" style="width: 200px">
 
         </div>
         <div id="div3" style="float: right; margin-right: 50px; display: inline-list-item">
-            <button class="button" type = "button"  >Instructions</button>
+           <a href="/static/Help file.pdf" target="_blank"> <button class="button" type = "button"   >Instructions</button></a>
         </div>
     </div>
 
 
 
 
-    <div class="box" style="left:20px;top:100px;height:250px">
+    <div class="box" style="left:20px;top:105px;height:250px">
         <h4><strong>Data </strong></h4>
         {% if filestatus %}
         <span>
             <form  method="post" enctype="multipart/form-data">
             <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" >
-            <label for="single_file">One File</label><br>
+            <label for="single_file">One File (.csv)</label><br>
             <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" checked>
-            <label for="multi_files">Multiple Files</label><br>
+            <label for="multi_files">Multiple Files (.csv)</label><br>
             </form>
         </span>
         {% else %}
         <span>
             <form  method="post" enctype="multipart/form-data">
             <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
-            <label for="single_file">One File</label><br>
+            <label for="single_file">One File (.csv)</label><br>
             <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" >
-            <label for="multi_files">Multiple Files</label><br>
+            <label for="multi_files">Multiple Files (.csv)</label><br>
             </form>
         </span>
         {% endif %}
@@ -381,7 +406,7 @@ abbr,acronym { border: 0;
                      <label for="upload_s"> Please select ONE file to upload</label></p>
                     <input type="submit" value="Submit" onclick="sub_file()">
                     <h6>{{ ipaddr }}</h6>
-                    <a href="help">Click here for a demo file</a>
+                    <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
                 </div>
             </form>
             <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button> -->
@@ -392,7 +417,7 @@ abbr,acronym { border: 0;
                     <label for="upload_m"> You may select up to 5 files to upload</label></p>
                     <input type="submit" value="Merge" onclick="sub_file()"> <input type="button"  onclick="window.location.href='{{ url_for('downloadcsv') }}';" value="Download Merged csv File">
                     <h6>{{ ipaddr }}</h6>
-                    <a href="help">Click here for a demo file</a>
+                     <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
                 </div>
             </form>
         </div>
@@ -406,7 +431,7 @@ abbr,acronym { border: 0;
                      <label for="upload_s"> Please select ONE file to upload</label></p>
                     <input type="submit" value="Submit" onclick="sub_file()">
                     <h6>{{ ipaddr }}</h6>
-                    <a href="help">Click here for a demo file</a>
+                     <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
                 </div>
             </form>
         
@@ -417,7 +442,7 @@ abbr,acronym { border: 0;
                     <label for="upload_m"> You may select up to 5 files to upload</label></p>
                     <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button" value="Download Merged csv File">
                     <h6>{{ ipaddr }}</h6>
-                    <a href="help">Click here for a demo file</a>
+                     <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
                 </div>
             </form>
         </div>
@@ -426,21 +451,25 @@ abbr,acronym { border: 0;
 
 
          <div class="div3">
-                <!-- {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        <p class="flashes">{{ messages }}</p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if cnt %}
+                        <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			                Your {{(cnt)}} files successfully uploaded
+                         </div>
+                    {% else %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
+		                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+			                {{message}}
+                         </div>
+                        {% endfor %}
 
                     {% endif %}
-                {% endwith %} -->
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% for category, message in messages %}
-                  <div id="message" class="{{ category }}" style="display: none"  value="{{ message }}" >{{ message }}</div>
-                    <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
-		  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-			{{message}}
 
-		  </div>
-                {% endfor %}
+
+
               {% endwith %}
 
             <!-- <script type="text/javascript">
@@ -467,7 +496,7 @@ abbr,acronym { border: 0;
 
     <div id="plot_status" s="{{plot_status}}" style="display: none"><p> {{ plot_status }}</p> </div>
 
-     <div class="box" style="left:20px;top:360px;height:360px">
+     <div class="box" style="left:20px;top:365px;height:383px">
          <div class="div1">
             <h4><strong>Parameters</strong></h4>
          </div>
@@ -480,15 +509,15 @@ abbr,acronym { border: 0;
         <form action="" method="post">
             <div class="div1">
             <h6><strong>Plot Type</strong></h6>
-            </div>
-            <div class="div2">
+            </div><br>
+            <div class="div2" style="margin-right: 20px">
                  <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
-                <label for="Heatmap">Chiclet </label><br>
+                <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg" style="width: 14px; height: 18px; margin: 0"> </label>
              </div>
 
             <div class="div3">
                 <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
-                <label for="Volcano Plot">Volcano </label><br>
+                <label for="Volcano Plot">Volcano  <img src="./static/image/valcano.jpg" style="width: 16px; height: 16px; margin:0"></label>
             </div>
         </form>
 
@@ -496,31 +525,31 @@ abbr,acronym { border: 0;
       <form action="" method="post">
             <div class="div1">
             <h6><strong>Plot Type</strong></h6>
-            </div>
-            <div class="div2">
+            </div><br>
+            <div class="div2" style="margin-right: 20px">
                  <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
-                <label for="Heatmap">Chiclet </label><br>
+                <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg" style="width: 14px; height: 18px; margin: 0"></label>
              </div>
 
             <div class="div3">
                 <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)" checked>
-                <label for="Volcano Plot">Volcano </label><br>
+                <label for="Volcano Plot">Volcano <img src="./static/image/valcano.jpg" style="width: 16px; height: 16px; margin:0"></label>
             </div>
         </form>
 
      {% else %}
       <form action="" method="post">
-            <div class="div1">
+            <div class="div1" >
             <h6><strong>Plot Type</strong></h6>
-            </div>
-            <div class="div2">
+            </div><br>
+            <div class="div2" style="margin-right: 20px">
                  <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
-                <label for="Heatmap">Chiclet </label><br>
+                <label for="Heatmap">Chiclet  <img src="./static/image/heatmap.jpg" style="width: 14px; height: 18px; margin: 0"></label>
              </div>
 
             <div class="div3">
                 <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
-                <label for="Volcano Plot">Volcano </label><br>
+                <label for="Volcano Plot">Volcano  <img src="./static/image/valcano.jpg" style="width: 16px; height: 16px; margin:0"></label>
             </div>
         </form>
      {% endif %}
@@ -531,7 +560,7 @@ abbr,acronym { border: 0;
          <div id="d1" style="display: none">
              <ul class="div1" style="float: left">
                 <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="V_left" name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -539,18 +568,18 @@ abbr,acronym { border: 0;
                  </li>
 
 
-                 <li>Symbol size&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+                 <li>Symbol size&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
-                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></li>
+                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></span></li>
 
-                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" style="margin-top: 3px"></li>
 
-                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval"></li>
+                <li style="margin-top: 3px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
 
                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point">
+                    Time points &nbsp&nbsp&nbsp&nbsp<select  class="V_left" name="time_point" style="margin-top: 2px">
                                             <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -562,19 +591,19 @@ abbr,acronym { border: 0;
             <ul class="div3">
 
 
-                <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                <li class="V_right_w">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="V_right" name="state1">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
-                <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                <li class="V_right_w">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="V_right" name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
 
 
-                <li id="color">
+                <li id="color"  class="V_right_w">
                     <div>Color</div>
                     <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select <span class="caret"></span></button>
@@ -613,13 +642,9 @@ abbr,acronym { border: 0;
                             </li>
                             
                      </ul>
-                
-                
                      
                     </div>
-                
-                
-                
+
                             <script>
                                 $(".dropdown-menu li a").click(function () {
                                     $(this).parent().find('input').attr('name', 'color');
@@ -629,25 +654,22 @@ abbr,acronym { border: 0;
                                     var color = $(this).parent().find('input').val();
                                     $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
                                     $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
-                                    
                 
                                 });
                 
                                 </script>
-                
-
 
                 </li>
 
-                <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li  class="V_right_w">Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
 
-                <li>Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+                <li  class="V_right_w">Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5" style="margin-top: 3px; margin-bottom: 3px"></li>
 
-                <li>Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="1" max="99" name="text_size" ></li>
+                <li  class="V_right_w" style="margin-top: 3px">Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.1" min="1" max="99" name="text_size" style="margin-top: 5px"></li>
 
-                <li>Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" type="checkbox"  name="show_list" ></li>
+                <li  class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
 
-                <li>Size of plot box &nbsp&nbsp&nbsp&nbspX&nbsp<input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></li>
+                <li class="V_right_w">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span  class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>
 
 
                 <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
@@ -663,7 +685,7 @@ abbr,acronym { border: 0;
              <ul class="div1" style="float: left">
 
                  <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein" value="{{ paras[0] }}">
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" value="{{ paras[0] }}">
                          <option>{{ paras[0] }}</option>
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -674,13 +696,13 @@ abbr,acronym { border: 0;
 				 </li>
 
                 <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1" value="{{ paras[1] }}" style="width: 100px">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" value="{{ paras[1] }}" style="width: 100px">
                      <option>{{ paras[1] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2" value="{{ paras[2] }}" style="width: 100px">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
                      <option>{{ paras[2] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -690,23 +712,41 @@ abbr,acronym { border: 0;
                  <li><strong>Range</strong>
 				 </li>
 
-                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max" value="{{ paras[3] }}"></li>
+                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max" value="{{ paras[3] }}"></li>
 
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step" value="{{ paras[4] }}"> </li>
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" value="{{ paras[4] }}" style="margin-top: 3px"> </li>
 
-                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" value="{{ paras[8] }}"></li>
+                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" value="{{ paras[8] }}" style="position: absolute; left: 120px; top: 274px"></li>
 
-                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" disabled></li>
+                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" disabled></li>
 
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" disabled> </li>
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" style="margin-top: 3px" disabled> </li>
 
             </ul>
 
 
-            <ul class="div3">
+            <ul class="C_right_ul" >
 
-                 <li id="color1" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" value="{{ paras[9] }}">
+                <li class="C_right_w"><strong>layout</strong></li>
+
+                {% if paras[12] == "vertical" %}
+                    <li class="C_right_w">
+                        <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
+                        <label for="vertical">vertical</label>
+                        <input id="horizontal" type="radio"  name="direction" value="horizontal" >
+                        <label for="horizontal">horizontal</label>
+                    </li>
+                 {% else %}
+                    <li class="C_right_w">
+                        <input id="vertical" type="radio"  name="direction" value="vertical"  >
+                        <label for="vertical">vertical</label>
+                        <input id="horizontal" type="radio"  name="direction" value="horizontal" checked>
+                        <label for="horizontal">horizontal</label>
+                    </li>
+                  {% endif %}
+
+                 <li id="color1" class="C_right_w">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
                     <option>{{ paras[9] }}</option>
                      <option  value ="r">r</option>
                     <option  value ="g">g</option>
@@ -717,39 +757,25 @@ abbr,acronym { border: 0;
 
                 </select></li>
 
-                 <li id="color2"  style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" value="{{ paras[9] }}">
+                 <li id="color2" class="C_right_w" style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
                     <option>{{ paras[9] }}</option>
-                    <option value ="rb">rb
-
-                    </option>
-                    <option  value ="br">br
-
-                    </option>
-                    <option  value ="gr">gr
-
-                    </option>
-                    <option  value ="ob">ob
-
-                    </option>
-                    <option  value ="rg">rg
-
-                    </option>
-                    <option  value ="bp">bp
-
-                    </option>
-                    <option  value ="bg">bg
-
-                    </option>
+                    <option value ="rb">rb</option>
+                    <option  value ="br">br</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="ob">ob</option>
+                    <option  value ="rg">rg</option>
+                    <option  value ="bp">bp</option>
+                    <option  value ="bg">bg</option>
 
                 </select></li>
 
-                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox" value="{{ paras[11] }}" name="sig_filter"></li>
+                 <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox" value="{{ paras[11] }}" name="sig_filter"  style="margin-top: 3px"></li>
 
-                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
+                <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
 
 
-                <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+                <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
@@ -762,7 +788,7 @@ abbr,acronym { border: 0;
          <div id="d1" style="display: block" >
              <ul class="div1" style="float: left">
                 <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein" value="{{ paras[0] }}">
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" value="{{ paras[0] }}">
                         <option>{{paras[0] }}</option>
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -770,18 +796,18 @@ abbr,acronym { border: 0;
                  </li>
 
 
-                 <li>Symbol size &nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
+                 <li>Symbol size &nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">{{ paras[4] }}</output>
 				 </li>
 
-                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l" value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r" value="{{ paras[6] }}"></li>
+                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l" value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r" value="{{ paras[6] }}"></span></li>
 
-                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}"></li>
+                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}" style="margin-top: 3px"></li>
 
-                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}"></li>
+                <li style="margin-top: 3px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}"></li>
 
                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point" value="{{ paras[3] }}" style="width: 120px">
+                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" value="{{ paras[3] }}" style="width: 80px; margin-top: 2px">
                         {% if paras[3] is not string %}
                         <option value = "ALL"> All</option>
                     {% else %}
@@ -805,14 +831,14 @@ abbr,acronym { border: 0;
             <ul class="div3">
 
 
-                <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1" value="{{ paras[1] }}" style="width: 100px">
+                <li class="V_right_w">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_right" name="state1" value="{{ paras[1] }}" style="width: 100px">
                     <option>{{ paras[1] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
-                <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2" value="{{ paras[2] }}" style="width: 100px">
+                <li class="V_right_w">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_right" name="state2" value="{{ paras[2] }}" style="width: 100px">
                     <option>{{paras[2] }}</option>
                     {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -821,7 +847,7 @@ abbr,acronym { border: 0;
 
 
 
-<li id="color">
+<li id="color" class="V_right_w">
     <div>Color</div>
     <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select<span class="caret"></span></button>
@@ -885,18 +911,18 @@ abbr,acronym { border: 0;
                 
 
 
-                <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
+                <li class="V_right_w">Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
 
-                <li>Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="{{ paras[11] }}"></li>
+                <li class="V_right_w">Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="{{ paras[11] }}" style="margin-top: 3px; margin-bottom: 3px"></li>
 
-                <li>Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="1" max="99" name="text_size" value="{{ paras[15] }}"></li>
+                <li class="V_right_w" style="margin-top: 3px">Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.1" min="1" max="99" name="text_size" value="{{ paras[15] }}" style="margin-top: 5px"></li>
 
-                <li>Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" type="checkbox"  name="show_list" value="{{ paras[14] }}"></li>
+                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px"></li>
 
-                <li>Size of plot box &nbsp&nbsp&nbsp&nbspX&nbsp<input type="number" step="0.1" min="1" max="999" name="plot_X_size" value="{{ paras[12] }}"> - Y<input type="number" step="0.1" min="0" max="999" name="plot_Y_size" value="{{ paras[13] }}"></li>
+                <li class="V_right_w">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size" value="{{ paras[12] }}"> - Y&nbsp<input type="number" step="0.1" min="0" max="999" name="plot_Y_size" value="{{ paras[13] }}"></span></li>
 
 
-                <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+                <li class="V_right_w"><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
@@ -909,7 +935,7 @@ abbr,acronym { border: 0;
              <ul class="div1" style="float: left">
 
                  <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -920,12 +946,12 @@ abbr,acronym { border: 0;
 				 </li>
 
                 <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
                 <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -934,30 +960,33 @@ abbr,acronym { border: 0;
                  <li><strong>Range</strong>
 				 </li>
 
-                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
 
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" style="margin-top: 3px"> </li>
 
-                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+                <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" style="position: absolute; left: 120px; top: 274px"></li>
 
-                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
 
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" style="margin-top: 3px" disabled> </li>
 
 
             </ul>
 
 
-            <ul class="div3">
-                <!-- <li>
-                    Time points&nbsp&nbsp<select  name="time_point">
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-            -->
+            <ul class="C_right_ul">
 
-                <li id="color1" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                <li class="C_right_w"><strong>layout</strong></li>
+
+                    <li class="C_right_w">
+                        <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
+                        <label for="vertical">vertical</label>
+                        <input id="horizontal" type="radio"  name="direction" value="horizontal" >
+                        <label for="horizontal">horizontal</label>
+                    </li>
+
+                <li id="color1" class="C_right_w">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" class="C_right">
                     <option  value ="r">r</option>
                     <option  value ="g">g</option>
                     <option  value ="b">b</option>
@@ -967,39 +996,25 @@ abbr,acronym { border: 0;
 
                 </select></li>
 
-                 <li id="color2"  style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2">
+                 <li id="color2" class="C_right_w" style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" class="C_right">
 
-                    <option value ="rb">rb
-
-                    </option>
-                    <option  value ="br">br
-
-                    </option>
-                    <option  value ="gr">gr
-
-                    </option>
-                    <option  value ="ob">ob
-
-                    </option>
-                    <option  value ="rg">rg
-
-                    </option>
-                    <option  value ="bp">bp
-
-                    </option>
-                    <option  value ="bg">bg
-
-                    </option>
+                    <option value ="rb">rb</option>
+                    <option  value ="br">br</option>
+                    <option  value ="gr">gr</option>
+                    <option  value ="ob">ob</option>
+                    <option  value ="rg">rg</option>
+                    <option  value ="bp">bp</option>
+                    <option  value ="bg">bg</option>
 
                 </select></li>
 
-                 <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+                 <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter" class="C_right"  style="margin-top: 3px"></li>
 
-                <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01" class="C_right"></li>
 
 
-                <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+                <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
@@ -1011,7 +1026,7 @@ abbr,acronym { border: 0;
          <div id="d1" style="display:none">
              <ul class="div1" style="float: left">
                 <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein">
 
                         {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                     </select>
@@ -1019,18 +1034,18 @@ abbr,acronym { border: 0;
                  </li>
 
 
-                 <li>Symbol size&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+                 <li>Symbol size&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
-                <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></li>
+                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></span></li>
 
-                <li>Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" style="margin-top: 3px"></li>
 
-                <li>Major interval&nbsp&nbsp<input type="number"  step="0.01" min="0" max="9999" name="interval"></li>
+                <li style="margin-top: 3px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
 
                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select  name="time_point">
+                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" style="margin-top: 2px">
                                             <option value = "ALL">All</option>
                     {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
@@ -1042,13 +1057,13 @@ abbr,acronym { border: 0;
             <ul class="div3">
 
 
-                <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                <li class="V_right_w">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_right" name="state1">
                         {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
 					</select></li>
 
-                <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                <li class="V_right_w">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_right" name="state2">
                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                 </select>
                 </li>
@@ -1057,7 +1072,7 @@ abbr,acronym { border: 0;
 
 
 
-            <li id="color">
+            <li id="color" class="V_right_w">
                 <div>Color</div>
                 <div class="btn-group" style="top:-15px; left: 145px; ">    <!--  BOOTSTRAP DROPDOWN -->
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" >Select<span class="caret"></span></button>
@@ -1120,17 +1135,17 @@ abbr,acronym { border: 0;
 
 
 
-                <li>Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li class="V_right_w">Significance &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
 
-                <li>Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5"></li>
+                <li class="V_right_w">Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5" style="margin-top: 3px; margin-bottom: 3px"></li>
 
-                <li>Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="1" max="99" name="text_size" ></li>
+                <li class="V_right_w" style="margin-top: 3px">Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.1" min="1" max="99" name="text_size" style="margin-top: 5px"></li>
 
-                <li>Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" type="checkbox"  name="show_list" ></li>
+                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
 
-                <li>Size of plot box &nbsp&nbsp&nbsp&nbspX&nbsp<input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></li>
+                <li class="V_right_w">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>
 
-                <li><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+                <li class="V_right_w"><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
 
             </ul>
          </div>
@@ -1143,7 +1158,7 @@ abbr,acronym { border: 0;
                      <ul class="div1" style="float: left">
         
                          <li>
-                         <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  name="protein">
+                         <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein">
         
                                 {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                             </select>
@@ -1154,12 +1169,12 @@ abbr,acronym { border: 0;
                          </li>
         
                         <li>
-                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state1">
+                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1">
                                 {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                             </select></li>
         
                         <li>
-                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="state2">
+                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2">
                                {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                         </select>
                         </li>
@@ -1168,30 +1183,39 @@ abbr,acronym { border: 0;
                          <li><strong>Range</strong>
                          </li>
         
-                         <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="0.1" min="0" max="9999" name="max"></li>
+                         <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
         
-                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="number" step="1" min="0" max="9999" name="max_step"> </li>
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" style="margin-top: 3px"> </li>
         
-                        <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox"  name="negative" ></li>
+                        <li>Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" type="checkbox" name="negative" style="position: absolute; left: 120px; top: 274px"></li>
         
-                        <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+                        <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
         
-                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" type="number" step="1" min="0" max="9999" name="min_step" disabled> </li>
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" style="margin-top: 3px" disabled> </li>
         
         
         
                     </ul>
         
         
-                    <ul class="div3" >
+                    <ul class="C_right_ul" >
                         <!-- <li>
                             Time points&nbsp&nbsp<select  name="time_point">
                             {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
                         </select>
                         </li>
                     -->
-                     <li id="color1" >
-                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1">
+                    <li class="C_right_w"><strong>layout</strong></li>
+
+                    <li class="C_right_w">
+                        <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
+                        <label for="vertical">vertical</label>
+                        <input id="horizontal" type="radio"  name="direction" value="horizontal" >
+                        <label for="horizontal">horizontal</label>
+                    </li>
+
+                     <li id="color1" class="C_right_w">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" class="C_right">
                             <option  value ="r">r</option>
                             <option  value ="g">g</option>
                             <option  value ="b">b</option>
@@ -1202,8 +1226,8 @@ abbr,acronym { border: 0;
                         </select></li>
         
         
-                         <li id="color2"  style="display: none">
-                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" >
+                         <li id="color2" class="C_right_w"  style="display: none">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" class="C_right">
         
         
                             <option value ="rb" class="rb">rb</option>
@@ -1216,12 +1240,12 @@ abbr,acronym { border: 0;
         
                         </select></li>
         
-                         <li>Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter"></li>
+                         <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox"  name="sig_filter" style="margin-top: 3px"></li>
         
-                        <li>Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                        <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
         
         
-                        <li><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+                        <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
         
                     </ul>
                  </div>

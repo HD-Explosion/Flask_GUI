@@ -91,6 +91,7 @@ def upload_multi_files():
             flash('No file part')
             return redirect(request.url)
         files = request.files.getlist('files[]')
+        cnt = len(files)
         count = 5
         filenames = []
         for file in files:
@@ -118,7 +119,7 @@ def upload_multi_files():
             pickle.dump(names, f)
         session["USERFILESTATUS"] = "multiple"
 
-        return render_template('ui.html',lists = names,files=filenames,filestatus = session["USERFILESTATUS"])
+        return render_template('ui.html',lists = names,files=filenames,filestatus = session["USERFILESTATUS"],cnt=cnt)
 
 @app.route('/upload_single_file', methods=['GET','POST'])
 def upload_single_file():
@@ -172,6 +173,7 @@ def click_show_h():
             color2 = request.form.get("color2")
             significance = float(request.form.get("significance"))
             sig_filter = request.form.get("sig_filter")
+            direction = request.form.get("direction")
 
             if negative:
                 min = float(request.form.get("min"))
@@ -179,12 +181,12 @@ def click_show_h():
                 color = color2
                 session["COLOR"] = 2
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
-                    time_point, negative, color, significance, sig_filter]
+                    time_point, negative, color, significance, sig_filter, direction]
             else:
                 color = color1
                 session["COLOR"] = 1
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
-                    time_point, negative, color, significance, sig_filter]
+                    time_point, negative, color, significance, sig_filter, direction]
 
             session["USERPLOTSTATUS"] = "heatmap"
 
@@ -232,6 +234,7 @@ def click_show_v():
             significance = float(request.form.get("significance"))
             min_dif = float(request.form.get("min_dif"))
             color = request.form.get("color")
+
 
             print(color)
             if color:
@@ -371,6 +374,13 @@ def downloadeps():
         return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
 
 
+@app.route('/downloaddemo',methods=['GET','POST'])
+def downloaddemo():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static')
+    file_demo = 'Demo file.csv'
+
+    return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
+              cache_timeout=0, attachment_filename='Demo file.csv')
 
 ###############################################################################################################################################################################
 
