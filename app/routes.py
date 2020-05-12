@@ -1,6 +1,5 @@
 from app import app
 from flask import render_template, send_file,request,Flask
-from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for,g
 from flask import  make_response, session
 import numpy as np
@@ -197,16 +196,19 @@ def click_show_h():
             session["USERPLOTSTATUS"] = "heatmap"
 
         except:
-            flash("WARNING: Missing parameter or invalid input!!!",'error')
             app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-
-            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
-                names = pickle.load(f)
-            Data1 = names[-1]
-            Time_Points = names[-2]
-            filename = session['FILENAME']
-            session["USERPLOTSTATUS"] = "heatmap"
-            return render_template('ui.html',lists = names,files=filename)
+            if os.path.exists(os.path.join(app.config['USER_FOLDER'],'names.pickle')):
+                flash("WARNING: Missing parameter or invalid input!!!",'error')
+                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                    names = pickle.load(f)
+                Data1 = names[-1]
+                Time_Points = names[-2]
+                filename = session['FILENAME']
+                session["USERPLOTSTATUS"] = "heatmap"
+                return render_template('ui.html',lists = names,files=filename)
+            else:
+                flash("WARNING: Please upload csv files",'error')
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
         print(session['PASSEDPARAMETERS'])
 
@@ -283,16 +285,19 @@ def click_show_v():
 
 
         except:
-            flash("Missing or invalid parameter input","error")
             app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-
-            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
-                names = pickle.load(f)
-            Data1 = names[-1]
-            Time_Points = names[-2]
-            filename = session['FILENAME']
-            session["USERPLOTSTATUS"] = "volcanoplot"
-            return render_template('ui.html',lists = names,files=filename)
+            if os.path.exists(os.path.join(app.config['USER_FOLDER'],'names.pickle')):
+                flash("Missing or invalid parameter input","error")
+                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                    names = pickle.load(f)
+                Data1 = names[-1]
+                Time_Points = names[-2]
+                filename = session['FILENAME']
+                session["USERPLOTSTATUS"] = "volcanoplot"
+                return render_template('ui.html',lists = names,files=filename)
+            else:
+                flash("WARNING: Please upload csv files",'error')
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
         return redirect('/plot')
 
@@ -388,6 +393,14 @@ def downloaddemo():
     return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
               cache_timeout=0, attachment_filename='Demo file.csv')
 
+
+@app.route('/downloadlist',methods=['GET','POST'])
+def downloadlist():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static')
+    file_demo = 'Demo file.csv'
+
+    return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
+              cache_timeout=0, attachment_filename='Demo file.csv')
 ###############################################################################################################################################################################
 
 @app.after_request
@@ -413,37 +426,3 @@ def allowed_file(filename):
 
 
 ###############################################################################################################################################################
-
-
-# @app.route('/index')
-
-# def index():
-#     user = 'Xiaohe'
-#     posts = [
-#         {
-#             'author': {'username': 'John'},
-#             'body': 'Beautiful day in Portland!'
-#         },
-#         {
-#             'author': {'username': 'Susan'},
-#             'body': 'The Avengers movie was so cool!'
-#         }
-#     ]
-#     return render_template('index.html', title='Home', user=user, posts=posts)
-
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         flash('Login requested for user {}, remember_me={}'.format(
-#             form.username.data, form.remember_me.data))
-#         return redirect(url_for('index'))
-#     return render_template('login.html', title='Sign In', form=form)
-
-
-
-
-# @app.route('/error')
-# def error():
-#     return render_template('error.html')
