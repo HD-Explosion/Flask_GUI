@@ -178,15 +178,18 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             p_in_p = []
             d_out = []
             p_out = []
+            slist = []
             for a, di in enumerate(d):
                 if di >= md and p[a] <= ma:
                     d_in_p.append(di)
                     p_in_p.append(p[a])
+                    slist.append(sec[a])
                     if lif and di <= xmax and di >= xmin and p[a] >= 10 ** ymin:
                         ax.text(di, p[a], sec[a], fontsize=tsize)
                 elif di <= -1 * md and p[a] <= ma:
                     d_in_n.append(di)
                     p_in_n.append(p[a])
+                    slist.append(sec[a])
                     if lif and di <= xmax and di >= xmin and p[a] >= 10 ** ymin:
                         ax.text(di, p[a], sec[a], fontsize=tsize)
                 else:
@@ -196,8 +199,10 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             ax.scatter(d_in_n, p_in_n, s=size, linewidths=size/3, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             ax.scatter(d_in_p, p_in_p, s=size, linewidths=size/3, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
-    plt.savefig(os.path.join(UserFolder,file_name + ".eps"), format='eps', dpi=100)
-    plt.savefig(os.path.join(UserFolder,file_name + ".png"), format='png', dpi=500)
+    df = pd.DataFrame(data={'List':slist})
+    df.to_csv(os.path.join(UserFolder, 'list    ' + ".eps"), sep=',', index=False)
+    plt.savefig(os.path.join(UserFolder, file_name + ".eps"), format='eps', dpi=100)
+    plt.savefig(os.path.join(UserFolder, file_name + ".png"), format='png', dpi=500)
     #plt.show()
     #df1.to_csv("SSRP1.csv", index=False, sep=',')
     return 0
@@ -209,8 +214,10 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
 def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0):
     k = 0
     sec = list(df[protien])
-    while np.core.numeric.NaN in sec:
+    print(sec)
+    while np.core.numeric.NaN in sec or nan in sec:
         sec.remove(np.core.numeric.NaN)
+    sec = [x for x in sec if str(x) != 'nan']
     for time in Time_points:
         # Check tiem points is readable
         try:
@@ -360,7 +367,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         ax.set_xticklabels(sec)
         ax.set_yticklabels(Time_points)
         ax.set_ylabel('Time')
-        ax.set_xlabel('Piptide Number')
+        ax.set_xlabel('Peptide Number')
         ax.set_facecolor('white')
         ax.tick_params(axis='x', labelsize=3.5, pad=0.9, length=3.2)
         ax.tick_params(axis='y', labelsize=10)
@@ -372,19 +379,22 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         #plt.show()
     else:
         im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
-        cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', pad=0.4)
+        cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', pad=0.02)
         cbar.ax.set_xlabel(protien + '_' + State1 + '-' + State2, labelpad=15, va="bottom")
+        cbar.ax.tick_params(labelsize=3/(step+step2+1)*30)
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
         cbar.set_ticklabels(np.linspace(min, max, step + step2 + 1))
+        ax.xaxis.tick_top()
+        ax.xaxis.set_label_position('top')
         ax.set_yticks(np.arange(len(sec)))
         ax.set_xticks(np.arange(len(Time_points)))
         ax.set_yticklabels(sec)
         ax.set_xticklabels(Time_points)
-        ax.set_ylabel('Time')
-        ax.set_xlabel('Piptide Number')
+        ax.set_xlabel('Time')
+        ax.set_ylabel('Peptide Number')
         ax.set_facecolor('white')
         ax.tick_params(axis='y', labelsize=3.5, pad=0.9, length=3.2)
-        ax.tick_params(axis='x', labelsize=10)
+        ax.tick_params(axis='x', labelsize=10, labelrotation=90)
         plt.setp(ax.get_yticklabels(), rotation=0, ha="right", va='center', rotation_mode="anchor")
         fig.tight_layout()
         plt.savefig(os.path.join(UserFolder,file_name + ".eps"), format='eps', dpi=100)
