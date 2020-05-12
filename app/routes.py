@@ -1,6 +1,5 @@
 from app import app
 from flask import render_template, send_file,request,Flask
-from app.forms import LoginForm
 from flask import render_template, flash, redirect, url_for,g
 from flask import  make_response, session
 import numpy as np
@@ -394,6 +393,14 @@ def downloaddemo():
     return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
               cache_timeout=0, attachment_filename='Demo file.csv')
 
+
+@app.route('/downloadlist',methods=['GET','POST'])
+def downloadlist():
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static')
+    file_demo = 'Demo file.csv'
+
+    return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
+              cache_timeout=0, attachment_filename='Demo file.csv')
 ###############################################################################################################################################################################
 
 @app.after_request
@@ -419,37 +426,3 @@ def allowed_file(filename):
 
 
 ###############################################################################################################################################################
-
-
-# @app.route('/index')
-
-# def index():
-#     user = 'Xiaohe'
-#     posts = [
-#         {
-#             'author': {'username': 'John'},
-#             'body': 'Beautiful day in Portland!'
-#         },
-#         {
-#             'author': {'username': 'Susan'},
-#             'body': 'The Avengers movie was so cool!'
-#         }
-#     ]
-#     return render_template('index.html', title='Home', user=user, posts=posts)
-
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     form = LoginForm()
-#     if form.validate_on_submit():
-#         flash('Login requested for user {}, remember_me={}'.format(
-#             form.username.data, form.remember_me.data))
-#         return redirect(url_for('index'))
-#     return render_template('login.html', title='Sign In', form=form)
-
-
-
-
-# @app.route('/error')
-# def error():
-#     return render_template('error.html')
