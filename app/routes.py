@@ -193,7 +193,7 @@ def click_show_h():
                     time_point, negative, color, significance, sig_filter, rotation]
 
         
-
+            session["COLORLIST"] = [['r','g','b','o','y'],['rb','br','gr','ob','rg','bp','bg']]
             session["USERPLOTSTATUS"] = "heatmap"
 
         except:
@@ -343,7 +343,7 @@ def replot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         names = pickle.load(f)
-    return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'] )
+    return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'], cl_list = session["COLORLIST"] )
 
 ##########################################################################################################################################################
 
