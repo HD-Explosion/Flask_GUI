@@ -678,7 +678,7 @@ abbr,acronym { border: 0;
 
                 <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
 
-                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="font-size: smaller;width: 110px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
+                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="width: 130px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
 
             </ul>
          </div>
@@ -775,17 +775,21 @@ abbr,acronym { border: 0;
             {% if paras[8] %}
                  <li id="color1" class="C_right_w" style="display: none">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
-                    <option>{{ paras[9] }}</option>
-                     {% for lst in cl_list[0] %}
-                        {% if lst != paras[9] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
+                    {% if paras[9] in cl_list[0]%}
+                     <option>{{ paras[9] }}</option>
+                     {% endif %}
+                         {% for lst in cl_list[0] %}
+                            {% if lst != paras[9] %}
+                                <option>{{ lst }}</option>
+                            {% endif %}
+                        {% endfor %}
                  </select></li>
 
                  <li id="color2" class="C_right_w" >
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
-                    <option>{{ paras[9] }}</option>
+                    {% if paras[9] in cl_list[1] %}
+                     <option>{{ paras[9] }}</option>
+                     {% endif %}
                      {% for lst in cl_list[1] %}
                         {% if lst != paras[9] %}
                             <option>{{ lst }}</option>
@@ -796,7 +800,9 @@ abbr,acronym { border: 0;
              {% else %}
                  <li id="color1" class="C_right_w">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
-                    <option>{{ paras[9] }}</option>
+                    {% if paras[9] in cl_list[0] %}
+                     <option>{{ paras[9] }}</option>
+                     {% endif %}
                      {% for lst in cl_list[0] %}
                         {% if lst != paras[9] %}
                             <option>{{ lst }}</option>
@@ -806,7 +812,9 @@ abbr,acronym { border: 0;
 
                  <li id="color2" class="C_right_w" style="display: none">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
-                    <option>{{ paras[9] }}</option>
+                    {% if paras[9] in cl_list[1] %}
+                     <option>{{ paras[9] }}</option>
+                     {% endif %}
                      {% for lst in cl_list[1] %}
                         {% if lst != paras[9] %}
                             <option>{{ lst }}</option>
@@ -995,7 +1003,7 @@ abbr,acronym { border: 0;
                 <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px" ></li>
                 {% endif %}
 
-                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="font-size: smaller;width: 110px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
+                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="width: 130px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
 
             </ul>
          </div>
@@ -1218,7 +1226,7 @@ abbr,acronym { border: 0;
 
                 <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
 
-                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="font-size: smaller;width: 110px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
+                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="width: 130px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
 
             </ul>
          </div>
@@ -1367,14 +1375,14 @@ abbr,acronym { border: 0;
 
     </div>
 
-    <div style="position: absolute; left: 1255px;top: 720px;">
+    <div style="position: absolute; right: 50px;top: 720px;">
         <button type="button" onclick="window.location.href='{{ url_for('ui') }}';"><h5>Start Over</h5></button>
     </div>
 
 
 <footer class="footnotes">
       <p> If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.</p>
-    <p> If you have any question or feedback, please contact with email <a href="mailto:darcylabweb@gmail.com">darcylabweb@gmail.com</a></p>
+    <p> If you have any question or feedback, please contact to email <a href="mailto:darcylabweb@gmail.com">darcylabweb@gmail.com</a></p>
 
 </footer>
 
