@@ -197,16 +197,19 @@ def click_show_h():
             session["USERPLOTSTATUS"] = "heatmap"
 
         except:
-            flash("WARNING: Missing parameter or invalid input!!!",'error')
             app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-
-            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
-                names = pickle.load(f)
-            Data1 = names[-1]
-            Time_Points = names[-2]
-            filename = session['FILENAME']
-            session["USERPLOTSTATUS"] = "heatmap"
-            return render_template('ui.html',lists = names,files=filename)
+            if os.path.exists(os.path.join(app.config['USER_FOLDER'],'names.pickle')):
+                flash("WARNING: Missing parameter or invalid input!!!",'error')
+                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                    names = pickle.load(f)
+                Data1 = names[-1]
+                Time_Points = names[-2]
+                filename = session['FILENAME']
+                session["USERPLOTSTATUS"] = "heatmap"
+                return render_template('ui.html',lists = names,files=filename)
+            else:
+                flash("WARNING: Please upload csv files",'error')
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
         print(session['PASSEDPARAMETERS'])
 
@@ -283,16 +286,19 @@ def click_show_v():
 
 
         except:
-            flash("Missing or invalid parameter input","error")
             app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-
-            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
-                names = pickle.load(f)
-            Data1 = names[-1]
-            Time_Points = names[-2]
-            filename = session['FILENAME']
-            session["USERPLOTSTATUS"] = "volcanoplot"
-            return render_template('ui.html',lists = names,files=filename)
+            if os.path.exists(os.path.join(app.config['USER_FOLDER'],'names.pickle')):
+                flash("Missing or invalid parameter input","error")
+                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                    names = pickle.load(f)
+                Data1 = names[-1]
+                Time_Points = names[-2]
+                filename = session['FILENAME']
+                session["USERPLOTSTATUS"] = "volcanoplot"
+                return render_template('ui.html',lists = names,files=filename)
+            else:
+                flash("WARNING: Please upload csv files",'error')
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
         return redirect('/plot')
 
