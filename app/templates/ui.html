@@ -362,14 +362,14 @@ abbr,acronym { border: 0;
 
 
     <div >
-        <div id="div1" style=" margin-left: 0;width: 400px;height: 80px; float: left;position:absolute;top: 36px;left:-60px">
-            <img src="./static/image/HD-eXplosion.jpg" alt="HD-eXplosion">
+        <div id="div1" style=" margin-left: 0;width: 600px;height: 110px; float: left;position:absolute;top: 10px;left:-100px">
+            <img src="./static/image/HDeXplosionHead.png" alt="HD-eXplosion">
         </div>
         <div id="div2" style="width: 200px">
 
         </div>
-        <div id="div3" style="float: right; margin-right: 50px; display: inline-list-item">
-           <a href="/static/Help file.pdf" target="_blank"> <button class="button" type = "button"   >Instructions</button></a>
+        <div id="div3" style="float: right; margin-top:50px;margin-right: 50px; display: inline-list-item">
+           <a href="/static/Help file.pdf" target="_blank"> <button class="button" type = "button" ><h5>Instructions</h5></button></a>
         </div>
     </div>
 
@@ -567,6 +567,13 @@ abbr,acronym { border: 0;
 
                  </li>
 
+                 <li>
+                     <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" style="width: 100px; margin-top: 5px">
+                                            <option value = "ALL">All</option>
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
                 <li><strong>Comparison</strong></li>
 
                 <li >
@@ -587,7 +594,7 @@ abbr,acronym { border: 0;
 
                 <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" style="margin-top: 3px"></li>
 
-                <li style="margin-top: 5px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+                <li style="margin-top: 8px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
 
 
             </ul>
@@ -595,17 +602,10 @@ abbr,acronym { border: 0;
 
             <ul class="div3" style="margin-left: 30px">
 
-                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" style="width: 80px">
-                                            <option value = "ALL">All</option>
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
 
             <li id="color"  class="V_right_w">
                     <div>Color</div>
-                    <div class="btn-group" style="top:-15px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
+                    <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select <span class="caret"></span></button>
                         <ul class="dropdown-menu"  style="width: fit-content; margin-bottom: 0" >
                             <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
@@ -662,7 +662,7 @@ abbr,acronym { border: 0;
                 </li>
 
 
-                 <li>Symbol size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+                 <li style="margin-top:0;">Symbol size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
@@ -678,7 +678,7 @@ abbr,acronym { border: 0;
 
                 <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
 
-                <li class="V_right_w"><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="font-size: smaller;width: 110px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
 
             </ul>
          </div>
@@ -693,7 +693,11 @@ abbr,acronym { border: 0;
                  <li>
                  <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
                          <option>{{ paras[0] }}</option>
-                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                        {% for lst in lists[0] %}
+                        {% if lst != paras[0] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
                     </select>
 
                  </li>
@@ -704,13 +708,21 @@ abbr,acronym { border: 0;
                 <li>
                     State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" value="{{ paras[1] }}" style="width: 100px" style="width: 100px">
                      <option>{{ paras[1] }}</option>
-                    {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                    {% for lst in lists[1] %}
+                        {% if lst != paras[1] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
 					</select></li>
 
                 <li>
                     State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" value="{{ paras[2] }}" style="width: 100px" style="width: 100px">
                      <option>{{ paras[2] }}</option>
-                    {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                    {% for lst in lists[1] %}
+                        {% if lst != paras[2] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
                 </select>
                 </li>
 
@@ -722,11 +734,20 @@ abbr,acronym { border: 0;
 
                 <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" value="{{ paras[4] }}" style="margin-top: 3px"> </li>
 
-                <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" value="{{ paras[8] }}" style="margin-top: 5px; margin-bottom: 5px"></li>
+             {% if paras[8] %}
+                <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" value="{{ paras[8] }}" style="margin-top: 5px; margin-bottom: 5px" checked></li>
+
+                 <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" ></li>
+
+                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" style="margin-top: 3px" > </li>
+
+             {% else %}
+                <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" value="{{ paras[8] }}" style="margin-top: 5px; margin-bottom: 5px" ></li>
 
                 <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" disabled></li>
 
                 <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" style="margin-top: 3px" disabled> </li>
+            {% endif %}
 
             </ul>
 
@@ -735,7 +756,7 @@ abbr,acronym { border: 0;
 
                 <li class="C_right_w"><strong>Layout</strong></li>
 
-                {% if paras[12] == "vertical" %}
+                {% if paras[12] == "V" %}
                     <li class="C_right_w">
                         <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
                         <label for="vertical">vertical</label>
@@ -751,32 +772,58 @@ abbr,acronym { border: 0;
                     </li>
                   {% endif %}
 
+            {% if paras[8] %}
+                 <li id="color1" class="C_right_w" style="display: none">
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
+                    <option>{{ paras[9] }}</option>
+                     {% for lst in cl_list[0] %}
+                        {% if lst != paras[9] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
+                 </select></li>
+
+                 <li id="color2" class="C_right_w" >
+                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
+                    <option>{{ paras[9] }}</option>
+                     {% for lst in cl_list[1] %}
+                        {% if lst != paras[9] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
+                 </select></li>
+
+             {% else %}
                  <li id="color1" class="C_right_w">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
                     <option>{{ paras[9] }}</option>
-                     <option  value ="r">r</option>
-                    <option  value ="g">g</option>
-                    <option  value ="b">b</option>
-                    <option  value ="o">o</option>
-                    <option  value ="y">y</option>
-                    <option  value ="g">g</option>
-
-                </select></li>
+                     {% for lst in cl_list[0] %}
+                        {% if lst != paras[9] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
+                 </select></li>
 
                  <li id="color2" class="C_right_w" style="display: none">
                     Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
                     <option>{{ paras[9] }}</option>
-                    <option value ="rb">rb</option>
-                    <option  value ="br">br</option>
-                    <option  value ="gr">gr</option>
-                    <option  value ="ob">ob</option>
-                    <option  value ="rg">rg</option>
-                    <option  value ="bp">bp</option>
-                    <option  value ="bg">bg</option>
+                     {% for lst in cl_list[1] %}
+                        {% if lst != paras[9] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
 
                 </select></li>
 
+             {% endif %}
+
+            <li><strong>Statistics</strong></li>
+
+            {% if paras[11] %}
+                 <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox" value="{{ paras[11] }}" name="sig_filter"  style="margin-top: 3px" checked></li>
+             {% else %}
                  <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox" value="{{ paras[11] }}" name="sig_filter"  style="margin-top: 3px"></li>
+            {% endif %}
 
                 <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
 
@@ -794,45 +841,20 @@ abbr,acronym { border: 0;
          <div id="d1" style="display: block" >
              <ul class="div1" style="float: left">
                 <li>
-                    Protein&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
+                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
                         <option>{{paras[0] }}</option>
-                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
+                        {% for lst in lists[0] %}
+                        {% if lst != paras[0] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
+
                     </select>
 
                  </li>
 
-                <li><strong>Comparison</strong></li>
-
-                <li class="V_right_w">
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" value="{{ paras[1] }}" style="width: 100px">
-                    <option>{{ paras[1] }}</option>
-                    {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-					</select></li>
-
-                <li class="V_right_w">
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
-                    <option>{{paras[2] }}</option>
-                    {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
-                <li><strong>Axis</strong></li>
-
-                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l" value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r" value="{{ paras[6] }}"></span></li>
-
-                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}" style="margin-top: 3px"></li>
-
-                <li style="margin-top: 5px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}"></li>
-
-
-
-            </ul>
-
-
-            <ul class="div3" style="margin-left: 30px">
-
-                 <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" value="{{ paras[3] }}" style="width: 80px; ">
+                <li>
+                    <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" value="{{ paras[3] }}" style="width: 100px; margin-top: 5px">
                         {% if paras[3] is not string %}
                         <option value = "ALL"> All</option>
                     {% else %}
@@ -851,12 +873,49 @@ abbr,acronym { border: 0;
                 </li>
 
 
+                <li><strong>Comparison</strong></li>
 
+                <li class="V_right_w">
+                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" value="{{ paras[1] }}" style="width: 100px">
+                    <option>{{ paras[1] }}</option>
+                    {% for lst in lists[1] %}
+                        {% if lst != paras[1] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
+
+					</select></li>
+
+                <li class="V_right_w">
+                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
+                    <option>{{paras[2] }}</option>
+                    {% for lst in lists[1] %}
+                        {% if lst != paras[2] %}
+                            <option>{{ lst }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                </li>
+
+                <li><strong>Axis</strong></li>
+
+                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l" value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r" value="{{ paras[6] }}"></span></li>
+
+                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}" style="margin-top: 3px"></li>
+
+                <li style="margin-top: 8px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}"></li>
+
+
+
+            </ul>
+
+
+            <ul class="div3" style="margin-left: 30px">
 
 
         <li id="color" class="V_right_w">
             <div>Color</div>
-            <div class="btn-group" style="top:-15px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
+            <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select<span class="caret"></span></button>
                 <ul class="dropdown-menu"  style="width: fit-content; margin-bottom: 0" >
                     <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
@@ -916,7 +975,7 @@ abbr,acronym { border: 0;
                 </script>
         </li>
 
-                 <li>Symbol size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
+                 <li style="margin-top:0;">Symbol size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">{{ paras[4] }}</output>
 				 </li>
 
@@ -930,10 +989,13 @@ abbr,acronym { border: 0;
 
                 <li class="V_right_w">Min-difference(Da)&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="{{ paras[11] }}" style="margin-top: 3px; margin-bottom: 3px"></li>
 
+                {% if paras[14] %}
+                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px" checked></li>
+                 {% else %}
+                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px" ></li>
+                {% endif %}
 
-                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px"></li>
-
-                <li class="V_right_w"><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="font-size: smaller;width: 110px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
 
             </ul>
          </div>
@@ -1003,7 +1065,7 @@ abbr,acronym { border: 0;
                     <option  value ="b">b</option>
                     <option  value ="o">o</option>
                     <option  value ="y">y</option>
-                    <option  value ="g">g</option>
+
 
                 </select></li>
 
@@ -1019,6 +1081,8 @@ abbr,acronym { border: 0;
                     <option  value ="bg">bg</option>
 
                 </select></li>
+
+                <li><strong>Statistics</strong></li>
 
                  <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter" class="C_right"  style="margin-top: 3px"></li>
 
@@ -1044,6 +1108,13 @@ abbr,acronym { border: 0;
 
                  </li>
 
+                <li>
+                    <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" style="width: 100px; margin-top: 5px">
+                                            <option value = "ALL">All</option>
+                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
+                </select>
+                </li>
+
                 <li><strong>Comparison</strong></li>
 
                 <li >
@@ -1064,7 +1135,7 @@ abbr,acronym { border: 0;
 
                 <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" style="margin-top: 3px"></li>
 
-                <li style="margin-top: 5px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+                <li style="margin-top: 8px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
 
 
 
@@ -1073,19 +1144,11 @@ abbr,acronym { border: 0;
 
             <ul class="div3" style="margin-left: 30px">
 
-                <li>
-                    Time points &nbsp&nbsp&nbsp&nbsp<select class="V_right" name="time_point" style="width: 80px">
-                                            <option value = "ALL">All</option>
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
-
-            <li id="color" class="V_right_w">
+            <li id="color" class="V_right_w" style="margin: 0">
                 <div>Color</div>
-                <div class="btn-group" style="top:-15px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
+                <div class="btn-group" style="top:-20px; left: 145px; margin: 0">    <!--  BOOTSTRAP DROPDOWN -->
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" >Select<span class="caret"></span></button>
-                    <ul class="dropdown-menu"  style="width: fit-content; margin-bottom: 0" >
+                    <ul class="dropdown-menu"  style="width: fit-content; margin: 0" >
                         <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
                             <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
                         </li>
@@ -1139,7 +1202,7 @@ abbr,acronym { border: 0;
                             </script>
              </li>
 
-                 <li>Symbol size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
+                 <li style="margin-top:0;">Symbol size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
 				 <output name="rangeOut" id="rangeOutId">2</output>
 				 </li>
 
@@ -1155,7 +1218,7 @@ abbr,acronym { border: 0;
 
                 <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
 
-                <li class="V_right_w"><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></li>
+                <li class="V_right_w"><span><button class="button" type = "button"  onclick="" style="font-size: smaller;width: 110px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
 
             </ul>
          </div>
@@ -1209,12 +1272,7 @@ abbr,acronym { border: 0;
         
         
                     <ul class="C_right_ul" >
-                        <!-- <li>
-                            Time points&nbsp&nbsp<select  name="time_point">
-                            {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                        </select>
-                        </li>
-                    -->
+
                     <li class="C_right_w"><strong>Layout</strong></li>
 
                     <li class="C_right_w">
@@ -1231,7 +1289,7 @@ abbr,acronym { border: 0;
                             <option  value ="b">b</option>
                             <option  value ="o">o</option>
                             <option  value ="y">y</option>
-                            <option  value ="g">g</option>
+
         
                         </select></li>
         
@@ -1249,6 +1307,8 @@ abbr,acronym { border: 0;
                             <option  value ="bg" class="bg">bg</option>
         
                         </select></li>
+
+                        <li><strong>Statistics</strong></li>
         
                          <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox"  name="sig_filter" style="margin-top: 3px"></li>
         
@@ -1307,9 +1367,14 @@ abbr,acronym { border: 0;
 
     </div>
 
+    <div style="position: absolute; left: 1255px;top: 720px;">
+        <button type="button" onclick="window.location.href='{{ url_for('ui') }}';"><h5>Start Over</h5></button>
+    </div>
+
 
 <footer class="footnotes">
-       If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.
+      <p> If you use HD-eXplosion please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.</p>
+    <p> If you have any question or feedback, please contact with email <a href="mailto:darcylabweb@gmail.com">darcylabweb@gmail.com</a></p>
 
 </footer>
 
