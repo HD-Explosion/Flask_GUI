@@ -388,19 +388,19 @@ def downloadeps():
 @app.route('/downloaddemo',methods=['GET','POST'])
 def downloaddemo():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static')
-    file_demo = 'Demo file.csv'
+    file_demo = 'Demofile.csv'
 
     return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
-              cache_timeout=0, attachment_filename='Demo file.csv')
+              cache_timeout=0, attachment_filename='Demofile.csv')
 
 
 @app.route('/downloadlist',methods=['GET','POST'])
 def downloadlist():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static')
-    file_demo = 'Demo file.csv'
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders',session['USERID'])
+    file_list = 'list.csv'
 
-    return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
-              cache_timeout=0, attachment_filename='Demo file.csv')
+    return send_file(os.path.join(app.config['USER_FOLDER'], file_list), mimetype='text/csv', as_attachment=True,
+              cache_timeout=0, attachment_filename='list.csv')
 ###############################################################################################################################################################################
 
 @app.after_request

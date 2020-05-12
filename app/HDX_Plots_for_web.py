@@ -200,7 +200,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             ax.scatter(d_in_p, p_in_p, s=size, linewidths=size/3, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
     df = pd.DataFrame(data={'List':slist})
-    df.to_csv(os.path.join(UserFolder, 'list    ' + ".eps"), sep=',', index=False)
+    df.to_csv(os.path.join(UserFolder, 'list' + ".csv"), sep=',', index=False)
     plt.savefig(os.path.join(UserFolder, file_name + ".eps"), format='eps', dpi=100)
     plt.savefig(os.path.join(UserFolder, file_name + ".png"), format='png', dpi=500)
     #plt.show()
