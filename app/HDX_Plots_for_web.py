@@ -178,15 +178,18 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             p_in_p = []
             d_out = []
             p_out = []
+            slist = []
             for a, di in enumerate(d):
                 if di >= md and p[a] <= ma:
                     d_in_p.append(di)
                     p_in_p.append(p[a])
+                    slist.append(sec[a])
                     if lif and di <= xmax and di >= xmin and p[a] >= 10 ** ymin:
                         ax.text(di, p[a], sec[a], fontsize=tsize)
                 elif di <= -1 * md and p[a] <= ma:
                     d_in_n.append(di)
                     p_in_n.append(p[a])
+                    slist.append(sec[a])
                     if lif and di <= xmax and di >= xmin and p[a] >= 10 ** ymin:
                         ax.text(di, p[a], sec[a], fontsize=tsize)
                 else:
@@ -196,8 +199,10 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             ax.scatter(d_in_n, p_in_n, s=size, linewidths=size/3, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             ax.scatter(d_in_p, p_in_p, s=size, linewidths=size/3, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
-    plt.savefig(os.path.join(UserFolder,file_name + ".eps"), format='eps', dpi=100)
-    plt.savefig(os.path.join(UserFolder,file_name + ".png"), format='png', dpi=500)
+    df = pd.DataFrame(data={'List':slist})
+    df.to_csv(os.path.join(UserFolder, 'list' + ".eps"), sep=',', index=False)
+    plt.savefig(os.path.join(UserFolder, file_name + ".eps"), format='eps', dpi=100)
+    plt.savefig(os.path.join(UserFolder, file_name + ".png"), format='png', dpi=500)
     #plt.show()
     #df1.to_csv("SSRP1.csv", index=False, sep=',')
     return 0
