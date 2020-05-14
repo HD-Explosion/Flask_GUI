@@ -202,7 +202,7 @@ def click_show_h():
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
                     time_point, negative, color, significance, sig_filter, rotation]
 
-        
+
             session["COLORLIST"] = [['r','g','b','o','y'],['rb','br','gr','ob','rg','bp','bg']]
             session["USERPLOTSTATUS"] = "heatmap"
 
@@ -271,10 +271,10 @@ def click_show_v():
                 elif color == "pattern6":
                     color = ['#E34798', '#D180B4', '#BC94C4', '#DFA2C8', '#DFA2C8', '#FCE2DA']
                 elif color == "pattern7":
-                    color = ['#FFE65D', '#FCB628', '#889756', '#527435', '#434E53', '#5B8B84']       
+                    color = ['#FFE65D', '#FCB628', '#889756', '#527435', '#434E53', '#5B8B84']
 
 
-           
+
 
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
                 X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize]
@@ -359,9 +359,9 @@ def replot():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
     with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
         names = pickle.load(f)
-        if (session["COLORLIST"]):
+        try:
             return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'], cl_list = session["COLORLIST"] )
-        else:
+        except:
             return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'], cl_list = ["epmty"] )
 
 ##########################################################################################################################################################
