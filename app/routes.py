@@ -42,7 +42,6 @@ atexit.register(lambda: scheduler.shutdown())
 
 
 
-app.config['ALLOWED_EXTENSIONS'] = {'csv','txt'}
 
 
 
@@ -102,17 +101,22 @@ def upload_multi_files():
                 count -= 1
                 file.save(os.path.join(app.config['USER_FOLDER'],filename))
                 filenames.append(filename)
+            else:
+                flash('Allowed file types are csv')
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
+
+            try:
+                names = reader.fileread(filename)
+                print(names)
+                if names == 0:
+                    flash("Invalid csv files uploaded, try different csv files")
+                    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+            except:
+                flash("Invalid csv files uploaded, try different csv files")
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
         session['FILENAME'] = filenames
-
-        ipaddress = "IP: " + request.remote_addr
-        for item in filenames:
-            flash(item + '  successfully uploaded ')
-
-        names = reader.filesread(filenames)
-        print(names)
-        # Check the file formart if thr return from reader is 0, wrong formart
-        if names == 0:
-            return render_template('ui.html',lists = names,files=filenames)
 
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
@@ -137,17 +141,24 @@ def upload_single_file():
             filename = secure_filename(file.filename)
             session['FILENAME'] = filename
             file.save(os.path.join(app.config['USER_FOLDER'], filename))
-            ipaddress = "IP: " + request.remote_addr
+            try:
+                names = reader.fileread(filename)
+                print(names)
+                if names == 0:
+                    flash("Invalid csv file uploaded, try a different csv file")
+                    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+            except:
+                flash("Invalid csv file uploaded, try a different csv file")
+                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
+
+
             flash(filename + ' successfully uploaded','uploadnotice')
+
         else:
             flash('Allowed file types are csv')
-            return redirect(request.url)
-
-        names = reader.fileread(filename)
-
-        if names == 0:
-            flash('Wrong file format')
             return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+
 
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
@@ -424,8 +435,9 @@ def add_header(r):
 
 
 def allowed_file(filename):
+    app.config['ALLOWED_EXTENSIONS'] = {'csv','txt'}
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+        filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 
 ###############################################################################################################################################################
