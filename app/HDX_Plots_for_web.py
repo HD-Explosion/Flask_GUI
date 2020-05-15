@@ -361,7 +361,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
             cbar.ax.tick_params(labelsize=len(sec)*0.0612318+1.3243/(step+step2+1)*20)
         else:
             cbar.ax.tick_params(labelsize=10)
-        cbar.ax.set_xlabel(protien + '_' + '(' + State1 + ')' + '-' + '(' + State2 + ')', labelpad=15, va="bottom")
+        cbar.ax.set_xlabel(protien + ' ' + '(' + State1 + ')' + '-' + '(' + State2 + ')', labelpad=15, va="bottom")
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
         cbar.set_ticklabels(np.linspace(min, max, step + step2 + 1))
         ax.set_xticks(np.arange(len(sec)))
@@ -382,7 +382,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     else:
         im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
         cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', pad=0.02)
-        cbar.ax.set_xlabel(protien + '_' + State1 + '-' + State2, labelpad=15, va="bottom")
+        cbar.ax.set_xlabel(protien + ' ' + '(' + State1 + ')' + '-' + '(' + State2 + ')', labelpad=15, va="bottom")
         cbar.ax.tick_params(labelsize=3/(step+step2+1)*30)
         cbar.set_ticks(np.linspace(min, max, step + step2 + 1))
         cbar.set_ticklabels(np.linspace(min, max, step + step2 + 1))
