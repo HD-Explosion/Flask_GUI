@@ -134,7 +134,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
     ax.set_yticks(y)
     ax.set_xlabel(chr(916) + 'HDX (Da)', fontsize=12)
     ax.set_xticklabels(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1), fontsize=10)
-    ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1f'))
+    ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.' + str(len(str(msi).split('.')[-1])) + 'f'))
     print(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1))
     ax.set_yticklabels(y, fontsize=10)
     ax.set_ylabel('$\it{p}$'+'-value', fontsize=12)
