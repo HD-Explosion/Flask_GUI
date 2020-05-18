@@ -13,7 +13,7 @@ from matplotlib.patches import Polygon
 from matplotlib.ticker import ScalarFormatter
 import os
 from pathlib import Path
-
+import matplotlib.ticker as ticker
 from matplotlib import rcParams
 rcParams['font.family'] = 'sans-serif'
 rcParams['font.sans-serif'] = ['Arial']
@@ -138,6 +138,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
     ax.set_yticklabels(y, fontsize=10)
     ax.set_ylabel('$\it{p}$'+'-value', fontsize=12)
     ax.set_title(proteins + '(' + state1 + ')' + '-' + '(' + state2 +')')
+    ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.0e'))
     verts = [(-11, ma), (-md, ma), (-md, 0.000000001), (-11, 0.000000001)]
     poly = Polygon(verts, fill=False, edgecolor='0', linestyle='--', lw='1', zorder=0)
     ax.add_patch(poly)
