@@ -125,7 +125,13 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
     ax.set_yscale("log")
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(0.5, 10** ymin)
-    ax.xaxis.set_ticks(list(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1)), minor=False)
+    xt = []
+    sp = xmin
+    while sp <= xmax:
+        xt.append(sp)
+        sp = sp + msi
+    print(sp)
+    ax.xaxis.set_ticks(xt, minor=False)
     formatter = ScalarFormatter()
     ax.yaxis.set_major_formatter(formatter)
     y = []
@@ -133,7 +139,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
         y.append(1/10**i)
     ax.set_yticks(y)
     ax.set_xlabel(chr(916) + 'HDX (Da)', fontsize=12)
-    ax.set_xticklabels(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1), fontsize=10)
+    ax.set_xticklabels(xt, fontsize=10)
     ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.' + str(len(str(msi).split('.')[-1])) + 'f'))
     print(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1))
     ax.set_yticklabels(y, fontsize=10)
