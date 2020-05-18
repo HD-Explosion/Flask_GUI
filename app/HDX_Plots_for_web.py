@@ -144,6 +144,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
     verts = [(11, ma), (md, ma), (md, 0.000000001), (11, 0.000000001)]
     poly = Polygon(verts, fill=False, edgecolor='0', linestyle='--', lw='1', zorder=0)
     ax.add_patch(poly)
+    slist = []
     for protein in [proteins]:
         print(protein)
         sec = list(df[protein])
@@ -179,7 +180,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             p_in_p = []
             d_out = []
             p_out = []
-            slist = []
+            slist.append(time + 's')
             for a, di in enumerate(d):
                 if di >= md and p[a] <= ma:
                     d_in_p.append(di)
