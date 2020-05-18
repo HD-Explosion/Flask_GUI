@@ -125,16 +125,23 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
     ax.set_yscale("log")
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(0.5, 10** ymin)
-    ax.xaxis.set_ticks(list(np.arange(xmin, xmax, msi)), minor=True)
+    xt = []
+    sp = xmin
+    while sp <= xmax:
+        xt.append(sp)
+        sp = sp + msi
+    print(sp)
+    ax.xaxis.set_ticks(xt, minor=False)
     formatter = ScalarFormatter()
     ax.yaxis.set_major_formatter(formatter)
     y = []
     for i in range(1, (-ymin)):
         y.append(1/10**i)
-    print(y)
     ax.set_yticks(y)
     ax.set_xlabel(chr(916) + 'HDX (Da)', fontsize=12)
-    ax.set_xticklabels(np.arange(xmin, xmax, msi), fontsize=10)
+    ax.set_xticklabels(xt, fontsize=10)
+    ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.' + str(len(str(msi).split('.')[-1])) + 'f'))
+    print(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1))
     ax.set_yticklabels(y, fontsize=10)
     ax.set_ylabel('$\it{p}$'+'-value', fontsize=12)
     ax.set_title(proteins + '(' + state1 + ')' + '-' + '(' + state2 +')')
@@ -203,6 +210,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             ax.scatter(d_in_p, p_in_p, s=size, linewidths=size/3, zorder=(i + 1) * 5, color='None', edgecolor=colors[i])
             # ax.vlines(d1.mean(), 0, 1, transform=ax.get_xaxis_transform(), colors=colors[i])
     ax.legend()
+    fig.tight_layout()
     df = pd.DataFrame(data={'List':slist})
     df.to_csv(os.path.join(UserFolder, 'list' + ".csv"), sep=',', index=False)
     plt.savefig(os.path.join(UserFolder, file_name + ".eps"), format='eps', dpi=100)
