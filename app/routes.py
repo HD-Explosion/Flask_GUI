@@ -108,9 +108,8 @@ def upload_multi_files():
 
             try:
                 names = reader.fileread(filename)
-                print(names)
                 if names == 0:
-                    flash("Invalid csv files uploaded, try different csv files")
+                    flash("Wrong file format, try different csv files")
                     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
             except:
                 flash("Invalid csv files uploaded, try different csv files")
@@ -143,9 +142,8 @@ def upload_single_file():
             file.save(os.path.join(app.config['USER_FOLDER'], filename))
             try:
                 names = reader.fileread(filename)
-                print(names)
                 if names == 0:
-                    flash("Invalid csv file uploaded, try a different csv file")
+                    flash("Wrong file format, try different csv files")
                     return render_template('ui.html',lists=[['protein'],['state'],['time point']])
             except:
                 flash("Invalid csv file uploaded, try a different csv file")
@@ -158,8 +156,6 @@ def upload_single_file():
         else:
             flash('Allowed file types are csv')
             return render_template('ui.html',lists=[['protein'],['state'],['time point']])
-
-
         with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
         return render_template('ui.html', lists=names, files=filename)
