@@ -22,6 +22,8 @@ def fileread(filename):
     States = []
     # Read data form reader to Data
     for item in reader:
+        if item == ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']:
+            break
         if n != 0:
             if item[0] in Proteins:
                 if item[8] in States:
@@ -102,6 +104,7 @@ def fileread(filename):
             if item != ['Protein', 'Start', 'End', 'Sequence', 'Modification', 'Fragment', 'MaxUptake', 'MHP', 'State', 'Exposure', 'Center', 'Center SD', 'Uptake', 'Uptake SD', 'RT', 'RT SD']:
                 return 0
             n = n + 1
+
     csvFile.close()
     return (Proteins, States, Time_Points,Data1)
 
@@ -111,7 +114,6 @@ def fileread(filename):
 
 def filesread(filenames):
 # Open csv file
- 
     File_names = filenames
     Columns = []
     States = []
@@ -131,6 +133,8 @@ def filesread(filenames):
             Data1 = pd.DataFrame(columns=Columns)
             Sequence_number = ''
             for item in reader:
+                if item == ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '']:
+                    break
                 if n != 0:
                     if item[0] == Protein:
                         if item[8] in States:
@@ -202,6 +206,8 @@ def filesread(filenames):
                                 Data1.loc[i, Protein + '_' + State + '_' + Time] = item[12]
                                 Data1.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
                 else:
+                    if item != ['Protein', 'Start', 'End', 'Sequence', 'Modification', 'Fragment', 'MaxUptake', 'MHP', 'State', 'Exposure', 'Center', 'Center SD', 'Uptake', 'Uptake SD', 'RT', 'RT SD']:
+                        return 0
                     n = n + 1
         else:
             i = 0
@@ -247,8 +253,10 @@ def filesread(filenames):
                                 Data2.loc[i, Protein + '_' + State + '_' + Time] = item[12]
                                 Data2.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
                 else:
+                    if item != ['Protein', 'Start', 'End', 'Sequence', 'Modification', 'Fragment', 'MaxUptake', 'MHP', 'State', 'Exposure', 'Center', 'Center SD', 'Uptake', 'Uptake SD', 'RT', 'RT SD']:
+                        return 0
                     n = n + 1
-            Data1 = Data1.merge(Data2, on=Protein)
+                    Data1 = Data1.merge(Data2, on=Protein)
         n = 0
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],"For_plot.csv"), index=False, sep=',')
     return ([Protein], States, Time_Points, Data1)
