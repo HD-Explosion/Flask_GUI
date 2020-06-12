@@ -256,7 +256,7 @@ def filesread(filenames):
                     if item != ['Protein', 'Start', 'End', 'Sequence', 'Modification', 'Fragment', 'MaxUptake', 'MHP', 'State', 'Exposure', 'Center', 'Center SD', 'Uptake', 'Uptake SD', 'RT', 'RT SD']:
                         return 0
                     n = n + 1
-                    Data1 = Data1.merge(Data2, on=Protein)
+            Data1 = Data1.merge(Data2, on=Protein)
         n = 0
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],"For_plot.csv"), index=False, sep=',')
     return ([Protein], States, Time_Points, Data1)
