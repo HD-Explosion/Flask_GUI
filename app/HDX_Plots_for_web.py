@@ -138,7 +138,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
     for i in range(1, (-ymin)):
         y.append(1/10**i)
     ax.set_yticks(y)
-    ax.set_xlabel(chr(916) + 'HDX (Da)', fontsize=12)
+    ax.set_xlabel(chr(916) + 'HDX', fontsize=12)
     ax.set_xticklabels(xt, fontsize=10)
     ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%0.' + str(len(str(msi).split('.')[-1])) + 'f'))
     print(np.linspace(xmin, xmax, num=int((xmax - xmin)/msi) + 1))
