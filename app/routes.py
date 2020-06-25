@@ -335,7 +335,11 @@ def plot():
 
     else:
         try:
-            a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, Time_Points, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
+            if len(session['PASSEDPARAMETERS'][3]) == Time_Points:
+                timep = session['PASSEDPARAMETERS'][3]
+            else:
+                timep = [session['PASSEDPARAMETERS'][3]]
+            a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, timep, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
             session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
             ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
             xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
