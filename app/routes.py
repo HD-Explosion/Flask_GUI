@@ -335,8 +335,8 @@ def plot():
 
     else:
         try:
-            if len(session['PASSEDPARAMETERS'][3]) == Time_Points:
-                timep = session['PASSEDPARAMETERS'][3]
+            if session['PASSEDPARAMETERS'][3] == Time_Points:
+                timep = Time_Points
             else:
                 timep = [session['PASSEDPARAMETERS'][3]]
             a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, timep, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
