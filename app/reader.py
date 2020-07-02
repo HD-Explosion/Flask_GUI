@@ -106,7 +106,8 @@ def fileread(filename):
             n = n + 1
 
     csvFile.close()
-    return (Proteins, States, Time_Points,Data1)
+    Data1.to_csv(os.path.join(app.config['USER_FOLDER'],"For_plot.csv"), index=False, sep=',')
+    return (Proteins, States, Time_Points, Data1)
 
 
 
