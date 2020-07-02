@@ -259,13 +259,17 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
             t = np.vstack((t, dif))
             pv = np.vstack((pv, p))
             print(t.mean())
-    [rows, cols] = t.shape
-    if f:
-        for i in range(rows):
-            for j in range(cols):
-                if pv[i, j] >= pp:
-                    t[i, j] = 0
-
+    try:
+        [rows, cols] = t.shape
+        if f:
+            for i in range(rows):
+                for j in range(cols):
+                    if pv[i, j] >= pp:
+                        t[i, j] = 0
+    except:
+        for i in range(len(t)):
+            if pv[i] >= pp:
+                t[i] = 0
     # plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
     # plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
     if rotation == 'H':
@@ -365,7 +369,10 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
             clmap.insert(0, (75/255, 140/255, 97/255))
     cmap = mpl.colors.ListedColormap(clmap)
     if rotation == 'H' or rotation == 'h':
-        im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
+        try:
+            im = ax.imshow(t, aspect=3, cmap=cmap, vmin=min, vmax=max)
+        except:
+            im = ax.imshow(np.vstack([t,t]), aspect=3, cmap=cmap, vmin=min, vmax=max)
         cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', fraction=0.12, pad=0.4)
         if 10.8 > len(sec)*0.0612318+1.3243:
             cbar.ax.tick_params(labelsize=len(sec)*0.0612318+1.3243/(step+step2+1)*20)
@@ -390,7 +397,10 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
 
         #plt.show()
     else:
-        im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
+        try:
+            im = ax.imshow(t.T, aspect=0.33333333, cmap=cmap, vmin=min, vmax=max)
+        except:
+            im = ax.imshow(np.vstack([t,t]).T, aspect=3, cmap=cmap, vmin=min, vmax=max)
         cbar = ax.figure.colorbar(im, ax=ax, orientation='horizontal', pad=0.02)
         cbar.ax.set_xlabel(protien + ' ' + '(' + State1 + ')' + '-' + '(' + State2 + ')', labelpad=15, va="bottom")
         cbar.ax.tick_params(labelsize=3/(step+step2+1)*30)
