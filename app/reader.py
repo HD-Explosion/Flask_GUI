@@ -117,6 +117,7 @@ def filesread(filenames):
     File_names = filenames
     Columns = []
     States = []
+    Time_Points = []
     Time_f = 's'
     Data1 = pd.DataFrame(columns=Columns)
     i = 0
@@ -127,8 +128,8 @@ def filesread(filenames):
         k += 1
         csvFile = open(os.path.join(app.config['USER_FOLDER'],File_name), "r")
         reader = cs.reader(csvFile)
-        Time_Points = []
         Columns = []
+        TP = []
         if k == 1:
             Data1 = pd.DataFrame(columns=Columns)
             Sequence_number = ''
@@ -212,12 +213,13 @@ def filesread(filenames):
         else:
             i = 0
             n = 0
+            SS = []
             Data2 = pd.DataFrame(columns=Columns)
             Sequence_number = ''
             for item in reader:
                 if n != 0:
                     if item[0] == Protein:
-                        if item[8] in States:
+                        if item[8] in SS:
                             if Sequence_number != item[1] + '-' + item[2]:
                                 i += 1
                                 Sequence_number = item[1] + '-' + item[2]
@@ -227,15 +229,18 @@ def filesread(filenames):
                                 Time = str(int(float(item[9]) * 60 + 0.5))
                             else:
                                 Time = item[9]
-                            State = item[8]
+                            if item[8] in States:
+                                State = item[8] + '_' + str(k)
+                            else:
+                                State = item[8]
                             Protein = item[0]
                             if Time != '0':
-                                if Time not in Time_Points:
-                                    Time_Points.append(Time)
+                                if Time not in TP:
+                                    TP.append(Time)
                                 Data2.loc[i, Protein + '_' + State + '_' + Time] = item[12]
                                 Data2.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
                         else:
-                            States.append(item[8])
+                            SS.append(item[8])
                             if Sequence_number != item[1] + '-' + item[2]:
                                 i += 1
                                 Sequence_number = item[1] + '-' + item[2]
@@ -245,17 +250,26 @@ def filesread(filenames):
                                 Time = str(int(float(item[9]) * 60 + 0.5))
                             else:
                                 Time = item[9]
-                            State = item[8]
+                            if item[8] in States:
+                                State = item[8] + '_' + str(k)
+                            else:
+                                State = item[8]
                             Protein = item[0]
                             if Time != '0':
-                                if Time not in Time_Points:
-                                    Time_Points.append(Time)
+                                if Time not in TP:
+                                    TP.append(Time)
                                 Data2.loc[i, Protein + '_' + State + '_' + Time] = item[12]
                                 Data2.loc[i, Protein + '_' + State + '_' + Time + '_SD'] = item[13]
                 else:
                     if item != ['Protein', 'Start', 'End', 'Sequence', 'Modification', 'Fragment', 'MaxUptake', 'MHP', 'State', 'Exposure', 'Center', 'Center SD', 'Uptake', 'Uptake SD', 'RT', 'RT SD']:
                         return 0
                     n = n + 1
+            for st in SS:
+                if st in States:
+                    States.append(st + '_' + str(k))
+                else:
+                    States.append(st)
+            Time_Points = list(set(Time_Points) & set(TP))
             Data1 = Data1.merge(Data2, on=Protein)
         n = 0
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],"For_plot.csv"), index=False, sep=',')
