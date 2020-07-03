@@ -273,5 +273,17 @@ def filesread(filenames):
             Time_Points = list(set(Time_Points) & set(TP))
             Data1 = Data1.merge(Data2, on=Protein)
         n = 0
+    temp = ''
+    tkey = 0
+    for keya, ta in enumerate(Time_Points):
+        temp = ta
+        tkey = keya
+        for keyb, tb in enumerate(Time_Points):
+            if keyb > keya:
+                if float(temp) > float(tb):
+                    temp = tb
+                    tkey = keyb
+        Time_Points[tkey] = ta
+        Time_Points[keya] = temp                     
     Data1.to_csv(os.path.join(app.config['USER_FOLDER'],"For_plot.csv"), index=False, sep=',')
     return ([Protein], States, Time_Points, Data1)
