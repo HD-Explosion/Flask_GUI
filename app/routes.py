@@ -180,6 +180,7 @@ def click_show_h():
             significance = float(request.form.get("significance"))
             sig_filter = request.form.get("sig_filter")
             direction = request.form.get("direction")
+            nsize = int(request.form.get('nsize'))
             if direction == "vertical":
                 rotation = "V"
             else:
@@ -191,12 +192,12 @@ def click_show_h():
                 color = color2
                 session["COLOR"] = 2
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
-                    time_point, negative, color, significance, sig_filter, rotation]
+                    time_point, negative, color, significance, sig_filter, rotation, nsize]
             else:
                 color = color1
                 session["COLOR"] = 1
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
-                    time_point, negative, color, significance, sig_filter, rotation]
+                    time_point, negative, color, significance, sig_filter, rotation, nsize]
 
 
             session["COLORLIST"] = [['r','g','b','o','y'],['rb','br','gr','ob','rg','bp','bg']]
@@ -327,7 +328,8 @@ def plot():
             f = session['PASSEDPARAMETERS'][11], pp = session['PASSEDPARAMETERS'][10],
             rotation=session['PASSEDPARAMETERS'][12], max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
             color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
-            step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot')
+            step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot', nsize=session['PASSEDPARAMETERS'][13])
+            print(K)
             return redirect('/replot')
         except:
             print("Function not impelemented properly")

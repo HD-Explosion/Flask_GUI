@@ -223,7 +223,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
 
 
 
-def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0):
+def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0, nsize=3):
     k = 0
     sec = list(df[protien])
     print(sec)
@@ -248,8 +248,8 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         t1 = np.array(t1).astype(float)
         t2 = np.array(t2).astype(float)
         dif = t1 - t2
-        tv = dif / np.sqrt(s1 * s1 / 3 + s2 * s2 / 3)
-        p = stats.t.sf(abs(tv), 3)
+        tv = dif / np.sqrt(s1 * s1 / nsize + s2 * s2 / nsize)
+        p = stats.t.sf(abs(tv), nsize)
         if k == 0:
             t = copy(dif)
             pv = copy(p)
