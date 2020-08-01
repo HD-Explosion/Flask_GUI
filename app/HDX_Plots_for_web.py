@@ -119,7 +119,7 @@ def uptakeplot(df, proteins, Time_points1=[], States=[], cols=1, rows=1, file_na
     return text
 
 
-def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2.0, ymin=5.0, sizeX=6.0, sizeY=6.0, lif=False, tsize=6):
+def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2.0, ymin=5.0, sizeX=6.0, sizeY=6.0, lif=False, tsize=6, nsize=3):
     df1 = pd.DataFrame(columns=['Time point', 'Sequence', 'Difference', 'p-Value'])
     fig, ax = plt.subplots(figsize=(sizeX, sizeY))
     ax.set_yscale("log")
@@ -180,8 +180,8 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             x1 = np.array(x1).astype(float)
             s1 = np.array(s1).astype(float)
             d = x1 - x2
-            t = (x1 - x2) / np.sqrt(s1 * s1 / 3 + s2 * s2 / 3)
-            p = stats.t.sf(abs(t), 3)
+            t = (x1 - x2) / np.sqrt(s1 * s1 / nsize + s2 * s2 / nsize)
+            p = stats.t.sf(abs(t), nsize)
             d_in_n = []
             p_in_n = []
             d_in_p = []
@@ -223,7 +223,7 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
 
 
 
-def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0):
+def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.5, min=0., rotation = 'H', max=2.5, step=10, color="Blues", file_name='Heatmap.eps', step2=0, nsize=3):
     k = 0
     sec = list(df[protien])
     print(sec)
@@ -248,8 +248,8 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
         t1 = np.array(t1).astype(float)
         t2 = np.array(t2).astype(float)
         dif = t1 - t2
-        tv = dif / np.sqrt(s1 * s1 / 3 + s2 * s2 / 3)
-        p = stats.t.sf(abs(tv), 3)
+        tv = dif / np.sqrt(s1 * s1 / nsize + s2 * s2 / nsize)
+        p = stats.t.sf(abs(tv), nsize)
         if k == 0:
             t = copy(dif)
             pv = copy(p)
