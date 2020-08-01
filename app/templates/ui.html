@@ -99,7 +99,7 @@ abbr,acronym { border: 0;
          display: flex;
          justify-content:space-around;
      }
-		
+
 	 .div1,.div2,.div3{
          display: inline-block;
      }
@@ -181,8 +181,8 @@ abbr,acronym { border: 0;
 
 
         img {
-        width: 100%; 
-        height: 100%; 
+        width: 100%;
+        height: 100%;
         object-fit: contain;
             }
 
@@ -410,7 +410,7 @@ abbr,acronym { border: 0;
                 </div>
             </form>
             <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button> -->
-            
+
             <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
                 <div id="c2">
                     <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
@@ -434,8 +434,8 @@ abbr,acronym { border: 0;
                      <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
                 </div>
             </form>
-        
-            
+
+
             <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
                 <div id="c2" style="display: none">
                     <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
@@ -673,6 +673,7 @@ abbr,acronym { border: 0;
                 <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
 
                 <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
 
                 <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5" style="margin-top: 3px; margin-bottom: 3px"></li>
 
@@ -834,7 +835,7 @@ abbr,acronym { border: 0;
             {% endif %}
 
                 <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
-
+                <li class="C_right_w">Sapmle Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1" min="3" max="9999" name="nsize" value="{{ paras[13] }}"></li>
 
                 <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
 
@@ -962,7 +963,7 @@ abbr,acronym { border: 0;
              </ul>
 
 
-     
+
     </div>
 
 
@@ -976,7 +977,7 @@ abbr,acronym { border: 0;
                     var color = $(this).parent().find('input').val();
                     $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
 
-                    
+
 
                 });
 
@@ -994,7 +995,7 @@ abbr,acronym { border: 0;
                  <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
 
                 <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
-
+                <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1" min="3" max="9999" name="nsize" value="{{ paras[16] }}"></li>
                 <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="{{ paras[11] }}" style="margin-top: 3px; margin-bottom: 3px"></li>
 
                 {% if paras[14] %}
@@ -1005,7 +1006,7 @@ abbr,acronym { border: 0;
 
 
                 <li class="V_right_w"><span><button class="button" type = "button"  onclick="window.location.href='{{ url_for('downloadlist') }}';" style="width: 130px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
-                
+
 
             </ul>
          </div>
@@ -1097,6 +1098,7 @@ abbr,acronym { border: 0;
                  <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter" class="C_right"  style="margin-top: 3px"></li>
 
                 <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01" class="C_right"></li>
+                <li class="C_right_w">Sapmle Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
 
 
                 <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
@@ -1168,32 +1170,32 @@ abbr,acronym { border: 0;
                         </li>
 
                         <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
-         
+
                             <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
                         </li>
 
                         <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
-         
+
                             <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
                         </li>
 
                         <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
-         
+
                             <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
                         </li>
 
                         <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
-         
+
                             <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
                         </li>
 
                         <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
-         
+
                             <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
                         </li>
-                        
+
                  </ul>
-                 
+
                 </div>
 
                         <script>
@@ -1205,10 +1207,10 @@ abbr,acronym { border: 0;
                                 var color = $(this).parent().find('input').val();
                                 $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
 
-                                
+
 
                             });
-            
+
                             </script>
              </li>
 
@@ -1223,6 +1225,7 @@ abbr,acronym { border: 0;
                 <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
 
                 <li class="V_right_w">p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
+                <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
 
                 <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5" style="margin-top: 3px; margin-bottom: 3px"></li>
 
@@ -1240,48 +1243,48 @@ abbr,acronym { border: 0;
          <form action="/click_show_h" method = "post">
             <div id="d2" style="display: none" >
                      <ul class="div1" style="float: left">
-        
+
                          <li>
                          <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" style="width: 100px">
-        
+
                                 {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
                             </select>
-        
+
                          </li>
-        
+
                         <li><strong>Comparison</strong>
                          </li>
-        
+
                         <li>
                             State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" style="width: 100px">
                                 {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                             </select></li>
-        
+
                         <li>
                             State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" style="width: 100px">
                                {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
                         </select>
                         </li>
-        
-        
+
+
                          <li><strong>Range</strong>
                          </li>
-        
+
                          <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
-        
+
                         <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" style="margin-top: 3px"> </li>
-        
+
                         <li style="margin-top: 5px">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox" name="negative" style="margin-top: 5px;margin-bottom: 5px"></li>
-        
+
                         <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
-        
+
                         <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" style="margin-top: 3px" disabled> </li>
-        
-        
-        
+
+
+
                     </ul>
-        
-        
+
+
                     <ul class="C_right_ul" >
 
                     <li class="C_right_w"><strong>Layout</strong></li>
@@ -1301,14 +1304,14 @@ abbr,acronym { border: 0;
                             <option  value ="o">o</option>
                             <option  value ="y">y</option>
 
-        
+
                         </select></li>
-        
-        
+
+
                          <li id="color2" class="C_right_w"  style="display: none">
                             Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" class="C_right">
-        
-        
+
+
                             <option value ="rb" class="rb">rb</option>
                             <option  value ="br" class="br">br</option>
                             <option  value ="gr" class="gr">gr</option>
@@ -1316,18 +1319,19 @@ abbr,acronym { border: 0;
                             <option  value ="rg" class="rg">rg</option>
                             <option  value ="bp" class="bp">bp</option>
                             <option  value ="bg" class="bg">bg</option>
-        
+
                         </select></li>
 
                         <li><strong>Statistics</strong></li>
-        
+
                          <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox"  name="sig_filter" style="margin-top: 3px"></li>
-        
+
                         <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
-        
-        
+                        <li class="C_right_w">Sapmle Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
+
+
                         <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
-        
+
                     </ul>
                  </div>
                  </form>
