@@ -250,7 +250,7 @@ def click_show_v():
             significance = float(request.form.get("significance"))
             min_dif = float(request.form.get("min_dif"))
             color = request.form.get("color")
-
+            nsize = int(request.form.get('nsize'))
 
             print(color)
             if color:
@@ -274,7 +274,7 @@ def click_show_v():
 
 
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
-                X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize]
+                X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize, nsize]
                 print(session["PASSEDPARAMETERS"])
                 session["USERPLOTSTATUS"] = "volcanoplot"
 
@@ -346,7 +346,7 @@ def plot():
             ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
             xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
             sizeX = session['PASSEDPARAMETERS'][12],sizeY = session['PASSEDPARAMETERS'][13],
-            lif = session['PASSEDPARAMETERS'][14], tsize= session['PASSEDPARAMETERS'][15])
+            lif = session['PASSEDPARAMETERS'][14], tsize= session['PASSEDPARAMETERS'][15], nsize = session['PASSEDPARAMETERS'][16])
             return redirect('/replot')
         except:
             print("Function not impelemented properly")

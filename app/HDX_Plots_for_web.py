@@ -119,7 +119,7 @@ def uptakeplot(df, proteins, Time_points1=[], States=[], cols=1, rows=1, file_na
     return text
 
 
-def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2.0, ymin=5.0, sizeX=6.0, sizeY=6.0, lif=False, tsize=6):
+def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, md=0.5, ma=0.01, msi=0.5, xmin=-1.0, xmax=2.0, ymin=5.0, sizeX=6.0, sizeY=6.0, lif=False, tsize=6, nsize=3):
     df1 = pd.DataFrame(columns=['Time point', 'Sequence', 'Difference', 'p-Value'])
     fig, ax = plt.subplots(figsize=(sizeX, sizeY))
     ax.set_yscale("log")
@@ -180,8 +180,8 @@ def v(UserFolder, df, times, proteins, state1, state2, size, colors, file_name, 
             x1 = np.array(x1).astype(float)
             s1 = np.array(s1).astype(float)
             d = x1 - x2
-            t = (x1 - x2) / np.sqrt(s1 * s1 / 3 + s2 * s2 / 3)
-            p = stats.t.sf(abs(t), 3)
+            t = (x1 - x2) / np.sqrt(s1 * s1 / nsize + s2 * s2 / nsize)
+            p = stats.t.sf(abs(t), nsize)
             d_in_n = []
             p_in_n = []
             d_in_p = []
