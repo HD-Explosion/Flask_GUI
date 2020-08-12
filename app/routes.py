@@ -200,7 +200,7 @@ def click_show_h():
                     time_point, negative, color, significance, sig_filter, rotation, nsize]
 
 
-            session["COLORLIST"] = [['r','g','b','o','y'],['rb','br','gr','ob','rg','bp','bg']]
+            session["COLORLIST"] = [['r','g','b','o','y'],['rb','br','ob','bg']]
             session["USERPLOTSTATUS"] = "heatmap"
 
         except:

@@ -358,9 +358,9 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
             clmap.append(
                 ((100-100/step*(c+1))/255, (149-149/step*(c+1))/255,
                  1.0 - ((255 - 150) / ((step - 1)//2) * (c + 1)) / 255))
-        for c in range(step - 1):
+        for c in range(step2 - 1):
             clmap.insert(0,
-                         (1.0 - (c + 1) * (1.0 / step), 1.0 - (c + 1) * (1.0 / step) / 1.5, 1.0 - (c + 1) * (1.0 / step)))
+                         (1.0 - (c + 1) * (1.0 / step2), 1.0 - (c + 1) * (1.0 / step2) / 1.5, 1.0 - (c + 1) * (1.0 / step2)))
     else:
         clmap = [(1.0, 1.0, 1.0), (1.0, 1.0, 1.0)]
         for c in range(step - 1):
