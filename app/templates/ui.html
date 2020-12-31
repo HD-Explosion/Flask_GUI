@@ -646,7 +646,10 @@
 
 {#                            {% for lst in lists[0] %}#}
 {#                                <option>{{ lst }}</option>{% endfor %}#}
-                            <option>Protein 1</option>
+{#                            <option>Protein 1</option>#}
+                            {% for lst in lists[0] %}
+                                <option>{{ lst }}</option>
+                            {% endfor %}
                         </select>
 
                         </li>
@@ -771,11 +774,15 @@
 {#                                        </label>#}
                                         <select
                                                 class="V_left" name="protein" style="width: 100px">
+                                            <option>All</option>
+                                            {% for lst in lists[2] %}
+                                                <option>{{ lst }}</option>
+                                            {% endfor %}
 
-                                            <option>100s</option>
-                                            <option>10s</option>
-                                            <option>1s</option>
-                                            <option>0.1s</option>
+{#                                            <option>100s</option>#}
+{#                                            <option>10s</option>#}
+{#                                            <option>1s</option>#}
+{#                                            <option>0.1s</option>#}
                                         </select>
                                     </div>
                                 </div>
@@ -783,7 +790,7 @@
 
                             <li>
                                 <div style="display: flex;position: relative">
-                                    <strong>State:</strong>
+                                    <strong>State1:</strong>
                                     <div class="r-s-content" style="position: absolute;left: 150px">
 {#                                        <label>#}
 {#                                            <strong>State1</strong>#}
@@ -792,8 +799,31 @@
                                         <select
                                                 class="V_left" name="protein" style="width: 100px">
 
-                                            <option>State 1</option>
-                                            <option>State 2</option>
+{#                                            <option>State 1</option>#}
+{#                                            <option>State 2</option>#}
+                                            {% for lst in lists[1] %}
+                                                <option>{{ lst }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <strong>State2:</strong>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+{#                                        <label>#}
+{#                                            <strong>State1</strong>#}
+{#                                        </label>#}
+{#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+                                        <select
+                                                class="V_left" name="protein" style="width: 100px">
+
+{#                                            <option>State 1</option>#}
+{#                                            <option>State 2</option>#}
+                                            {% for lst in lists[1] %}
+                                                <option>{{ lst }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
