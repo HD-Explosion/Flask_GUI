@@ -3,474 +3,541 @@
 
 {% block content %}
 
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>HD eXplosion</title>
+        <style>
+            input[type="submit"] {
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-
-<title>HD eXplosion</title>
-    <style>
-        {# first reset all css tag to keep style consistency across browers#}
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,span{
-	padding: 0;
-	margin: 0;
-	}
-table, span {
-	border-collapse: collapse;
-	border-spacing: 0;
-	}
-fieldset,img {
-	border: 0;
-	}
-address,caption,cite,code,dfn,em,th,var {
-	font-weight: normal;
-	font-style: normal;
-	}
-ol,ul {
-	list-style: none;
-	}
-caption,th {
-	text-align: left;
-	}
-
-q:before,q:after {
-	content:'';
-	}
-abbr,acronym { border: 0;
-	}
-
-
-    html,body {
-        width:100%;
-        height:100%
-        }
-    body {
-        background-color: white;
-        background-size: cover;
-        font-family: "Lucida Sans", Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        }
-
-    ul {
-        margin: 8px;
-    }
-
-    li{
-        list-style: none;
-        margin: 2px;
-
-    }
-
-    input[type="number"] {
-        width: 50px;
-    }
-
-     h1 {
-         color: #FFFFFF;
-
-     }
-
-     footer{
-        width: 100%;
-        height: fit-content;
-        position:absolute;
-        top:787px;
-        left:0px;
-        overflow: hidden;
-        text-align: center;
-        border-top-style:solid;
-        border-top-width: thin;
-    }
-
-     #div1,#div2,#div3{
-         display: inline-block;
-     }
-
-     #wrap{
-         display: flex;
-         justify-content:space-around;
-     }
-
-	 .div1,.div2,.div3{
-         display: inline-block;
-     }
-
-      .error {
-        color: rgb(218, 18, 18);
-        font-size: 20px
             }
 
-    .uploadnotice {
-        color: rgb(14, 17, 218);
-        font-size: 18px
+            {# first reset all css tag to keep style consistency across browers#}
+            body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, span {
+                padding: 0;
+                margin: 0;
             }
 
-     .text-oneLine{
-         display:block;
-         word-break:keep-all;
-         white-space:nowrap;
-         overflow:hidden;
-         text-overflow:ellipsis;
-         color: black;
-     }
+            table, span {
+                border-collapse: collapse;
+                border-spacing: 0;
+            }
 
+            fieldset, img {
+                border: 0;
+            }
 
-     .box {
-        position: absolute;
-         width: 630px;
-         border: 5px solid darkgray;
-         padding: 15px;
-         margin: 15px;
-         float:left;
-         border-radius: 30px;
-     }
+            address, caption, cite, code, dfn, em, th, var {
+                font-weight: normal;
+                font-style: normal;
+            }
 
-     .range {
-         width: 100px;
-         padding: 0;
-     }
+            ol, ul {
+                list-style: none;
+            }
 
-     .screen {
-         position: absolute;
-         left:650px;
-         top:100px;
-         width: 45%;
-         height: 550px;
-         line-height: 550px;
-         text-align: center;
-         background-color: white;
-         margin: 30px auto;
-         font-size: large;
+            caption, th {
+                text-align: left;
+            }
 
-     }
+            q:before, q:after {
+                content: '';
+            }
 
-
-     .r_selection{
-         float: right;
-         position: relative;
-         top:5px;
-     }
-
-     .button {
-         border-radius: 3px;
-         text-align: center;
-     }
-
-     .btn {
-         width: 150px;
-         padding: 4px 0;
-         position: relative;
-         border-radius: 3px;
-     }
-
-
-        p4 {
-	        text-align: center;
-  	        text-transform: uppercase;
-            user-select: none;
+            abbr, acronym {
+                border: 0;
             }
 
 
-        img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
+            html, body {
+                width: 100%;
+                height: 100%
             }
 
-        img.center {
-            display: block;
-            margin: 0 auto;
-        }
-
-       .C_right {
-             position: absolute;
-           left: 200px;
-       }
-
-        .C_left {
-            position: absolute;
-            left: 120px;
-        }
-
-        .C_right_w {
-
-        }
-
-        .C_right_ul {
-            position:absolute;
-            left: 275px;
-        }
-
-        .V_right {
-            position: absolute;
-           left: 432px;
-       }
-
-        .V_left {
-            position: absolute;
-            left: 122px;
-        }
-
-        .V_right_w {
-
-            left: 250px;
-        }
-
-        .dropdown-toggle {
-            background:#FFF !important;
-            color:#000 !important;
-            height: 30px;
-            width: 100px;
-            border-radius:0;
-            box-shadow:none;
-            border-image:none;
-            align-content: center ;
-            padding: 0;
-            margin-bottom: 0;
-        }
-
-          .open .dropdown-toggle {
-            background:#FFF !important;
-            color:#000 !important;
-            height: 30px;
-            width: 50px;
-            border-radius:0;
-            box-shadow:none;
-            border-image:none;
-             align: center ;
-             padding: 0;
-        }
-
-         .caret{
-            color: gainsboro;
-             margin-top: 0;
-             padding: 0;
-         }
-
-        #element:fullscreen {
-            width: 100vw;
-            height: 100vh;
-            background-position: center;
-        }
-
-        .el:-webkit-full-screen {
-          width: 100vw;
-          height: 100vh;
-        }
-
-        .el:-moz-full-screen {
-          width: 100vw;
-          height: 100vh;
-        }
-
-        .el:-ms-fullscreen {
-          width: 100vw;
-          height: 100vh;
-        }
-
-        .el:fullscreen {
-          width: 100vw;
-          height: 100vh;
-        }
-
-        figure:-webkit-full-screen figcaption {
-          display: none;
-        }
-
-        figure:-moz-full-screen figcaption {
-          display: none;
-        }
-
-        figure:-ms-fullscreen figcaption {
-          display: none;
-        }
-
-        figure:fullscreen figcaption {
-          display: none;
-        }
-
-        :-webkit-full-screen .footnotes {
-          display: none;
-        }
-
-        :-moz-full-screen .footnotes {
-          display: none;
-        }
-
-        :-ms-fullscreen .footnotes {
-          display: none;
-        }
-
-        :fullscreen .footnotes {
-          display: none;
-        }
-    </style>
-
-    <script type="text/javascript" >
-
-        function f0(param){
-            for(var i =1;i<=2;i++){
-                var id =document.getElementById("c"+i);
-                id.style.display="none";
-                if(i===param){
-                    id.style.display="block";
-                 }
+            body {
+                background-color: white;
+                background-size: cover;
+                font-family: "Lucida Sans", Helvetica, Arial, sans-serif;
+                font-size: 14px;
             }
-        }
 
-        function f1(param){
-            for(var i =1;i<=2;i++){
-                var id =document.getElementById("d"+i);
-                id.style.display="none";
-                if(i===param){
-                    id.style.display="block";
-                 }
+            ul {
+                margin: 8px;
             }
-        }
+
+            li {
+                list-style: none;
+                margin: 2px;
+
+            }
+
+            input[type="number"] {
+                width: 50px;
+            }
+
+            h1 {
+                color: #FFFFFF;
+
+            }
+
+            footer {
+                width: 100%;
+                height: fit-content;
+                position: absolute;
+                top: 787px;
+                left: 0px;
+                overflow: hidden;
+                text-align: center;
+                border-top-style: solid;
+                border-top-width: thin;
+            }
+
+            #div1, #div2, #div3 {
+                display: inline-block;
+            }
+
+            #wrap {
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .div1, .div2, .div3 {
+                display: inline-block;
+            }
+
+            .error {
+                color: rgb(218, 18, 18);
+                font-size: 20px
+            }
+
+            .uploadnotice {
+                color: rgb(14, 17, 218);
+                font-size: 18px
+            }
+
+            .text-oneLine {
+                display: block;
+                word-break: keep-all;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: black;
+            }
 
 
-        function fullscreen() {
-            var el = document.getElementById('graphdiv');
+            .box {
+                position: absolute;
+                width: 630px;
+                border: 5px solid darkgray;
+                padding: 15px;
+                margin: 15px;
+                float: left;
+                border-radius: 30px;
+            }
 
-            // use necessary prefixed versions
-            el.webkitRequestFullscreen();
-            el.mozRequestFullScreen();
-            el.msRequestFullscreen();
+            .range {
+                width: 100px;
+                padding: 0;
+            }
 
-            // finally the standard version
-            el.requestFullscreen();
-        }
+            .screen {
+                position: absolute;
+                left: 650px;
+                top: 100px;
+                width: 45%;
+                height: 550px;
+                line-height: 550px;
+                text-align: center;
+                background-color: white;
+                margin: 30px auto;
+                font-size: large;
+
+            }
 
 
+            .r_selection {
+                float: right;
+                position: relative;
+                top: 5px;
+            }
+
+            .button {
+                border-radius: 3px;
+                text-align: center;
+            }
+
+            .btn {
+                width: 150px;
+                padding: 4px 0;
+                position: relative;
+                border-radius: 3px;
+            }
 
 
-    </script>
+            p4 {
+                text-align: center;
+                text-transform: uppercase;
+                user-select: none;
+            }
 
 
-</head>
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
 
-<body>
+            img.center {
+                display: block;
+                margin: 0 auto;
+            }
+
+            .C_right {
+                position: absolute;
+                left: 200px;
+            }
+
+            .C_left {
+                position: absolute;
+                left: 120px;
+            }
+
+            .C_right_w {
+
+            }
+
+            .C_right_ul {
+                position: absolute;
+                left: 275px;
+            }
+
+            .V_right {
+                position: absolute;
+                left: 432px;
+            }
+
+            .V_left {
+                {#position: absolute;#}
+                {#left: 122px;#}
+                float: right;
+            }
+
+            .V_right_w {
+
+                left: 250px;
+            }
+
+            .dropdown-toggle {
+                background: #FFF !important;
+                color: #000 !important;
+                height: 30px;
+                width: 100px;
+                border-radius: 0;
+                box-shadow: none;
+                border-image: none;
+                align-content: center;
+                padding: 0;
+                margin-bottom: 0;
+            }
+
+            .open .dropdown-toggle {
+                background: #FFF !important;
+                color: #000 !important;
+                height: 30px;
+                width: 50px;
+                border-radius: 0;
+                box-shadow: none;
+                border-image: none;
+                align: center;
+                padding: 0;
+            }
+
+            .caret {
+                color: gainsboro;
+                margin-top: 0;
+                padding: 0;
+            }
+
+            #element:fullscreen {
+                width: 100vw;
+                height: 100vh;
+                background-position: center;
+            }
+
+            .el:-webkit-full-screen {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .el:-moz-full-screen {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .el:-ms-fullscreen {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            .el:fullscreen {
+                width: 100vw;
+                height: 100vh;
+            }
+
+            figure:-webkit-full-screen figcaption {
+                display: none;
+            }
+
+            figure:-moz-full-screen figcaption {
+                display: none;
+            }
+
+            figure:-ms-fullscreen figcaption {
+                display: none;
+            }
+
+            figure:fullscreen figcaption {
+                display: none;
+            }
+
+            :-webkit-full-screen .footnotes {
+                display: none;
+            }
+
+            :-moz-full-screen .footnotes {
+                display: none;
+            }
+
+            :-ms-fullscreen .footnotes {
+                display: none;
+            }
+
+            :fullscreen .footnotes {
+                display: none;
+            }
+            .left-side-bar > li{
+                margin-top: .7rem;
+            }
+            .right-sidebar{
+                {#margin-left: 250px;#}
+            }
+
+            .right-sidebar > li{
+                margin-bottom: .7rem;
+            }
+
+            .btn-list{
+                position: absolute;
+                left: -200px;
+                bottom: .5rem;
+                width: 500px;
+                height: 2rem;
+                display: flex;
+                justify-content: center;
+            }
+            .btn-list > li{
+                position: relative !important;
+                margin: 0 2rem !important;
+            }
+
+            .btn-list button{
+                border-radius: 8px !important;
+            }
+        </style>
+
+        <script type="text/javascript">
+            function f0(param) {
+                for (var i = 1; i <= 2; i++) {
+                    var id = document.getElementById("c" + i);
+                    id.style.display = "none";
+                    if (i === param) {
+                        id.style.display = "block";
+                    }
+                }
+            }
+
+            function f1(param) {
+                for (var i = 1; i <= 3; i++) {
+                    var id = document.getElementById("d" + i);
+                    id.style.display = "none";
+                    if (i === param) {
+                        id.style.display = "block";
+                    }
+                }
+            }
 
 
-    <div >
-        <div id="div1" style=" margin-left: 0;width: 600px;height: 110px; float: left;position:absolute;top: 10px;left:-100px">
+            function fullscreen() {
+                var el = document.getElementById('graphdiv');
+
+                // use necessary prefixed versions
+                el.webkitRequestFullscreen();
+                el.mozRequestFullScreen();
+                el.msRequestFullscreen();
+
+                // finally the standard version
+                el.requestFullscreen();
+            }
+
+
+        </script>
+
+
+    </head>
+
+    <body>
+
+
+    <div>
+        <div id="div1"
+             style=" margin-left: 0;width: 600px;height: 110px; float: left;position:absolute;top: 10px;left:-100px">
             <img src="./static/image/HDeXplosionHead.png" alt="HD-eXplosion">
         </div>
         <div id="div2" style="width: 200px">
 
         </div>
         <div id="div3" style="float: right; margin-top:50px;margin-right: 50px; display: inline-list-item">
-           <a href="/static/Help file.pdf" target="_blank"> <button class="button" type = "button" ><h5>Instructions</h5></button></a>
+            <a href="/static/Help file.pdf" target="_blank">
+                <button class="btn btn-outline-success" type="button"><h5>Instructions</h5></button>
+            </a>
         </div>
     </div>
 
 
-
-
     <div class="box" style="left:20px;top:105px;height:250px">
-        <h4><strong>Data </strong></h4>
+        <h4><strong>Data Upload</strong></h4>
+    <form enctype="multipart/form-data" style="margin-top: 8px">
+{#        <div style="display: flex">#}
+{#            <input type="radio" id="f0" name="uploadfile" checked>#}
+{#            <label for="f0">One File</label>#}
+{#            <input type="radio" name="uploadfile" id="f1" style="margin-left: 2rem;">#}
+{#            <label for="f1">File merging</label>#}
+{#        </div>#}
+{#        <button class="btn btn-secondary" style="height: 2rem;#}
+{#            word-break: keep-all;#}
+{#            white-space: nowrap;#}
+{#            width: 12rem;#}
+{#            border-radius: 8px;">#}
+{#            Upload Dynamx Output</button>#}
+{#    </form>#}
         {% if filestatus %}
-        <span>
-            <form  method="post" enctype="multipart/form-data">
-            <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" >
+            <span>
+            <form method="post" enctype="multipart/form-data">
+            <input id="single_file" type="radio" name="upload" value="file_s" onclick="f0(1)">
             <label for="single_file">One File (.csv)</label><br>
-            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" checked>
+            <input id="multi_files" type="radio" name="upload" value="file_m" onclick="f0(2)" checked>
             <label for="multi_files">Multiple Files (.csv)</label><br>
             </form>
         </span>
         {% else %}
-        <span>
-            <form  method="post" enctype="multipart/form-data">
-            <input id="single_file" type="radio"  name="upload" value="file_s" onclick="f0(1)" checked>
+            <span>
+            <form method="post" enctype="multipart/form-data">
+            <input id="single_file" type="radio" name="upload" value="file_s" onclick="f0(1)" checked>
             <label for="single_file">One File (.csv)</label><br>
-            <input id="multi_files" type="radio"  name="upload" value="file_m" onclick="f0(2)" >
+            <input id="multi_files" type="radio" name="upload" value="file_m" onclick="f0(2)">
             <label for="multi_files">Multiple Files (.csv)</label><br>
             </form>
         </span>
         {% endif %}
 
         {% if filestatus %}
-        <div class="div1">
-            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left" onsubmit="sub_file()">
-                <div id="c1" style="display: none">
-                    <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
-                     <label for="upload_s"> Please select ONE file to upload</label></p>
-                    <input type="submit" value="Submit" onclick="sub_file()">
-                    <h6>{{ ipaddr }}</h6>
-                    <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
-                </div>
-            </form>
-            <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button> -->
+            <div class="div1">
+                <form method="post" action="/upload_single_file" enctype="multipart/form-data"
+                      style="display: inline; float:left" onsubmit="sub_file()">
+                    <div id="c1" style="display: none">
+                        <p><input id="upload_s" type="file" name="file" autocomplete="off" required>
+                            <label for="upload_s"> Please select ONE file to upload</label></p>
+                        <input class="btn btn-primary" type="submit" value="Submit" onclick="sub_file()">
+                        <h6>{{ ipaddr }}</h6>
+                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                            here for a demo csv file</a>
+                    </div>
+                </form>
+                <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv')
+                }}';" ><p4>Export as CSV</p4></button> -->
 
-            <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
-                <div id="c2">
-                    <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
-                    <label for="upload_m"> You may select up to 5 files to upload</label></p>
-                    <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button"  onclick="window.location.href='{{ url_for('downloadcsv') }}';" value="Download Merged csv File">
-                    <h6>{{ ipaddr }}</h6>
-                     <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
-                </div>
-            </form>
-        </div>
+                <form method="post" action="/upload_multi_files" enctype="multipart/form-data"
+                      style="display: inline; float:left">
+                    <div id="c2">
+                        <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
+                            <label for="upload_m"> You may select up to 5 files to upload</label></p>
+                        <input class="btn btn-primary" type="submit" value="Merge & Submit" onclick="sub_file()"> <input
+                            type="button"
+                            onclick="window.location.href='{{ url_for('downloadcsv') }}';"
+                            value="Download Merged csv File">
+                        <h6>{{ ipaddr }}</h6>
+                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                            here for a demo csv file</a>
+                    </div>
+                </form>
+            </div>
 
         {% else %}
 
-        <div class="div1">
-            <form  method="post" action="/upload_single_file"  enctype="multipart/form-data" style="display: inline; float:left" onsubmit="sub_file()">
-                <div id="c1">
-                    <p><input id="upload_s" type="file" name="file"  autocomplete="off" required>
-                     <label for="upload_s"> Please select ONE file to upload</label></p>
-                    <input type="submit" value="Submit" onclick="sub_file()">
-                    <h6>{{ ipaddr }}</h6>
-                     <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
-                </div>
-            </form>
+            <div class="div1">
+                <form method="post" action="/upload_single_file" enctype="multipart/form-data"
+                      style="display: inline; float:left" onsubmit="sub_file()">
+                    <div id="c1">
+                        <p><input id="upload_s" type="file" name="file" autocomplete="off" required>
+                            <label for="upload_s"> Please select ONE file to upload</label></p>
+                        <input type="submit" value="Submit" onclick="sub_file()">
+                        <h6>{{ ipaddr }}</h6>
+                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                            here for a demo csv file</a>
+                    </div>
+                </form>
 
 
-            <form  method="post" action="/upload_multi_files" enctype="multipart/form-data" style="display: inline; float:left">
-                <div id="c2" style="display: none">
-                    <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
-                    <label for="upload_m"> You may select up to 5 files to upload</label></p>
-                    <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button" value="Download Merged csv File">
-                    <h6>{{ ipaddr }}</h6>
-                     <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click here for a demo csv file</a>
-                </div>
-            </form>
-        </div>
+                <form method="post" action="/upload_multi_files" enctype="multipart/form-data"
+                      style="display: inline; float:left">
+                    <div id="c2" style="display: none">
+                        <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
+                            <label for="upload_m"> You may select up to 5 files to upload</label></p>
+                        <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button"
+                                                                                                 value="Download Merged csv File">
+                        <h6>{{ ipaddr }}</h6>
+                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                            here for a demo csv file</a>
+                    </div>
+                </form>
+            </div>
 
         {% endif %}
 
 
-         <div class="div3">
+        <div class="div3">
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if cnt %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if cnt %}
+                    <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">×</span></button>
+                        Your {{ (cnt) }} files successfully uploaded
+                    </div>
+                {% else %}
+                    {% for category, message in messages %}
                         <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
-		                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-			                Your {{(cnt)}} files successfully uploaded
-                         </div>
-                    {% else %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
-		                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-			                {{message}}
-                         </div>
-                        {% endfor %}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
 
-                    {% endif %}
+                {% endif %}
 
 
 
-              {% endwith %}
+            {% endwith %}
 
             <!-- <script type="text/javascript">
                          function sub_file() {
@@ -494,156 +561,548 @@ abbr,acronym { border: 0;
     </div>
 
 
-    <div id="plot_status" s="{{plot_status}}" style="display: none"><p> {{ plot_status }}</p> </div>
+    <div id="plot_status" s="{{ plot_status }}" style="display: none"><p> {{ plot_status }}</p></div>
 
-     <div class="box" style="left:20px;top:365px;height:400px">
-         <div class="div1">
-            <h4><strong>Parameters</strong></h4>
-         </div>
-          <div class="div2" style="width: 30px">
+    <div class="box" style="left:20px;top:365px;height:400px">
+        <div class="div1">
+            <h4><strong>Parameters settings</strong></h4>
+        </div>
+        <div class="div2" style="width: 30px">
 
         </div>
 
 
-     {% if plot_status == 'heatmap' %}
-        <form action="" method="post">
-            <div class="div1">
-            <h6><strong>Plot Type</strong></h6>
-            </div><br>
-            <div class="div2" style="margin-right: 20px">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
-                <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg" style="width: 20px; height: 20px; margin: 0"> </label>
-             </div>
+        {% if plot_status == 'heatmap' %}
+            <form action="" method="post">
+                <div class="div1">
+                    <h6><strong>Plot Type</strong></h6>
+                </div>
+                <br>
+                <div class="div2" style="margin-right: 20px">
+                    <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" checked>
+                    <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg"
+                                                      style="width: 20px; height: 20px; margin: 0"> </label>
+                </div>
 
-            <div class="div3">
-                <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
-                <label for="Volcano Plot">Volcano  <img src="./static/image/valcano.jpg" style="width: 20px; height: 20px; margin: 0"></label>
-            </div>
-        </form>
-
-     {% elif plot_status == 'volcanoplot' %}
-      <form action="" method="post">
-            <div class="div1">
-            <h6><strong>Plot Type</strong></h6>
-            </div><br>
-            <div class="div2" style="margin-right: 20px">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
-                <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg" style="width: 20px; height: 20px; margin: 0"></label>
-             </div>
-
-            <div class="div3">
-                <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)" checked>
-                <label for="Volcano Plot">Volcano <img src="./static/image/valcano.jpg" style="width: 20px; height: 20px; margin: 0"></label>
-            </div>
-        </form>
-
-     {% else %}
-      <form action="" method="post">
-            <div class="div1" >
-            <h6><strong>Plot Type</strong></h6>
-            </div><br>
-            <div class="div2" style="margin-right: 20px">
-                 <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)" >
-                <label for="Heatmap">Chiclet  <img src="./static/image/heatmap.jpg" style="width: 20px; height: 20px; margin: 0"></label>
-             </div>
-
-            <div class="div3">
-                <input id="Volcano Plot" type="radio"  name="plot" value="Volcano Plot" onclick="f1(1)">
-                <label for="Volcano Plot">Volcano  <img src="./static/image/valcano.jpg" style="width: 20px; height: 20px; margin:0"></label>
-            </div>
-        </form>
-     {% endif %}
+                <div class="div3">
+                    <input id="Volcano Plot" type="radio" name="plot" value="Volcano Plot" onclick="f1(1)">
+                    <label for="Volcano Plot">Volcano<img src="./static/image/valcano.jpg"
+                                                           style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
 
 
-     {% if plot_status == 'heatmap' %}
-        <form action="/click_show_v" method = "post">
-         <div id="d1" style="display: none">
-             <ul class="div1" style="float: left">
-                <li>
-                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" style="width: 100px">
+            </form>
 
-                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
-                    </select>
+        {% elif plot_status == 'volcanoplot' %}
+            <form action="" method="post">
+                <div class="div1">
+                    <h6><strong>Plot Type</strong></h6>
+                </div>
+                <br>
+                <div class="div2" style="margin-right: 20px">
+                    <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)">
+                    <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg"
+                                                      style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
 
-                 </li>
+                <div class="div3">
+                    <input id="Volcano Plot" type="radio" name="plot" value="Volcano Plot" onclick="f1(1)" checked>
+                    <label for="Volcano Plot">Volcano <img src="./static/image/valcano.jpg"
+                                                           style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
+            </form>
 
-                 <li>
-                     <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" style="width: 100px; margin-top: 5px">
-                                            <option value = "ALL">All</option>
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
+        {% else %}
+            <form action="" method="post">
+                <div class="div1">
+                    <h6><strong>Plot Type</strong></h6>
+                </div>
+                <br>
+                <div class="div2" style="margin-right: 20px">
+                    <input id="Heatmap" type="radio" name="plot" value="Heatmap" onclick="f1(2)">
+                    <label for="Heatmap">Chiclet <img src="./static/image/heatmap.jpg"
+                                                      style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
 
-                <li><strong>Comparison</strong></li>
+                <div class="div3">
+                    <input id="Volcano Plot" type="radio" name="plot" value="Volcano Plot" onclick="f1(1)">
+                    <label for="Volcano Plot">Volcano <img src="./static/image/valcano.jpg"
+                                                           style="width: 20px; height: 20px; margin:0"></label>
+                </div>
+                <div class="div3">
+                    <input id="Coverage map" type="radio" name="plot" value="Coverage map" onclick="f1(3)">
+                    <label for="Coverage map">Coverage map<img src="./static/image/valcano.jpg"
+                                                           style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
+            </form>
+        {% endif %}
 
-                <li >
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" style="width: 100px">
-                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-					</select></li>
+        <form action="/click_show_v" method="post">
+                <div id="d3" style="display: none">
+                    <ul class="div1 left-side-bar" style="float: left">
+                        <li>
+                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="protein" style="width: 100px">
 
-                <li >
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" style="width: 100px">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
+{#                            {% for lst in lists[0] %}#}
+{#                                <option>{{ lst }}</option>{% endfor %}#}
+{#                            <option>Protein 1</option>#}
+                            {% for lst in lists[0] %}
+                                <option>{{ lst }}</option>
+                            {% endfor %}
+                        </select>
+
+                        </li>
+
+                        <li>
+                            <strong>Show ss:</strong>
+{#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+{#                                                           name="show_ss" style="margin-top: 3px">#}
+                            <input type="checkbox" id="s_ss" style="zoom: 2;float: right">
+                        </li>
+
+                        <li><strong>PBD code:</strong>
+                        <input class="V_left" type="text" step="0.01" min="0" max="9999"
+                                                           name="pbd_code" style="margin-top: 3px;width:100px">
+
+                        </li>
+                        <li><strong>Chain ID:</strong>
+                        <input class="V_left" type="text" step="0.01" min="0" max="9999"
+                                                           name="chain_id" style="margin-top: 3px;width:100px">
+
+                        </li>
+                        <li><strong>Show sequence:</strong>
+{#                        <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+{#                                                           name="show_sequence" style="margin-top: 3px">#}
+                            <input type="checkbox" id="s_seq" style="zoom: 2;float: right">
+                        </li>
+
+{#                        <li><strong>Length of res:</strong>#}
+{#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+{#                                                           name="length_res" style="margin-top: 3px">#}
+{#                        </li>#}
 
 
-                <li><strong>Axis</strong></li>
+                        <li><strong>Show uptake:</strong>
+{#                        <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+{#                                                           name="show_uptake" style="margin-top: 3px">#}
+                            <input type="checkbox" id="s_upt" style="zoom: 2;float: right">
 
-                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></span></li>
-
-                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" style="margin-top: 3px"></li>
-
-                <li style="margin-top: 8px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
-
-
-            </ul>
+                        </li>
+                        <li style="margin-top: 8px;display: inline-block;width: 198px"></li>
 
 
-            <ul class="div3" style="margin-left: 30px">
+                    </ul>
 
 
-            <li id="color"  class="V_right_w">
-                    <div>Color</div>
-                    <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select <span class="caret"></span></button>
-                        <ul class="dropdown-menu"  style="width: fit-content; margin-bottom: 0" >
-                            <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
-                                <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
+                    <ul class="div3" style="position: absolute;right: 200px;top: 77px">
+
+
+                        <li id="color" class="V_right_w">
+{#                            <div>Color</div>#}
+                            <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">
+                                <!--  BOOTSTRAP DROPDOWN -->
+{#                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"#}
+{#                                        href="#"> Select <span class="caret"></span></button>#}
+                                <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
+                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern2" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern3" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern4" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern5" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern6" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern7" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+{#                            <script>#}
+{#                                $(".dropdown-menu li a").click(function () {#}
+{#                                    $(this).parent().find('input').attr('name', 'color');#}
+{#                                    var selText = $(this).text();#}
+{#                                    var imgSource = $(this).find('img').attr('src');#}
+{#                                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';#}
+{#                                    var color = $(this).parent().find('input').val();#}
+{#                                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');#}
+{#                                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="' + color + '">');#}
+{##}
+{#                                });#}
+{##}
+{#                            </script>#}
+
+                        </li>
+                        <div class="right-sidebar">
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <strong>Time Points:</strong>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+{#                                        <label>#}
+{#                                            <strong>100s</strong>#}
+{#                                        </label>#}
+                                        <select
+                                                class="V_left" name="protein" style="width: 100px">
+                                            <option>All</option>
+                                            {% for lst in lists[2] %}
+                                                <option>{{ lst }}</option>
+                                            {% endfor %}
+
+{#                                            <option>100s</option>#}
+{#                                            <option>10s</option>#}
+{#                                            <option>1s</option>#}
+{#                                            <option>0.1s</option>#}
+                                        </select>
+                                    </div>
+                                </div>
                             </li>
 
-                            <li ><input type="hidden" value="pattern2" name="colors"/><a href="javascript:void(0);" >
-                                <img style = "width: 100%; height: 100%;" src="./static/image/170E34.png" /> </a>
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <strong>State1:</strong>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+{#                                        <label>#}
+{#                                            <strong>State1</strong>#}
+{#                                        </label>#}
+{#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+                                        <select
+                                                class="V_left" name="protein" style="width: 100px">
+
+{#                                            <option>State 1</option>#}
+{#                                            <option>State 2</option>#}
+                                            {% for lst in lists[1] %}
+                                                <option>{{ lst }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <strong>State2:</strong>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+{#                                        <label>#}
+{#                                            <strong>State1</strong>#}
+{#                                        </label>#}
+{#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+                                        <select
+                                                class="V_left" name="protein" style="width: 100px">
+
+{#                                            <option>State 1</option>#}
+{#                                            <option>State 2</option>#}
+                                            {% for lst in lists[1] %}
+                                                <option>{{ lst }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+{#                            <li>#}
+{#                                <div style="display: flex;position: relative">#}
+{#                                    <strong>State2:</strong>#}
+{#                                    <div class="r-s-content" style="position: absolute;left: 150px">#}
+{#                                        <label>#}
+{#                                            <strong>State2</strong>#}
+{#                                        </label>#}
+{#                                        <input type="checkbox" id="state3" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </li>#}
+
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <strong>Colors:</strong>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+                                        <div class="btn-group" style="margin-bottom: 0">
+                                <!--  BOOTSTRAP DROPDOWN -->
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        href="#"> Select <span class="caret"></span></button>
+                                <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
+                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern2" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern3" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern4" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern5" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern6" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern7" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+                                    </div>
+                                </div>
                             </li>
 
-                            <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
-
-                                <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <strong>Significance:</strong>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+{#                                        <label>#}
+{#                                            <strong>0.01</strong>#}
+{#                                        </label>#}
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <div>P-value:</div>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+                                        <input type="number" step=".1" name="min_diff" style="width: 100px">
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div style="display: flex;position: relative">
+                                    <div>Simple size:</div>
+                                    <div class="r-s-content" style="position: absolute;left: 150px">
+                                        <input type="number" step=".1" name="min_diff" style="width: 100px">
+                                    </div>
+                                </div>
                             </li>
 
-                            <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
 
-                                <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
-                            </li>
+{#                            <li>#}
+{#                                <div style="display: flex;position: relative">#}
+{#                                    <strong>Min-difference (Da):</strong>#}
+{#                                    <div class="r-s-content" style="position: absolute;left: 150px">#}
+{#                                        <input type="number" step=".1" name="min_diff" style="width: 100px">#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </li>#}
+                        </div>
 
-                            <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
+{#                        <li style="margin-top:0;">Symbol#}
+{#                            size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input#}
+{#                                    id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1"#}
+{#                                    value="2" oninput="rangeOutId.value = rangeId.value"/>#}
+{#                            <output name="rangeOut" id="rangeOutId">2</output>#}
+{#                        </li>#}
+{##}
+{#                        <li class="V_right_w" style="margin-bottom: 3px">Text size#}
+{#                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input#}
+{#                                    class="V_right" type="number" step="0.1" min="1" max="99" name="text_size"#}
+{#                                    style="margin-bottom: 5px"></li>#}
+{##}
+{#                        <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span#}
+{#                                class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input#}
+{#                                type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>#}
+{##}
+{#                        <li class="V_right_w"><strong>Significance Cutoffs</strong></li>#}
+{##}
+{#                        <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0"#}
+{#                                                                     max="9999" name="significance" value="0.01"></li>#}
+{#                        <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1"#}
+{#                                                                           min="3" max="9999" name="nsize" value="3">#}
+{#                        </li>#}
+{##}
+{#                        <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right"#}
+{#                                                                                                 type="number"#}
+{#                                                                                                 step="0.01" min="0"#}
+{#                                                                                                 max="9999"#}
+{#                                                                                                 name="min_dif"#}
+{#                                                                                                 value="0.5"#}
+{#                                                                                                 style="margin-top: 3px; margin-bottom: 3px">#}
+{#                        </li>#}
+{##}
+{#                        <li class="V_right_w" style="margin-top: 3px">Show list on plot#}
+{#                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"#}
+{#                                                                      name="show_list" style="margin-top: 8px"></li>#}
 
-                                <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
-                            </li>
 
-                            <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
 
-                                <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
-                            </li>
+                    </ul>
+                    <div class="btn-list">
+                        <li class="V_right_w" style="position: absolute;right: 16px"><span>
+                            <button class="button btn-secondary btn-primary" type="submit"
+                                    style="width: 5rem">Show</button></span></li>
 
-                            <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
+                        <li class="V_right_w" style="position: absolute;right: 16px"><span>
+                            <button class="button btn-secondary btn-primary" type="submit"
+                                    style="">Export pml</button></span></li>
 
-                                <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
-                            </li>
-
-                     </ul>
-
+                        <li class="V_right_w" style="position: absolute;right: 16px"><span>
+                            <button class="button btn-secondary btn-primary" type="submit"
+                                    style="">Export puttake</button></span></li>
                     </div>
+                </div>
+            </form>
+
+        {% if plot_status == 'heatmap' %}
+            <form action="/click_show_v" method="post">
+                <div id="d1" style="display: none">
+                    <ul class="div1" style="float: left">
+                        <li>
+                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="protein" style="width: 100px">
+
+                            {% for lst in lists[0] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+
+                        </li>
+
+                        <li>
+                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
+                                                                                     style="width: 100px; margin-top: 5px">
+                            <option value="ALL">All</option>
+                            {% for lst in lists[2] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+
+                        <li><strong>Comparison</strong></li>
+
+                        <li>
+                            State1
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="state1" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select></li>
+
+                        <li>
+                            State2
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="state2" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+
+
+                        <li><strong>Axis</strong></li>
+
+                        <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span
+                                class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input
+                                type="number" step="0.01" min="0" max="9999" name="X_scale_r"></span></li>
+
+                        <li>Major interval&nbsp&nbsp<input class="V_left" type="number" step="0.01" min="0" max="9999"
+                                                           name="interval" style="margin-top: 3px"></li>
+
+                        <li style="margin-top: 8px">
+                            Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input
+                                type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+
+
+                    </ul>
+
+
+                    <ul class="div3" style="margin-left: 30px">
+
+
+                        <li id="color" class="V_right_w">
+                            <div>Color</div>
+                            <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">
+                                <!--  BOOTSTRAP DROPDOWN -->
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        href="#"> Select <span class="caret"></span></button>
+                                <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
+                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern2" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern3" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern4" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern5" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern6" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern7" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
 
                             <script>
                                 $(".dropdown-menu li a").click(function () {
@@ -653,745 +1112,980 @@ abbr,acronym { border: 0;
                                     var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
                                     var color = $(this).parent().find('input').val();
                                     $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
-                                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="'+color+'">');
+                                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="' + color + '">');
 
                                 });
 
-                                </script>
-
-                </li>
-
-
-                 <li style="margin-top:0;">Symbol size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
-				 <output name="rangeOut" id="rangeOutId">2</output>
-				 </li>
-
-                <li class="V_right_w" style="margin-bottom: 3px">Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.1" min="1" max="99" name="text_size" style="margin-bottom: 5px"></li>
-
-                 <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>
-
-                <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
-
-                <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
-                <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
-
-                <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5" style="margin-top: 3px; margin-bottom: 3px"></li>
-
-                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
-
-                <li class="V_right_w"><span><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
-
-            </ul>
-         </div>
-         </form>
-
-
-
-	<form action="/click_show_h" method = "post">
-    <div id="d2" style="display: block">
-             <ul class="div1" style="float: left">
-
-                 <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
-                         <option>{{ paras[0] }}</option>
-                        {% for lst in lists[0] %}
-                        {% if lst != paras[0] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-                    </select>
-
-                 </li>
-
-                <li><strong>Comparison</strong>
-				 </li>
-
-                <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" value="{{ paras[1] }}" style="width: 100px" style="width: 100px">
-                     <option>{{ paras[1] }}</option>
-                    {% for lst in lists[1] %}
-                        {% if lst != paras[1] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-					</select></li>
-
-                <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" value="{{ paras[2] }}" style="width: 100px" style="width: 100px">
-                     <option>{{ paras[2] }}</option>
-                    {% for lst in lists[1] %}
-                        {% if lst != paras[2] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-                </li>
-
-
-                 <li><strong>Range</strong>
-				 </li>
-
-                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max" value="{{ paras[3] }}"></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" value="{{ paras[4] }}" style="margin-top: 3px"> </li>
-
-             {% if paras[8] %}
-                <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" value="{{ paras[8] }}" style="margin-top: 5px; margin-bottom: 5px" checked></li>
-
-                 <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" ></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" style="margin-top: 3px" > </li>
-
-             {% else %}
-                <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" value="{{ paras[8] }}" style="margin-top: 5px; margin-bottom: 5px" ></li>
-
-                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" value="{{ paras[5] }}" disabled></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" value="{{ paras[6] }}" style="margin-top: 3px" disabled> </li>
-            {% endif %}
-
-            </ul>
-
-
-            <ul class="C_right_ul" >
-
-                <li class="C_right_w"><strong>Layout</strong></li>
-
-                {% if paras[12] == "V" %}
-                    <li class="C_right_w">
-                        <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
-                        <label for="vertical">vertical</label>
-                        <input id="horizontal" type="radio"  name="direction" value="horizontal" >
-                        <label for="horizontal">horizontal</label>
-                    </li>
-                 {% else %}
-                    <li class="C_right_w">
-                        <input id="vertical" type="radio"  name="direction" value="vertical"  >
-                        <label for="vertical">vertical</label>
-                        <input id="horizontal" type="radio"  name="direction" value="horizontal" checked>
-                        <label for="horizontal">horizontal</label>
-                    </li>
-                  {% endif %}
-
-            {% if paras[8] %}
-                 <li id="color1" class="C_right_w" style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
-                    {% if paras[9] in cl_list[0]%}
-                     <option>{{ paras[9] }}</option>
-                     {% endif %}
-                         {% for lst in cl_list[0] %}
-                            {% if lst != paras[9] %}
-                                <option>{{ lst }}</option>
-                            {% endif %}
-                        {% endfor %}
-                 </select></li>
-
-                 <li id="color2" class="C_right_w" >
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
-                    {% if paras[9] in cl_list[1] %}
-                     <option>{{ paras[9] }}</option>
-                     {% endif %}
-                     {% for lst in cl_list[1] %}
-                        {% if lst != paras[9] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-                 </select></li>
-
-             {% else %}
-                 <li id="color1" class="C_right_w">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color1" value="{{ paras[9] }}">
-                    {% if paras[9] in cl_list[0] %}
-                     <option>{{ paras[9] }}</option>
-                     {% endif %}
-                     {% for lst in cl_list[0] %}
-                        {% if lst != paras[9] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-                 </select></li>
-
-                 <li id="color2" class="C_right_w" style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_right" name="color2" value="{{ paras[9] }}">
-                    {% if paras[9] in cl_list[1] %}
-                     <option>{{ paras[9] }}</option>
-                     {% endif %}
-                     {% for lst in cl_list[1] %}
-                        {% if lst != paras[9] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-
-                </select></li>
-
-             {% endif %}
-
-            <li><strong>Statistics</strong></li>
-
-            {% if paras[11] %}
-                 <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox" value="{{ paras[11] }}" name="sig_filter"  style="margin-top: 3px" checked></li>
-             {% else %}
-                 <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox" value="{{ paras[11] }}" name="sig_filter"  style="margin-top: 3px"></li>
-            {% endif %}
-
-                <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
-                <li class="C_right_w">Sample Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1" min="3" max="9999" name="nsize" value="{{ paras[13] }}"></li>
-
-                <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
-
-            </ul>
-         </div>
-         </form>
-
-
-      {% elif plot_status == 'volcanoplot' %}
-
-      <form action="/click_show_v" method = "post">
-         <div id="d1" style="display: block" >
-             <ul class="div1" style="float: left">
-                <li>
-                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
-                        <option>{{paras[0] }}</option>
-                        {% for lst in lists[0] %}
-                        {% if lst != paras[0] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-
-                    </select>
-
-                 </li>
-
-                <li>
-                    <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" value="{{ paras[3] }}" style="width: 100px; margin-top: 5px">
-                        {% if paras[3] is not string %}
-                        <option value = "ALL"> All</option>
-                    {% else %}
-                        <option>{{ paras[3] }}</option>
-                        <option value = "ALL"> All</option>
-                    {% endif %}
-
-                    {% for lst in lists[2] %}
-                        {% if lst != paras[3] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-
-                    {% endfor %}
-
-                </select>
-                </li>
-
-
-                <li><strong>Comparison</strong></li>
-
-                <li class="V_right_w">
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" value="{{ paras[1] }}" style="width: 100px">
-                    <option>{{ paras[1] }}</option>
-                    {% for lst in lists[1] %}
-                        {% if lst != paras[1] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-
-					</select></li>
-
-                <li class="V_right_w">
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
-                    <option>{{paras[2] }}</option>
-                    {% for lst in lists[1] %}
-                        {% if lst != paras[2] %}
-                            <option>{{ lst }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-                </li>
-
-                <li><strong>Axis</strong></li>
-
-                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l" value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r" value="{{ paras[6] }}"></span></li>
-
-                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" value="{{ paras[8] }}" style="margin-top: 3px"></li>
-
-                <li style="margin-top: 8px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}"></li>
-
-
-
-            </ul>
-
-
-            <ul class="div3" style="margin-left: 30px">
-
-
-        <li id="color" class="V_right_w">
-            <div>Color</div>
-            <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">    <!--  BOOTSTRAP DROPDOWN -->
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" > Select<span class="caret"></span></button>
-                <ul class="dropdown-menu"  style="width: fit-content; margin-bottom: 0" >
-                    <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
-                        <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
-                    </li>
-
-                    <li ><input type="hidden" value="pattern2" name="colors"/><a href="javascript:void(0);" >
-                        <img style = "width: 100%; height: 100%;" src="./static/image/170E34.png" /> </a>
-                    </li>
-
-                    <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
-
-                        <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
-                    </li>
-
-                    <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
-
-                        <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
-                    </li>
-
-                    <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
-
-                        <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
-                    </li>
-
-                    <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
-
-                        <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
-                    </li>
-
-                    <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
-
-                        <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
-                    </li>
-
-             </ul>
-
-
-
-    </div>
-
-
-
-            <script>
-                $(".dropdown-menu li a").click(function () {
-                    $(this).parent().find('input').attr('name', 'color');
-                    var selText = $(this).text();
-                    var imgSource = $(this).find('img').attr('src');
-                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
-                    var color = $(this).parent().find('input').val();
-                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
-
-
-
-                });
-
-                </script>
-        </li>
-
-                 <li style="margin-top:0;">Symbol size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
-				 <output name="rangeOut" id="rangeOutId">{{ paras[4] }}</output>
-				 </li>
-
-                <li class="V_right_w" style="margin-bottom: 3px">Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.1" min="1" max="99" name="text_size" value="{{ paras[15] }}" style="margin-bottom: 5px"></li>
-
-                <li class="V_right_w"  style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size" value="{{ paras[12] }}"> - Y&nbsp<input type="number" step="0.1" min="0" max="999" name="plot_Y_size" value="{{ paras[13] }}"></span></li>
-
-                 <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
-
-                <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="{{ paras[10] }}"></li>
-                <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1" min="3" max="9999" name="nsize" value="{{ paras[16] }}"></li>
-                <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="{{ paras[11] }}" style="margin-top: 3px; margin-bottom: 3px"></li>
-
-                {% if paras[14] %}
-                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px" checked></li>
-                 {% else %}
-                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right"type="checkbox"  name="show_list" value="{{ paras[14] }}" style="margin-top: 8px" ></li>
-                {% endif %}
-
-
-                <li class="V_right_w"><span><button class="button" type = "button"  onclick="window.location.href='{{ url_for('downloadlist') }}';" style="width: 130px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
-
-
-            </ul>
-         </div>
-         </form>
-
-
-
-	<form action="/click_show_h" method = "post">
-    <div id="d2" style="display:none">
-             <ul class="div1" style="float: left">
-
-                 <li>
-                 <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="protein" style="width: 100px">
-
-                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
-                    </select>
-
-                 </li>
-
-                <li><strong>Comparison</strong>
-				 </li>
-
-                <li>
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" style="width: 100px">
-                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-					</select></li>
-
-                <li>
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" style="width: 100px">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
-
-                 <li><strong>Range</strong>
-				 </li>
-
-                 <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" style="margin-top: 3px"> </li>
-
-                <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox"  name="negative" style="margin-top: 5px;margin-bottom: 5px"></li>
-
-                <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
-
-                <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" style="margin-top: 3px" disabled> </li>
-
-
-            </ul>
-
-
-            <ul class="C_right_ul">
-
-                <li class="C_right_w"><strong>Layout</strong></li>
-
-                    <li class="C_right_w">
-                        <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
-                        <label for="vertical">vertical</label>
-                        <input id="horizontal" type="radio"  name="direction" value="horizontal" >
-                        <label for="horizontal">horizontal</label>
-                    </li>
-
-                <li id="color1" class="C_right_w">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" class="C_right">
-                    <option  value ="r">r</option>
-                    <option  value ="g">g</option>
-                    <option  value ="b">b</option>
-                    <option  value ="o">o</option>
-                    <option  value ="y">y</option>
-
-
-                </select></li>
-
-                 <li id="color2" class="C_right_w" style="display: none">
-                    Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" class="C_right">
-
-                    <option value ="rb">rb</option>
-                    <option  value ="br">br</option>
-                    <option  value ="ob">ob</option>
-                    <option  value ="bg">bg</option>
-
-                </select></li>
-
-                <li><strong>Statistics</strong></li>
-
-                 <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"  name="sig_filter" class="C_right"  style="margin-top: 3px"></li>
-
-                <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0" max="9999" name="significance" value="0.01" class="C_right"></li>
-                <li class="C_right_w">Sample Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
-
-
-                <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
-
-            </ul>
-         </div>
-         </form>
-
-
-      {% else %}
-        <form action="/click_show_v" method = "post">
-         <div id="d1" style="display:none">
-             <ul class="div1" style="float: left">
-                <li>
-                    <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="protein" style="width: 100px">
-
-                        {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
-                    </select>
-
-                 </li>
-
-                <li>
-                    <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point" style="width: 100px; margin-top: 5px">
-                                            <option value = "ALL">All</option>
-                    {% for lst in lists[2] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
-                <li><strong>Comparison</strong></li>
-
-                <li >
-                    State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state1" style="width: 100px">
-                        {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-					</select></li>
-
-                <li >
-                    State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="state2" style="width: 100px">
-                       {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                </select>
-                </li>
-
-
-                <li><strong>Axis</strong></li>
-
-                 <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input type="number" step="0.01" min="0" max="9999" name="X_scale_r"></span></li>
-
-                <li>Major interval&nbsp&nbsp<input class="V_left" type="number"  step="0.01" min="0" max="9999" name="interval" style="margin-top: 3px"></li>
-
-                <li style="margin-top: 8px">Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
-
-
-
-            </ul>
-
-
-            <ul class="div3" style="margin-left: 30px">
-
-            <li id="color" class="V_right_w" style="margin: 0">
-                <div>Color</div>
-                <div class="btn-group" style="top:-20px; left: 145px; margin: 0">    <!--  BOOTSTRAP DROPDOWN -->
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#" >Select<span class="caret"></span></button>
-                    <ul class="dropdown-menu"  style="width: fit-content; margin: 0" >
-                        <li class="pattern1"><input type="hidden"  value="pattern1" name="colors" /><a href="javascript:void(0);" >
-                            <img style = "width: 100%; height: 100%;" src="./static/image/000000.png" /></a>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern2" name="colors"/><a href="javascript:void(0);" >
-                            <img style = "width: 100%; height: 100%;" src="./static/image/170E34.png" /> </a>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern3" name="colors" /><a href="javascript:void(0);" >
-
-                            <img style = "width: 100%; height: 100%;" src="./static/image/511845.png" /> </a>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern4" name="colors" /><a href="javascript:void(0);" >
-
-                            <img style = "width: 100%; height: 100%;" src="./static/image/BE3726.png" /> </a>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern5" name="colors" /><a href="javascript:void(0);" >
-
-                            <img style = "width: 100%; height: 100%;" src="./static/image/C54129.png" /> </a>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern6" name="colors" /><a href="javascript:void(0);" >
-
-                            <img style = "width: 100%; height: 100%;" src="./static/image/E34798.png" /> </a>
-                        </li>
-
-                        <li ><input type="hidden" value="pattern7" name="colors" /><a href="javascript:void(0);" >
-
-                            <img style = "width: 100%; height: 100%;" src="./static/image/FFE65D.png" /> </a>
-                        </li>
-
-                 </ul>
-
-                </div>
-
-                        <script>
-                            $(".dropdown-menu li a").click(function () {
-                                $(this).parent().find('input').attr('name', 'color');
-                                var selText = $(this).text();
-                                var imgSource = $(this).find('img').attr('src');
-                                var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
-                                var color = $(this).parent().find('input').val();
-                                $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
-
-
-
-                            });
-
                             </script>
-             </li>
 
-                 <li style="margin-top:0;">Symbol size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1" value="2" oninput="rangeOutId.value = rangeId.value"/>
-				 <output name="rangeOut" id="rangeOutId">2</output>
-				 </li>
-
-                <li class="V_right_w" style="margin-bottom: 3px">Text size &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.1" min="1" max="99" name="text_size" style="margin-bottom: 5px"></li>
-
-                 <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>
-
-                <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
-
-                <li class="V_right_w">p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
-                <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
-
-                <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right" type="number" step="0.01" min="0" max="9999" name="min_dif" value="0.5" style="margin-top: 3px; margin-bottom: 3px"></li>
-
-                <li class="V_right_w" style="margin-top: 3px">Show list on plot &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"  name="show_list" style="margin-top: 8px"></li>
-
-                <li class="V_right_w"><span><button class="button" type = "submit"  style="width: 70px;height: 30px">Show</button></span></li>
+                        </li>
 
 
+                        <li style="margin-top:0;">Symbol
+                            size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1"
+                                    value="2" oninput="rangeOutId.value = rangeId.value"/>
+                            <output name="rangeOut" id="rangeOutId">2</output>
+                        </li>
 
-            </ul>
-         </div>
-         </form>
+                        <li class="V_right_w" style="margin-bottom: 3px">Text size
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    class="V_right" type="number" step="0.1" min="1" max="99" name="text_size"
+                                    style="margin-bottom: 5px"></li>
+
+                        <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span
+                                class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input
+                                type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>
+
+                        <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
+
+                        <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0"
+                                                                     max="9999" name="significance" value="0.01"></li>
+                        <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1"
+                                                                           min="3" max="9999" name="nsize" value="3">
+                        </li>
+
+                        <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right"
+                                                                                                 type="number"
+                                                                                                 step="0.01" min="0"
+                                                                                                 max="9999"
+                                                                                                 name="min_dif"
+                                                                                                 value="0.5"
+                                                                                                 style="margin-top: 3px; margin-bottom: 3px">
+                        </li>
+
+                        <li class="V_right_w" style="margin-top: 3px">Show list on plot
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"
+                                                                      name="show_list" style="margin-top: 8px"></li>
+
+                        <li class="V_right_w"><span><button class="button" type="submit"
+                                                            style="width: 70px;height: 30px">Show</button></span></li>
+
+                    </ul>
+                </div>
+            </form>
 
 
-         <form action="/click_show_h" method = "post">
-            <div id="d2" style="display: none" >
-                     <ul class="div1" style="float: left">
 
-                         <li>
-                         <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select  class="C_left" name="protein" style="width: 100px">
+            <form action="/click_show_h" method="post">
+                <div id="d2" style="display: block">
+                    <ul class="div1" style="float: left">
 
-                                {% for lst in lists[0] %}<option>{{ lst }}</option>{% endfor %}
-                            </select>
+                        <li>
+                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
+                            <option>{{ paras[0] }}</option>
+                            {% for lst in lists[0] %}
+                                {% if lst != paras[0] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
 
-                         </li>
+                        </li>
 
                         <li><strong>Comparison</strong>
-                         </li>
+                        </li>
 
                         <li>
-                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state1" style="width: 100px">
-                                {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
-                            </select></li>
+                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="state1" value="{{ paras[1] }}" style="width: 100px"
+                                style="width: 100px">
+                            <option>{{ paras[1] }}</option>
+                            {% for lst in lists[1] %}
+                                {% if lst != paras[1] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select></li>
 
                         <li>
-                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="C_left" name="state2" style="width: 100px">
-                               {% for lst in lists[1] %}<option>{{ lst }}</option>{% endfor %}
+                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="state2" value="{{ paras[2] }}" style="width: 100px"
+                                style="width: 100px">
+                            <option>{{ paras[2] }}</option>
+                            {% for lst in lists[1] %}
+                                {% if lst != paras[2] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+                            {% endfor %}
                         </select>
                         </li>
 
 
-                         <li><strong>Range</strong>
-                         </li>
+                        <li><strong>Range</strong>
+                        </li>
 
-                         <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
+                        <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                class="C_left" type="number" step="0.1" min="0" max="9999" name="max"
+                                value="{{ paras[3] }}"></li>
 
-                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_left" type="number" step="1" min="0" max="9999" name="max_step" style="margin-top: 3px"> </li>
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                class="C_left" type="number" step="1" min="0" max="9999" name="max_step"
+                                value="{{ paras[4] }}" style="margin-top: 3px"></li>
 
-                        <li style="margin-top: 5px">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left" type="checkbox" name="negative" style="margin-top: 5px;margin-bottom: 5px"></li>
+                        {% if paras[8] %}
+                            <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="negative" class="C_left" type="checkbox" name="negative" value="{{ paras[8] }}"
+                                    style="margin-top: 5px; margin-bottom: 5px" checked></li>
 
-                        <li>Min &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min" disabled></li>
+                            <li>Min
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                        id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min"
+                                        value="{{ paras[5] }}"></li>
 
-                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step" style="margin-top: 3px" disabled> </li>
+                            <li>Step
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                        id="min_step" class="C_left" type="number" step="1" min="0" max="9999"
+                                        name="min_step" value="{{ paras[6] }}" style="margin-top: 3px"></li>
 
+                        {% else %}
+                            <li style="margin-top: 5px;">Below 0 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="negative" class="C_left" type="checkbox" name="negative" value="{{ paras[8] }}"
+                                    style="margin-top: 5px; margin-bottom: 5px"></li>
+
+                            <li>Min
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                        id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min"
+                                        value="{{ paras[5] }}" disabled></li>
+
+                            <li>Step
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                        id="min_step" class="C_left" type="number" step="1" min="0" max="9999"
+                                        name="min_step" value="{{ paras[6] }}" style="margin-top: 3px" disabled></li>
+                        {% endif %}
+
+                    </ul>
+
+
+                    <ul class="C_right_ul">
+
+                        <li class="C_right_w"><strong>Layout</strong></li>
+
+                        {% if paras[12] == "V" %}
+                            <li class="C_right_w">
+                                <input id="vertical" type="radio" name="direction" value="vertical" checked>
+                                <label for="vertical">vertical</label>
+                                <input id="horizontal" type="radio" name="direction" value="horizontal">
+                                <label for="horizontal">horizontal</label>
+                            </li>
+                        {% else %}
+                            <li class="C_right_w">
+                                <input id="vertical" type="radio" name="direction" value="vertical">
+                                <label for="vertical">vertical</label>
+                                <input id="horizontal" type="radio" name="direction" value="horizontal" checked>
+                                <label for="horizontal">horizontal</label>
+                            </li>
+                        {% endif %}
+
+                        {% if paras[8] %}
+                            <li id="color1" class="C_right_w" style="display: none">
+                                Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                    class="C_right" name="color1" value="{{ paras[9] }}">
+                                {% if paras[9] in cl_list[0] %}
+                                    <option>{{ paras[9] }}</option>
+                                {% endif %}
+                                {% for lst in cl_list[0] %}
+                                    {% if lst != paras[9] %}
+                                        <option>{{ lst }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select></li>
+
+                            <li id="color2" class="C_right_w">
+                                Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                    class="C_right" name="color2" value="{{ paras[9] }}">
+                                {% if paras[9] in cl_list[1] %}
+                                    <option>{{ paras[9] }}</option>
+                                {% endif %}
+                                {% for lst in cl_list[1] %}
+                                    {% if lst != paras[9] %}
+                                        <option>{{ lst }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select></li>
+
+                        {% else %}
+                            <li id="color1" class="C_right_w">
+                                Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                    class="C_right" name="color1" value="{{ paras[9] }}">
+                                {% if paras[9] in cl_list[0] %}
+                                    <option>{{ paras[9] }}</option>
+                                {% endif %}
+                                {% for lst in cl_list[0] %}
+                                    {% if lst != paras[9] %}
+                                        <option>{{ lst }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select></li>
+
+                            <li id="color2" class="C_right_w" style="display: none">
+                                Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                    class="C_right" name="color2" value="{{ paras[9] }}">
+                                {% if paras[9] in cl_list[1] %}
+                                    <option>{{ paras[9] }}</option>
+                                {% endif %}
+                                {% for lst in cl_list[1] %}
+                                    {% if lst != paras[9] %}
+                                        <option>{{ lst }}</option>
+                                    {% endif %}
+                                {% endfor %}
+
+                            </select></li>
+
+                        {% endif %}
+
+                        <li><strong>Statistics</strong></li>
+
+                        {% if paras[11] %}
+                            <li class="C_right_w">Significance
+                                Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right"
+                                                                                               type="checkbox"
+                                                                                               value="{{ paras[11] }}"
+                                                                                               name="sig_filter"
+                                                                                               style="margin-top: 3px"
+                                                                                               checked></li>
+                        {% else %}
+                            <li class="C_right_w">Significance
+                                Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right"
+                                                                                               type="checkbox"
+                                                                                               value="{{ paras[11] }}"
+                                                                                               name="sig_filter"
+                                                                                               style="margin-top: 3px">
+                            </li>
+                        {% endif %}
+
+                        <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number"
+                                                                                       step="0.01" min="0" max="9999"
+                                                                                       name="significance"
+                                                                                       value="{{ paras[10] }}"></li>
+                        <li class="C_right_w">Sample Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1"
+                                                                              min="3" max="9999" name="nsize"
+                                                                              value="{{ paras[13] }}"></li>
+
+                        <li class="C_right_w">
+                            <button class="button" type="submit" style="width: 70px;height: 30px">Show</button>
+                        </li>
+
+                    </ul>
+                </div>
+            </form>
+
+
+        {% elif plot_status == 'volcanoplot' %}
+
+            <form action="/click_show_v" method="post">
+                <div id="d1" style="display: block">
+                    <ul class="div1" style="float: left">
+                        <li>
+                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="protein" value="{{ paras[0] }}" style="width: 100px">
+                            <option>{{ paras[0] }}</option>
+                            {% for lst in lists[0] %}
+                                {% if lst != paras[0] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+                            {% endfor %}
+
+                        </select>
+
+                        </li>
+
+                        <li>
+                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
+                                                                                     value="{{ paras[3] }}"
+                                                                                     style="width: 100px; margin-top: 5px">
+                            {% if paras[3] is not string %}
+                                <option value="ALL"> All</option>
+                            {% else %}
+                                <option>{{ paras[3] }}</option>
+                                <option value="ALL"> All</option>
+                            {% endif %}
+
+                            {% for lst in lists[2] %}
+                                {% if lst != paras[3] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </select>
+                        </li>
+
+
+                        <li><strong>Comparison</strong></li>
+
+                        <li class="V_right_w">
+                            State1
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="state1" value="{{ paras[1] }}" style="width: 100px">
+                            <option>{{ paras[1] }}</option>
+                            {% for lst in lists[1] %}
+                                {% if lst != paras[1] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+                            {% endfor %}
+
+                        </select></li>
+
+                        <li class="V_right_w">
+                            State2
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
+                            <option>{{ paras[2] }}</option>
+                            {% for lst in lists[1] %}
+                                {% if lst != paras[2] %}
+                                    <option>{{ lst }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        </li>
+
+                        <li><strong>Axis</strong></li>
+
+                        <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span
+                                class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"
+                                                      value="{{ paras[5] }}"> - <input type="number" step="0.01" min="0"
+                                                                                       max="9999" name="X_scale_r"
+                                                                                       value="{{ paras[6] }}"></span>
+                        </li>
+
+                        <li>Major interval&nbsp&nbsp<input class="V_left" type="number" step="0.01" min="0" max="9999"
+                                                           name="interval" value="{{ paras[8] }}"
+                                                           style="margin-top: 3px"></li>
+
+                        <li style="margin-top: 8px">
+                            Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input
+                                type="number" step="0.01" min="-9999" max="0" name="Y_scale" value="{{ paras[7] }}">
+                        </li>
 
 
                     </ul>
 
 
-                    <ul class="C_right_ul" >
+                    <ul class="div3" style="margin-left: 30px">
 
-                    <li class="C_right_w"><strong>Layout</strong></li>
 
-                    <li class="C_right_w">
-                        <input id="vertical" type="radio"  name="direction" value="vertical"  checked>
-                        <label for="vertical">vertical</label>
-                        <input id="horizontal" type="radio"  name="direction" value="horizontal" >
-                        <label for="horizontal">horizontal</label>
-                    </li>
+                        <li id="color" class="V_right_w">
+                            <div>Color</div>
+                            <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">
+                                <!--  BOOTSTRAP DROPDOWN -->
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        href="#"> Select<span class="caret"></span></button>
+                                <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
+                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
+                                    </li>
 
-                     <li id="color1" class="C_right_w">
-                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color1" class="C_right">
-                            <option  value ="r">r</option>
-                            <option  value ="g">g</option>
-                            <option  value ="b">b</option>
-                            <option  value ="o">o</option>
-                            <option  value ="y">y</option>
+                                    <li><input type="hidden" value="pattern2" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern3" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern4" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern5" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern6" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern7" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
+                                    </li>
+
+                                </ul>
+
+
+                            </div>
+
+
+                            <script>
+                                $(".dropdown-menu li a").click(function () {
+                                    $(this).parent().find('input').attr('name', 'color');
+                                    var selText = $(this).text();
+                                    var imgSource = $(this).find('img').attr('src');
+                                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
+                                    var color = $(this).parent().find('input').val();
+                                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
+
+
+                                });
+
+                            </script>
+                        </li>
+
+                        <li style="margin-top:0;">Symbol size
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1"
+                                    value="{{ paras[4] }}" oninput="rangeOutId.value = rangeId.value"/>
+                            <output name="rangeOut" id="rangeOutId">{{ paras[4] }}</output>
+                        </li>
+
+                        <li class="V_right_w" style="margin-bottom: 3px">Text size
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    class="V_right" type="number" step="0.1" min="1" max="99" name="text_size"
+                                    value="{{ paras[15] }}" style="margin-bottom: 5px"></li>
+
+                        <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span
+                                class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"
+                                                       value="{{ paras[12] }}"> - Y&nbsp<input type="number" step="0.1"
+                                                                                               min="0" max="999"
+                                                                                               name="plot_Y_size"
+                                                                                               value="{{ paras[13] }}"></span>
+                        </li>
+
+                        <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
+
+                        <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0"
+                                                                     max="9999" name="significance"
+                                                                     value="{{ paras[10] }}"></li>
+                        <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1"
+                                                                           min="3" max="9999" name="nsize"
+                                                                           value="{{ paras[16] }}"></li>
+                        <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right"
+                                                                                                 type="number"
+                                                                                                 step="0.01" min="0"
+                                                                                                 max="9999"
+                                                                                                 name="min_dif"
+                                                                                                 value="{{ paras[11] }}"
+                                                                                                 style="margin-top: 3px; margin-bottom: 3px">
+                        </li>
+
+                        {% if paras[14] %}
+                            <li class="V_right_w" style="margin-top: 3px">Show list on plot
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"
+                                                                          name="show_list" value="{{ paras[14] }}"
+                                                                          style="margin-top: 8px" checked></li>
+                        {% else %}
+                            <li class="V_right_w" style="margin-top: 3px">Show list on plot
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"
+                                                                          name="show_list" value="{{ paras[14] }}"
+                                                                          style="margin-top: 8px"></li>
+                        {% endif %}
+
+
+                        <li class="V_right_w"><span><button class="button" type="button"
+                                                            onclick="window.location.href='{{ url_for('downloadlist') }}';"
+                                                            style="width: 130px;height: 30px; margin-top: 10px;margin-right: 10px">Download List</button><button
+                                class="button" type="submit" style="width: 70px;height: 30px">Show</button></span></li>
+
+
+                    </ul>
+                </div>
+            </form>
+
+
+
+            <form action="/click_show_h" method="post">
+                <div id="d2" style="display:none">
+                    <ul class="div1" style="float: left">
+
+                        <li>
+                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="protein" style="width: 100px">
+
+                            {% for lst in lists[0] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+
+                        </li>
+
+                        <li><strong>Comparison</strong>
+                        </li>
+
+                        <li>
+                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="state1" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select></li>
+
+                        <li>
+                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="state2" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+
+
+                        <li><strong>Range</strong>
+                        </li>
+
+                        <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
+
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                class="C_left" type="number" step="1" min="0" max="9999" name="max_step"
+                                style="margin-top: 3px"></li>
+
+                        <li style="margin-top: 5px;">Below 0
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left"
+                                                                                          type="checkbox"
+                                                                                          name="negative"
+                                                                                          style="margin-top: 5px;margin-bottom: 5px">
+                        </li>
+
+                        <li>Min
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min"
+                                    disabled></li>
+
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step"
+                                style="margin-top: 3px" disabled></li>
+
+
+                    </ul>
+
+
+                    <ul class="C_right_ul">
+
+                        <li class="C_right_w"><strong>Layout</strong></li>
+
+                        <li class="C_right_w">
+                            <input id="vertical" type="radio" name="direction" value="vertical" checked>
+                            <label for="vertical">vertical</label>
+                            <input id="horizontal" type="radio" name="direction" value="horizontal">
+                            <label for="horizontal">horizontal</label>
+                        </li>
+
+                        <li id="color1" class="C_right_w">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                name="color1" class="C_right">
+                            <option value="r">r</option>
+                            <option value="g">g</option>
+                            <option value="b">b</option>
+                            <option value="o">o</option>
+                            <option value="y">y</option>
 
 
                         </select></li>
 
+                        <li id="color2" class="C_right_w" style="display: none">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                name="color2" class="C_right">
 
-                         <li id="color2" class="C_right_w"  style="display: none">
-                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select name="color2" id="color_neg" class="C_right">
-
-
-                            <option value ="rb" class="rb">rb</option>
-                            <option  value ="br" class="br">br</option>
-                            <option  value ="ob" class="ob">ob</option>
-                            <option  value ="bg" class="bg">bg</option>
+                            <option value="rb">rb</option>
+                            <option value="br">br</option>
+                            <option value="ob">ob</option>
+                            <option value="bg">bg</option>
 
                         </select></li>
 
                         <li><strong>Statistics</strong></li>
 
-                         <li class="C_right_w">Significance Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right" type="checkbox"  name="sig_filter" style="margin-top: 3px"></li>
+                        <li class="C_right_w">Significance
+                            Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="checkbox"
+                                                                                           name="sig_filter"
+                                                                                           class="C_right"
+                                                                                           style="margin-top: 3px"></li>
 
-                        <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number" step="0.01" min="0" max="9999" name="significance" value="0.01"></li>
-                        <li class="C_right_w">Sample Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1" min="3" max="9999" name="nsize" value="3"></li>
+                        <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input type="number" step="0.01" min="0"
+                                                                                       max="9999" name="significance"
+                                                                                       value="0.01" class="C_right">
+                        </li>
+                        <li class="C_right_w">Sample Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1"
+                                                                              min="3" max="9999" name="nsize" value="3">
+                        </li>
 
 
-                        <li class="C_right_w"><button class="button" type = "submit" style="width: 70px;height: 30px">Show</button></li>
+                        <li class="C_right_w">
+                            <button class="button" type="submit" style="width: 70px;height: 30px">Show</button>
+                        </li>
 
                     </ul>
-                 </div>
-                 </form>
-    {% endif %}
+                </div>
+            </form>
 
 
-      </div>
-                <script>
+        {% else %}
+            <form action="/click_show_v" method="post">
+                <div id="d1" style="display:none">
+                    <ul class="div1" style="float: left">
+                        <li>
+                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="protein" style="width: 100px">
 
-                     document.getElementById('negative').onchange = function() {
-                        document.getElementById('min').disabled = !this.checked;
-                        document.getElementById('min_step').disabled = !this.checked;
-                        var color1 = document.getElementById("color1");
-                        var color2 = document.getElementById("color2");
-                        if(this.checked) {
-                            color1.style.display = "none";
-                            color2.style.display = "block";
-                        } else {
-                            color2.style.display = "none";
-                            color1.style.display = "block";
-                        }
-                        };
+                            {% for lst in lists[0] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
 
-                </script>
+                        </li>
 
+                        <li>
+                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
+                                                                                     style="width: 100px; margin-top: 5px">
+                            <option value="ALL">All</option>
+                            {% for lst in lists[2] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+
+                        <li><strong>Comparison</strong></li>
+
+                        <li>
+                            State1
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="state1" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select></li>
+
+                        <li>
+                            State2
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="V_left" name="state2" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+
+
+                        <li><strong>Axis</strong></li>
+
+                        <li>X-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span
+                                class="V_left"><input type="number" step="0.01" min="-9999" max="9999" name="X_scale_l"> - <input
+                                type="number" step="0.01" min="0" max="9999" name="X_scale_r"></span></li>
+
+                        <li>Major interval&nbsp&nbsp<input class="V_left" type="number" step="0.01" min="0" max="9999"
+                                                           name="interval" style="margin-top: 3px"></li>
+
+                        <li style="margin-top: 8px">
+                            Y-Scale&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp0.5 - 10^<input
+                                type="number" step="0.01" min="-9999" max="0" name="Y_scale"></li>
+
+
+                    </ul>
+
+
+                    <ul class="div3" style="margin-left: 30px">
+
+                        <li id="color" class="V_right_w" style="margin: 0">
+                            <div>Color</div>
+                            <div class="btn-group" style="top:-20px; left: 145px; margin: 0">
+                                <!--  BOOTSTRAP DROPDOWN -->
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                        href="#">Select<span class="caret"></span></button>
+                                <ul class="dropdown-menu" style="width: fit-content; margin: 0">
+                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern2" name="colors"/><a
+                                            href="javascript:void(0);">
+                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern3" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern4" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern5" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern6" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
+                                    </li>
+
+                                    <li><input type="hidden" value="pattern7" name="colors"/><a
+                                            href="javascript:void(0);">
+
+                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                            <script>
+                                $(".dropdown-menu li a").click(function () {
+                                    $(this).parent().find('input').attr('name', 'color');
+                                    var selText = $(this).text();
+                                    var imgSource = $(this).find('img').attr('src');
+                                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';
+                                    var color = $(this).parent().find('input').val();
+                                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');
+
+
+                                });
+
+                            </script>
+                        </li>
+
+                        <li style="margin-top:0;">Symbol
+                            size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1"
+                                    value="2" oninput="rangeOutId.value = rangeId.value"/>
+                            <output name="rangeOut" id="rangeOutId">2</output>
+                        </li>
+
+                        <li class="V_right_w" style="margin-bottom: 3px">Text size
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    class="V_right" type="number" step="0.1" min="1" max="99" name="text_size"
+                                    style="margin-bottom: 5px"></li>
+
+                        <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span
+                                class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input
+                                type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>
+
+                        <li class="V_right_w"><strong>Significance Cutoffs</strong></li>
+
+                        <li class="V_right_w">p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0"
+                                                                    max="9999" name="significance" value="0.01"></li>
+                        <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1"
+                                                                           min="3" max="9999" name="nsize" value="3">
+                        </li>
+
+                        <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right"
+                                                                                                 type="number"
+                                                                                                 step="0.01" min="0"
+                                                                                                 max="9999"
+                                                                                                 name="min_dif"
+                                                                                                 value="0.5"
+                                                                                                 style="margin-top: 3px; margin-bottom: 3px">
+                        </li>
+
+                        <li class="V_right_w" style="margin-top: 3px">Show list on plot
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"
+                                                                      name="show_list" style="margin-top: 8px"></li>
+
+                        <li class="V_right_w"><span><button class="button" type="submit"
+                                                            style="width: 70px;height: 30px">Show</button></span></li>
+
+
+                    </ul>
+                </div>
+            </form>
+
+
+            <form action="/click_show_h" method="post">
+                <div id="d2" style="display: none">
+                    <ul class="div1" style="float: left">
+
+                        <li>
+                            <strong>Protein</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="protein" style="width: 100px">
+
+                            {% for lst in lists[0] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+
+                        </li>
+
+                        <li><strong>Comparison</strong>
+                        </li>
+
+                        <li>
+                            State1 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="state1" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select></li>
+
+                        <li>
+                            State2 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                class="C_left" name="state2" style="width: 100px">
+                            {% for lst in lists[1] %}
+                                <option>{{ lst }}</option>{% endfor %}
+                        </select>
+                        </li>
+
+
+                        <li><strong>Range</strong>
+                        </li>
+
+                        <li>Max &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                class="C_left" type="number" step="0.1" min="0" max="9999" name="max"></li>
+
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                class="C_left" type="number" step="1" min="0" max="9999" name="max_step"
+                                style="margin-top: 3px"></li>
+
+                        <li style="margin-top: 5px">Below 0
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="negative" class="C_left"
+                                                                                          type="checkbox"
+                                                                                          name="negative"
+                                                                                          style="margin-top: 5px;margin-bottom: 5px">
+                        </li>
+
+                        <li>Min
+                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                    id="min" class="C_left" type="number" step="0.1" min="-9999" max="0" name="min"
+                                    disabled></li>
+
+                        <li>Step &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input
+                                id="min_step" class="C_left" type="number" step="1" min="0" max="9999" name="min_step"
+                                style="margin-top: 3px" disabled></li>
+
+
+                    </ul>
+
+
+                    <ul class="C_right_ul">
+
+                        <li class="C_right_w"><strong>Layout</strong></li>
+
+                        <li class="C_right_w">
+                            <input id="vertical" type="radio" name="direction" value="vertical" checked>
+                            <label for="vertical">vertical</label>
+                            <input id="horizontal" type="radio" name="direction" value="horizontal">
+                            <label for="horizontal">horizontal</label>
+                        </li>
+
+                        <li id="color1" class="C_right_w">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                name="color1" class="C_right">
+                            <option value="r">r</option>
+                            <option value="g">g</option>
+                            <option value="b">b</option>
+                            <option value="o">o</option>
+                            <option value="y">y</option>
+
+
+                        </select></li>
+
+
+                        <li id="color2" class="C_right_w" style="display: none">
+                            Color&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                                name="color2" id="color_neg" class="C_right">
+
+
+                            <option value="rb" class="rb">rb</option>
+                            <option value="br" class="br">br</option>
+                            <option value="ob" class="ob">ob</option>
+                            <option value="bg" class="bg">bg</option>
+
+                        </select></li>
+
+                        <li><strong>Statistics</strong></li>
+
+                        <li class="C_right_w">Significance
+                            Filter&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="C_right"
+                                                                                           type="checkbox"
+                                                                                           name="sig_filter"
+                                                                                           style="margin-top: 3px"></li>
+
+                        <li class="C_right_w">Significance (p-value <)&nbsp&nbsp<input class="C_right" type="number"
+                                                                                       step="0.01" min="0" max="9999"
+                                                                                       name="significance" value="0.01">
+                        </li>
+                        <li class="C_right_w">Sample Size (n)&nbsp&nbsp<input class="C_right" type="number" step="1"
+                                                                              min="3" max="9999" name="nsize" value="3">
+                        </li>
+
+
+                        <li class="C_right_w">
+                            <button class="button" type="submit" style="width: 70px;height: 30px">Show</button>
+                        </li>
+
+                    </ul>
+                </div>
+            </form>
+        {% endif %}
+
+
+    </div>
+    <script>
+
+        document.getElementById('negative').onchange = function () {
+            document.getElementById('min').disabled = !this.checked;
+            document.getElementById('min_step').disabled = !this.checked;
+            var color1 = document.getElementById("color1");
+            var color2 = document.getElementById("color2");
+            if (this.checked) {
+                color1.style.display = "none";
+                color2.style.display = "block";
+            } else {
+                color2.style.display = "none";
+                color1.style.display = "block";
+            }
+        };
+
+    </script>
 
 
     <div id="graphdiv" class="screen" style="left:670px;top:100px">
-        <img id="graphchart" class="center" src="/plotshow" alt="Your figure will show here" align="middle" >
+        <img id="graphchart" class="center" src="/plotshow" alt="Your figure will show here" align="middle">
 
 
     </div>
 
 
-
-
-
-
-
-
-    <div  clasee="text-oneLine" style="position:absolute;left:750px;top:685px">
-        <span>
-            <button  type="button" onclick = "fullscreen()"><p4>Full Screen</p4></button>
-            <button  type="button" onclick="window.location.href='{{ url_for('plotshow') }}';"><p4>Export as PNG</p4> </button>
-            <button  type="button" onclick="window.location.href='{{ url_for('downloadeps') }}';"><p4>Export as EPS</p4></button>
-            <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv') }}';" ><p4>Export as CSV</p4></button>
+    <div clasee="text-oneLine" style="position:absolute;left:750px;top:685px">
+        <span class="btn-list-container">
+            <button class="btn btn-outline-info" type="button" onclick="fullscreen()"><p4>Full Screen</p4></button>
+            <button class="btn btn-outline-warning" type="button"
+                    onclick="window.location.href='{{ url_for('plotshow') }}';"><p4>Export as PNG</p4> </button>
+            <button class="btn btn-outline-warning" type="button"
+                    onclick="window.location.href='{{ url_for('downloadeps') }}';"><p4>Export as EPS</p4></button>
+            <button class="btn btn-outline-warning" type="button"
+                    onclick="window.location.href='{{ url_for('downloadcsv') }}';"><p4>Export as CSV</p4></button>
         </span>
 
     </div>
 
     <div style="position: absolute; right: 50px;top: 720px;">
-        <button type="button" onclick="window.location.href='{{ url_for('ui') }}';"><h5>Start Over</h5></button>
+        <button type="button" class="btn btn-outline-danger" onclick="window.location.href='{{ url_for('ui') }}';"><h5>
+            Start Over</h5></button>
     </div>
 
 
-<footer class="footnotes">
-      <p> Currently running HD-eXplosion v1.2.</p>
-      <p> Please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.</p>
-    <p> If you have any question or feedback, please contact to email <a href="mailto:darcylabweb@gmail.com">darcylabweb@gmail.com</a></p>
+    <footer class="footnotes alert alert-dark">
+        <p> Currently running HD-eXplosion v1.2.</p>
+        <p> Please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.</p>
+        <p> If you have any question or feedback, please contact to email <a href="mailto:darcylabweb@gmail.com">darcylabweb@gmail.com</a>
+        </p>
 
-</footer>
+    </footer>
 
+    <script>
+        $(function () {
+            $("input[type='submit']").addClass("btn btn-primary");
+            $("input[type='button']").addClass("btn btn-primary");
+            $("input[type='button']").css("width", "fit-content");
+            $("input[type='button']").css("padding", "4px 1rem");
+            $(".button").addClass("btn");
+            $(".button").toggleClass("btn-primary");
 
+        })
+    </script>
+    </body>
 
-</body>
-
-{% endblock%}
+{% endblock %}
 
 </html>

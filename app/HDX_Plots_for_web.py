@@ -427,271 +427,271 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
 
 
 
-    def cm(df, pdb_fn, protein, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, min=-1, max=1):
-    print(get_coverage(df, sec, protein), len(sec))
-    crv = 0.05  # Set the curve for cylinders
-    ss = get_ss(pdb_fn)  # Get secondary structure from PDB file
-    ss_w = 0.1
-    space = 0.01  # Set space between peptide
-    num = 0  # Setting the sequence number
-    py = 1  # Setting the position of y
-    t_p = True  # Use for take position
-    sec_end = len(sec)  # Getting the num of res
-    emp_x = 0.2  # White space on left and right
-    hps = 0.08  # Height of the num or seq
-    peps = list(df[protein])  # Getting the peptides draw on the cm
-    ot = True  # The control of the the sequence on top or bottom
-    sec_h = True  # The control of if hide the sequence
-    camp = mpl.cm.get_cmap('RdBu')  # Function for get color
-    norml = mpl.colors.Normalize(vmin=min, vmax=max)  # Function for normalize data
-    # Get difference between two states
-    if timepoint == 'avg':
-        dif = np.empty((0, len(peps)), float)
-        for t in timepoints:
-            dif = np.append(dif, [(np.array(float(df[protein + '_' + state2 + '_' + t])) - np.array(float(df[protein + '_' + state1 + '_' + t])))
-                       / np.array(float(df[protein + '_MaxUptake']))], axis=0)
-        dif = np.mean(dif, axis=0)
-    elif timepoint == 'all':
-        dif = np.zeros(len(peps), float)
-        for t in timepoints:
-            dif = dif + (np.array(df[protein + '_' + state2 + '_' + t], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + t], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
-    else:
-        dif = (np.array(df[protein + '_' + state2 + '_' + timepoint], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + timepoint], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
-    dif = dict(zip(peps, list(dif)))
-    while np.core.numeric.NaN in peps or nan in peps:
-        peps.remove(np.core.numeric.NaN)
-    peps = [x for x in peps if str(x) != 'nan']  # Getting ride of space
-    # Get the row number
-    if sec_end % wi == 0:
-        rows = int(sec_end / wi)
-    else:
-        rows = int(sec_end / wi) + 1
-    wx = wi * ssp + emp_x * 2  # Setting the length of the x
-    hy = len(peps) * bh + rows * (hps * 2 + 0.1) + 5
-    # Creating the figure
-    fig = plt.figure(figsize=(wx, hy))
-    ax = fig.add_axes([0, 0, 1, 1])
-    peps_cr = []  # Creating a list for cross peptides
-    # Draw the map row by row
-    for row in range(rows):
-        path1 = mpath.Path
-        # Draw ss
-        # Pick ss in this row
-        ss_in = ''  # Store ss in the row
-        ss_st = 0  # Record the start of the ss
-        ss_ed = 0  # Record the edn of the ss
-        for ss_res in ss:
-            if row * wi < ss_res <= (row + 1) * wi:
-                # The start of the ss
-                if ss_in == '':
-                    ss_in = ss[ss_res]
-                    ss_st = ss_res
-                    ss_ed = ss_res
-                # Draw the ss
-                elif ss_in != ss[ss_res] or ss_res == (row + 1) * wi:
-                    # Draw loop with line
-                    if ss_in == 'L':
-                        ax.add_artist(lines.Line2D([emp_x / wx + ((ss_st - 1) % wi) * ssp / wx,
-                                                     emp_x / wx + (ss_ed % wi) * ssp / wx],
-                                                    [py - ss_w / 2 / hy, py - ss_w / 2 / hy],
-                                                    linewidth=1.2, color='k', zorder=1.0))
-                    # Draw sheet with arrow
-                    if ss_in == 'S':
-                        ax.arrow(emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / 2 / hy,
-                                  (ss_ed - ss_st + 1) * ssp / wx, 0,
-                                  width=0.0015, color='k', length_includes_head=True, zorder=2.0)
-                    # Draw helix with cylinders
-                    if ss_in == 'H':
-                        # Make sure the helix in row
-                        path_data = [
-                            (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py - ss_w / hy)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py)),
-                            (path1.LINETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx, py)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
-                            (path1.CLOSEPOLY, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
-                        ]
-                        codes, verts = zip(*path_data)
-                        path2 = mpath.Path(verts, codes)
-                        p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
-                        ax.add_patch(p)
-                        path_data = [
-                            (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx, py)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py - ss_w / hy)),
-                            (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                            (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
-                        ]
-                        codes, verts = zip(*path_data)
-                        path2 = mpath.Path(verts, codes)
-                        p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
-                        ax.add_patch(p)
-                    ss_in = ss[ss_res]
-                    ss_st = ss_res
-                    ss_ed = ss_res
-                else:
-                    ss_ed = ss_res
-        if ss_ed != (row + 1) * wi:
-            if ss_in == 'L':
-                ax.add_artist(lines.Line2D([emp_x / wx + ((ss_st - 1) % wi) * ssp / wx,
-                                             emp_x / wx + (ss_ed % wi) * ssp / wx],
-                                            [py - ss_w / 2 / hy, py - ss_w / 2 / hy],
-                                            linewidth=1.2, color='k', zorder=1.0))
-            if ss_in == 'S':
-                ax.arrow(emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / 2 / hy,
-                          (ss_ed - ss_st + 1) * ssp / wx, 0,
-                          width=0.0015, color='k', length_includes_head=True, zorder=2.0)
-            if ss_in == 'H':
-                path_data = [
-                    (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py - ss_w / hy)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py)),
-                    (path1.LINETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                                (ss_ed - ss_st + 1) * ssp / wx, py)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
-                    (path1.CLOSEPOLY, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
-                ]
-                codes, verts = zip(*path_data)
-                path2 = mpath.Path(verts, codes)
-                p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
-                ax.add_patch(p)
-                path_data = [
-                    (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx, py)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py - ss_w / hy)),
-                    (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
-                                    (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
-                ]
-                codes, verts = zip(*path_data)
-                path2 = mpath.Path(verts, codes)
-                p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
-                ax.add_patch(p)
-        py -= ss_w / hy  # Take the position of ss
-        if ot:  # Make judgement if the sequence on top
-            # Draw the sec and sec num on the top of the row
-            while num <= wi * (row + 1) - 1 and num <= sec_end - 1:
-                # Draw sec num
-                if (num + 1) % 5 == 0 or num % wi == 0:
-                    ax.text(emp_x / wx + (num % wi) * ssp / wx, py - (hps / hy), str(num + 1), size=8)
-                # Draw sec or sticks
-                if sec_h:
-                    if (num + 1) % 5 == 0 or num % wi == 0:
-                        x_p = emp_x / wx + (num % wi) * ssp / wx
-                        ax.add_artist(lines.Line2D([x_p, x_p], [py - hps * 1.8 / hy, py - hps * 1.1 / hy],
-                                                    linewidth=0.5, color='k'))
-                else:
-                    ax.text(emp_x / wx + (num % wi) * ssp / wx, py - (hps * 2 / hy), sec[num], size=8)
-                num += 1
-            py -= (hps * 2 + 0.04) / hy  # Set the position for the sec
-        ind = np.array([np.zeros(wi)])  # Setting up indicator for peptide position
-        pp = 0  # Setting the peptide position
-        # Drawing cross peptides
-        for pep in peps_cr:
-            # Draw the box
-            p = plt.Rectangle((emp_x / wx, py - pp * (bh + space) / hy), (int(pep.split('-')[1]) - row * wi) * ssp / wx,
-                              bh / hy, facecolor=camp(norml(dif[pep])), edgecolor='k', lw=0.5)
-            ax.add_patch(p)
-            for x in range(int(pep.split('-')[1]) - row * wi):
-                ind[pp][x] = 1  # Take the position of the peptide
-            # Creating new line in the indicator
-            pp += 1
-            ind = np.append(ind, [np.zeros(wi)], axis=0)
-        peps_cr = []  # Empty the list for cross peptides
-        # Get peps in the sec range
-        pep_row = [x for x in peps if row * wi < int(x.split('-')[0]) <= (row+1) * wi]
-        # Draw the peptide in row
-        for pep in pep_row:
-            if len(pep.split('-')) == 4: continue
-            if len(pep.split('-')) == 3: pep = '0-'+pep.split('-')[-1]
-            if int(pep.split('-')[1]) <= (row + 1) * wi:  # Find out if the peptide is cross rows
-                # Make sure the peptide can take the position
-                for pp in range(len(ind)):
-                    t_p = True  # Use for take position
-                    for res in range(int(pep.split('-')[0]) - 1, int(pep.split('-')[1])):
-                        if ind[pp][res % wi] == 1:
-                            t_p = False
-                            break
-                    if t_p:
-                        break
-                # Make sure if need to add a new row
-                if not t_p:
-                    pp += 1
-                    ind = np.append(ind, [np.zeros(wi)], axis=0)
-                p = plt.Rectangle((emp_x / wx + ((int(pep.split('-')[0]) - 1) % wi) * ssp / wx, py - pp * (bh + space) / hy),
-                                  (int(pep.split('-')[1]) - int(pep.split('-')[0])) * ssp / wx, bh / hy,
-                                  facecolor=camp(norml(dif[pep])), edgecolor='k', lw=0.5)
-                ax.add_patch(p)
-                # Take the position
-                for res in range(int(pep.split('-')[0]) - 1, int(pep.split('-')[1])):
-                    ind[pp][res % wi] = 1
-            else:
-                peps_cr.append(pep)
-                # Make sure the peptide can take the position
-                for pp in range(len(ind)):
-                    t_p = True  # Use for take position
-                    for res in range(int(pep.split('-')[0]) - 1, wi * (row + 1)):
-                        if ind[pp][res % wi] == 1:
-                            t_p = False
-                            break
-                    if t_p:
-                        break
-                # Make sure if need to add a new row
-                if not t_p:
-                    pp += 1
-                    ind = np.append(ind, [np.zeros(wi)], axis=0)
-                p = plt.Rectangle((emp_x / wx + ((int(pep.split('-')[0]) - 1) % wi) * ssp / wx, py - pp * (bh + space) / hy),
-                                  (wi * (row + 1) + 1 - int(pep.split('-')[0])) * ssp / wx, bh / hy,
-                                  facecolor=camp(norml(dif[pep])), edgecolor='k', lw=0.5)
-                ax.add_patch(p)
-                # Take the position
-                for res in range(int(pep.split('-')[0]) - 1, wi * (row + 1)):
-                    ind[pp][res % wi] = 1
-        # Add space for peptide
-        py -= (len(ind) + 1) * (bh + space) / hy
-        if not ot:  # Make judgement if the sequence on bottom
-            # Draw the sequence on bottom
-            while num <= wi * (row + 1) - 1 and num <= sec_end - 1:
-                if (num + 1) % 5 == 0 or num % wi == 0:
-                    ax.text(emp_x / wx + (num % wi) * ssp / wx, py - hps * 2 / hy, str(num + 1), size=8)
-                if sec_h:
-                    if (num + 1) % 5 == 0 or num % wi == 0:
-                        x_p = emp_x / wx + (num % wi) * ssp / wx
-                        ax.add_artist(lines.Line2D([x_p, x_p], [py - hps * 0.5 / hy, py - hps / hy],
-                                                    linewidth=0.5, color='k'))
-                else:
-                    ax.text(emp_x / wx + (num % wi) * ssp / wx, py - hps / hy, sec[num], size=8)
-                num += 1
-            py -= (hps * 2 + 0.04) / hy  # Set the position for the sec
-    plt.savefig('Mtr4.eps', format='eps', dpi=100)
-    return 0
+    # def cm(df, pdb_fn, protein, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, min=-1, max=1):
+    # print(get_coverage(df, sec, protein), len(sec))
+    # crv = 0.05  # Set the curve for cylinders
+    # ss = get_ss(pdb_fn)  # Get secondary structure from PDB file
+    # ss_w = 0.1
+    # space = 0.01  # Set space between peptide
+    # num = 0  # Setting the sequence number
+    # py = 1  # Setting the position of y
+    # t_p = True  # Use for take position
+    # sec_end = len(sec)  # Getting the num of res
+    # emp_x = 0.2  # White space on left and right
+    # hps = 0.08  # Height of the num or seq
+    # peps = list(df[protein])  # Getting the peptides draw on the cm
+    # ot = True  # The control of the the sequence on top or bottom
+    # sec_h = True  # The control of if hide the sequence
+    # camp = mpl.cm.get_cmap('RdBu')  # Function for get color
+    # norml = mpl.colors.Normalize(vmin=min, vmax=max)  # Function for normalize data
+    # # Get difference between two states
+    # if timepoint == 'avg':
+    #     dif = np.empty((0, len(peps)), float)
+    #     for t in timepoints:
+    #         dif = np.append(dif, [(np.array(float(df[protein + '_' + state2 + '_' + t])) - np.array(float(df[protein + '_' + state1 + '_' + t])))
+    #                    / np.array(float(df[protein + '_MaxUptake']))], axis=0)
+    #     dif = np.mean(dif, axis=0)
+    # elif timepoint == 'all':
+    #     dif = np.zeros(len(peps), float)
+    #     for t in timepoints:
+    #         dif = dif + (np.array(df[protein + '_' + state2 + '_' + t], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + t], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
+    # else:
+    #     dif = (np.array(df[protein + '_' + state2 + '_' + timepoint], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + timepoint], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
+    # dif = dict(zip(peps, list(dif)))
+    # while np.core.numeric.NaN in peps or nan in peps:
+    #     peps.remove(np.core.numeric.NaN)
+    # peps = [x for x in peps if str(x) != 'nan']  # Getting ride of space
+    # # Get the row number
+    # if sec_end % wi == 0:
+    #     rows = int(sec_end / wi)
+    # else:
+    #     rows = int(sec_end / wi) + 1
+    # wx = wi * ssp + emp_x * 2  # Setting the length of the x
+    # hy = len(peps) * bh + rows * (hps * 2 + 0.1) + 5
+    # # Creating the figure
+    # fig = plt.figure(figsize=(wx, hy))
+    # ax = fig.add_axes([0, 0, 1, 1])
+    # peps_cr = []  # Creating a list for cross peptides
+    # # Draw the map row by row
+    # for row in range(rows):
+    #     path1 = mpath.Path
+    #     # Draw ss
+    #     # Pick ss in this row
+    #     ss_in = ''  # Store ss in the row
+    #     ss_st = 0  # Record the start of the ss
+    #     ss_ed = 0  # Record the edn of the ss
+    #     for ss_res in ss:
+    #         if row * wi < ss_res <= (row + 1) * wi:
+    #             # The start of the ss
+    #             if ss_in == '':
+    #                 ss_in = ss[ss_res]
+    #                 ss_st = ss_res
+    #                 ss_ed = ss_res
+    #             # Draw the ss
+    #             elif ss_in != ss[ss_res] or ss_res == (row + 1) * wi:
+    #                 # Draw loop with line
+    #                 if ss_in == 'L':
+    #                     ax.add_artist(lines.Line2D([emp_x / wx + ((ss_st - 1) % wi) * ssp / wx,
+    #                                                  emp_x / wx + (ss_ed % wi) * ssp / wx],
+    #                                                 [py - ss_w / 2 / hy, py - ss_w / 2 / hy],
+    #                                                 linewidth=1.2, color='k', zorder=1.0))
+    #                 # Draw sheet with arrow
+    #                 if ss_in == 'S':
+    #                     ax.arrow(emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / 2 / hy,
+    #                               (ss_ed - ss_st + 1) * ssp / wx, 0,
+    #                               width=0.0015, color='k', length_includes_head=True, zorder=2.0)
+    #                 # Draw helix with cylinders
+    #                 if ss_in == 'H':
+    #                     # Make sure the helix in row
+    #                     path_data = [
+    #                         (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py - ss_w / hy)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py)),
+    #                         (path1.LINETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx, py)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
+    #                         (path1.CLOSEPOLY, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
+    #                     ]
+    #                     codes, verts = zip(*path_data)
+    #                     path2 = mpath.Path(verts, codes)
+    #                     p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
+    #                     ax.add_patch(p)
+    #                     path_data = [
+    #                         (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx, py)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py - ss_w / hy)),
+    #                         (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                         (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
+    #                     ]
+    #                     codes, verts = zip(*path_data)
+    #                     path2 = mpath.Path(verts, codes)
+    #                     p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
+    #                     ax.add_patch(p)
+    #                 ss_in = ss[ss_res]
+    #                 ss_st = ss_res
+    #                 ss_ed = ss_res
+    #             else:
+    #                 ss_ed = ss_res
+    #     if ss_ed != (row + 1) * wi:
+    #         if ss_in == 'L':
+    #             ax.add_artist(lines.Line2D([emp_x / wx + ((ss_st - 1) % wi) * ssp / wx,
+    #                                          emp_x / wx + (ss_ed % wi) * ssp / wx],
+    #                                         [py - ss_w / 2 / hy, py - ss_w / 2 / hy],
+    #                                         linewidth=1.2, color='k', zorder=1.0))
+    #         if ss_in == 'S':
+    #             ax.arrow(emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / 2 / hy,
+    #                       (ss_ed - ss_st + 1) * ssp / wx, 0,
+    #                       width=0.0015, color='k', length_includes_head=True, zorder=2.0)
+    #         if ss_in == 'H':
+    #             path_data = [
+    #                 (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py - ss_w / hy)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx - crv / wx, py)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py)),
+    #                 (path1.LINETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                             (ss_ed - ss_st + 1) * ssp / wx, py)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
+    #                 (path1.CLOSEPOLY, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx, py - ss_w / hy)),
+    #             ]
+    #             codes, verts = zip(*path_data)
+    #             path2 = mpath.Path(verts, codes)
+    #             p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
+    #             ax.add_patch(p)
+    #             path_data = [
+    #                 (path1.MOVETO, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py - ss_w / hy)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx + crv / wx, py)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx, py)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx - crv / wx, py - ss_w / hy)),
+    #                 (path1.CURVE4, (emp_x / wx + ((ss_st - 1) % wi) * ssp / wx +
+    #                                 (ss_ed - ss_st + 1) * ssp / wx, py - ss_w / hy)),
+    #             ]
+    #             codes, verts = zip(*path_data)
+    #             path2 = mpath.Path(verts, codes)
+    #             p = mpatches.PathPatch(path2, facecolor='1', zorder=3.0)
+    #             ax.add_patch(p)
+    #     py -= ss_w / hy  # Take the position of ss
+    #     if ot:  # Make judgement if the sequence on top
+    #         # Draw the sec and sec num on the top of the row
+    #         while num <= wi * (row + 1) - 1 and num <= sec_end - 1:
+    #             # Draw sec num
+    #             if (num + 1) % 5 == 0 or num % wi == 0:
+    #                 ax.text(emp_x / wx + (num % wi) * ssp / wx, py - (hps / hy), str(num + 1), size=8)
+    #             # Draw sec or sticks
+    #             if sec_h:
+    #                 if (num + 1) % 5 == 0 or num % wi == 0:
+    #                     x_p = emp_x / wx + (num % wi) * ssp / wx
+    #                     ax.add_artist(lines.Line2D([x_p, x_p], [py - hps * 1.8 / hy, py - hps * 1.1 / hy],
+    #                                                 linewidth=0.5, color='k'))
+    #             else:
+    #                 ax.text(emp_x / wx + (num % wi) * ssp / wx, py - (hps * 2 / hy), sec[num], size=8)
+    #             num += 1
+    #         py -= (hps * 2 + 0.04) / hy  # Set the position for the sec
+    #     ind = np.array([np.zeros(wi)])  # Setting up indicator for peptide position
+    #     pp = 0  # Setting the peptide position
+    #     # Drawing cross peptides
+    #     for pep in peps_cr:
+    #         # Draw the box
+    #         p = plt.Rectangle((emp_x / wx, py - pp * (bh + space) / hy), (int(pep.split('-')[1]) - row * wi) * ssp / wx,
+    #                           bh / hy, facecolor=camp(norml(dif[pep])), edgecolor='k', lw=0.5)
+    #         ax.add_patch(p)
+    #         for x in range(int(pep.split('-')[1]) - row * wi):
+    #             ind[pp][x] = 1  # Take the position of the peptide
+    #         # Creating new line in the indicator
+    #         pp += 1
+    #         ind = np.append(ind, [np.zeros(wi)], axis=0)
+    #     peps_cr = []  # Empty the list for cross peptides
+    #     # Get peps in the sec range
+    #     pep_row = [x for x in peps if row * wi < int(x.split('-')[0]) <= (row+1) * wi]
+    #     # Draw the peptide in row
+    #     for pep in pep_row:
+    #         if len(pep.split('-')) == 4: continue
+    #         if len(pep.split('-')) == 3: pep = '0-'+pep.split('-')[-1]
+    #         if int(pep.split('-')[1]) <= (row + 1) * wi:  # Find out if the peptide is cross rows
+    #             # Make sure the peptide can take the position
+    #             for pp in range(len(ind)):
+    #                 t_p = True  # Use for take position
+    #                 for res in range(int(pep.split('-')[0]) - 1, int(pep.split('-')[1])):
+    #                     if ind[pp][res % wi] == 1:
+    #                         t_p = False
+    #                         break
+    #                 if t_p:
+    #                     break
+    #             # Make sure if need to add a new row
+    #             if not t_p:
+    #                 pp += 1
+    #                 ind = np.append(ind, [np.zeros(wi)], axis=0)
+    #             p = plt.Rectangle((emp_x / wx + ((int(pep.split('-')[0]) - 1) % wi) * ssp / wx, py - pp * (bh + space) / hy),
+    #                               (int(pep.split('-')[1]) - int(pep.split('-')[0])) * ssp / wx, bh / hy,
+    #                               facecolor=camp(norml(dif[pep])), edgecolor='k', lw=0.5)
+    #             ax.add_patch(p)
+    #             # Take the position
+    #             for res in range(int(pep.split('-')[0]) - 1, int(pep.split('-')[1])):
+    #                 ind[pp][res % wi] = 1
+    #         else:
+    #             peps_cr.append(pep)
+    #             # Make sure the peptide can take the position
+    #             for pp in range(len(ind)):
+    #                 t_p = True  # Use for take position
+    #                 for res in range(int(pep.split('-')[0]) - 1, wi * (row + 1)):
+    #                     if ind[pp][res % wi] == 1:
+    #                         t_p = False
+    #                         break
+    #                 if t_p:
+    #                     break
+    #             # Make sure if need to add a new row
+    #             if not t_p:
+    #                 pp += 1
+    #                 ind = np.append(ind, [np.zeros(wi)], axis=0)
+    #             p = plt.Rectangle((emp_x / wx + ((int(pep.split('-')[0]) - 1) % wi) * ssp / wx, py - pp * (bh + space) / hy),
+    #                               (wi * (row + 1) + 1 - int(pep.split('-')[0])) * ssp / wx, bh / hy,
+    #                               facecolor=camp(norml(dif[pep])), edgecolor='k', lw=0.5)
+    #             ax.add_patch(p)
+    #             # Take the position
+    #             for res in range(int(pep.split('-')[0]) - 1, wi * (row + 1)):
+    #                 ind[pp][res % wi] = 1
+    #     # Add space for peptide
+    #     py -= (len(ind) + 1) * (bh + space) / hy
+    #     if not ot:  # Make judgement if the sequence on bottom
+    #         # Draw the sequence on bottom
+    #         while num <= wi * (row + 1) - 1 and num <= sec_end - 1:
+    #             if (num + 1) % 5 == 0 or num % wi == 0:
+    #                 ax.text(emp_x / wx + (num % wi) * ssp / wx, py - hps * 2 / hy, str(num + 1), size=8)
+    #             if sec_h:
+    #                 if (num + 1) % 5 == 0 or num % wi == 0:
+    #                     x_p = emp_x / wx + (num % wi) * ssp / wx
+    #                     ax.add_artist(lines.Line2D([x_p, x_p], [py - hps * 0.5 / hy, py - hps / hy],
+    #                                                 linewidth=0.5, color='k'))
+    #             else:
+    #                 ax.text(emp_x / wx + (num % wi) * ssp / wx, py - hps / hy, sec[num], size=8)
+    #             num += 1
+    #         py -= (hps * 2 + 0.04) / hy  # Set the position for the sec
+    # plt.savefig('Mtr4.eps', format='eps', dpi=100)
+    # return 0
