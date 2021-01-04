@@ -430,9 +430,9 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     return k
 
 
-def get_ss(file_n=''):
-    cmd.load(file_n)
-    cmd.remove('not chain A')
+def get_ss(file_n='', id):
+    cmd.fetch(file_n)
+    cmd.remove('not chain ' + id)
     stored.resi = []
     stored.ss = []
     cmd.dss()
@@ -447,14 +447,14 @@ def get_ss(file_n=''):
             rid.append(a)
     for r in rid:
         ss.pop(r)
-    cmd.remove('chain A')
+    cmd.remove('chain ' + id)
     return ss
 
 
-def cm(df, pdb_fn, protein, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, min=-1, max=1):
+def cm(df, pdb_fn, chianid, protein, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, min=-1, max=1):
     print(get_coverage(df, sec, protein), len(sec))
     crv = 0.05  # Set the curve for cylinders
-    ss = get_ss(pdb_fn)  # Get secondary structure from PDB file
+    ss = get_ss(pdb_fn, chain_id)  # Get secondary structure from PDB file
     ss_w = 0.1
     space = 0.01  # Set space between peptide
     num = 0  # Setting the sequence number
