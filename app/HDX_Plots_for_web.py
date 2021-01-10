@@ -430,7 +430,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
     return k
 
 
-def get_ss(file_n='', id):
+def get_ss(id, file_n=''):
     cmd.fetch(file_n)
     cmd.remove('not chain ' + id)
     stored.resi = []
@@ -450,11 +450,35 @@ def get_ss(file_n='', id):
     cmd.remove('chain ' + id)
     return ss
 
+def get_coverage(df, sec, protein):
+    peps = list(df[protein])
+    while np.core.numeric.NaN in peps:
+        peps.remove(np.core.numeric.NaN)
+    while nan in peps:
+        peps.remove(nan)
+    peps = [pep for pep in peps if str(pep) != 'nan']
+    coverage = [0] * len(sec)
+    le = []
+    for pep in peps:
+        if len(pep.split('-')) == 4: continue
+        if len(pep.split('-')) == 3: pep = '1-' + pep.split('-')[-1]
+        for n in range(int(pep.split('-')[0]) - 1, int(pep.split('-')[1])):
+            coverage[n] += 1
+        le.append(int(pep.split('-')[1]) - int(pep.split('-')[0]))
+    red = np.array(coverage).mean()
+    avle = np.array(le).mean()
+    k = 0
+    for c in coverage:
+        if c != 0:
+            k += 1
+    cov = k / len(sec)
+    return cov, red, avle
+    
 
 def cm(df, pdb_fn, chianid, protein, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, min=-1, max=1):
     print(get_coverage(df, sec, protein), len(sec))
     crv = 0.05  # Set the curve for cylinders
-    ss = get_ss(pdb_fn, chain_id)  # Get secondary structure from PDB file
+    ss = get_ss(chain_id, pdb_fn)  # Get secondary structure from PDB file
     ss_w = 0.1
     space = 0.01  # Set space between peptide
     num = 0  # Setting the sequence number
