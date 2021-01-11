@@ -227,9 +227,7 @@
             }
 
             .V_left {
-                {#position: absolute;#}
-                {#left: 122px;#}
-                float: right;
+            {#position: absolute;#}{#left: 122px;#} float: right;
             }
 
             .V_right_w {
@@ -325,18 +323,20 @@
             :fullscreen .footnotes {
                 display: none;
             }
-            .left-side-bar > li{
+
+            .left-side-bar > li {
                 margin-top: .7rem;
             }
-            .right-sidebar{
-                {#margin-left: 250px;#}
+
+            .right-sidebar {
+            {#margin-left: 250px;#}
             }
 
-            .right-sidebar > li{
+            .right-sidebar > li {
                 margin-bottom: .7rem;
             }
 
-            .btn-list{
+            .btn-list {
                 position: absolute;
                 left: -200px;
                 bottom: .5rem;
@@ -345,12 +345,13 @@
                 display: flex;
                 justify-content: center;
             }
-            .btn-list > li{
+
+            .btn-list > li {
                 position: relative !important;
                 margin: 0 2rem !important;
             }
 
-            .btn-list button{
+            .btn-list button {
                 border-radius: 8px !important;
             }
         </style>
@@ -414,24 +415,24 @@
     </div>
 
 
-    <div class="box" style="left:20px;top:105px;height:250px">
+    <div class="box" style="left:20px;top:105px;height:270px">
         <h4><strong>Data Upload</strong></h4>
-    <form enctype="multipart/form-data" style="margin-top: 8px">
-{#        <div style="display: flex">#}
-{#            <input type="radio" id="f0" name="uploadfile" checked>#}
-{#            <label for="f0">One File</label>#}
-{#            <input type="radio" name="uploadfile" id="f1" style="margin-left: 2rem;">#}
-{#            <label for="f1">File merging</label>#}
-{#        </div>#}
-{#        <button class="btn btn-secondary" style="height: 2rem;#}
-{#            word-break: keep-all;#}
-{#            white-space: nowrap;#}
-{#            width: 12rem;#}
-{#            border-radius: 8px;">#}
-{#            Upload Dynamx Output</button>#}
-{#    </form>#}
-        {% if filestatus %}
-            <span>
+        <form enctype="multipart/form-data" style="margin-top: 8px">
+            {#        <div style="display: flex">#}
+            {#            <input type="radio" id="f0" name="uploadfile" checked>#}
+            {#            <label for="f0">One File</label>#}
+            {#            <input type="radio" name="uploadfile" id="f1" style="margin-left: 2rem;">#}
+            {#            <label for="f1">File merging</label>#}
+            {#        </div>#}
+            {#        <button class="btn btn-secondary" style="height: 2rem;#}
+            {#            word-break: keep-all;#}
+            {#            white-space: nowrap;#}
+            {#            width: 12rem;#}
+            {#            border-radius: 8px;">#}
+            {#            Upload Dynamx Output</button>#}
+            {#    </form>#}
+            {% if filestatus %}
+                <span>
             <form method="post" enctype="multipart/form-data">
             <input id="single_file" type="radio" name="upload" value="file_s" onclick="f0(1)">
             <label for="single_file">One File (.csv)</label><br>
@@ -439,8 +440,8 @@
             <label for="multi_files">Multiple Files (.csv)</label><br>
             </form>
         </span>
-        {% else %}
-            <span>
+            {% else %}
+                <span>
             <form method="post" enctype="multipart/form-data">
             <input id="single_file" type="radio" name="upload" value="file_s" onclick="f0(1)" checked>
             <label for="single_file">One File (.csv)</label><br>
@@ -448,122 +449,125 @@
             <label for="multi_files">Multiple Files (.csv)</label><br>
             </form>
         </span>
-        {% endif %}
+            {% endif %}
 
-        {% if filestatus %}
-            <div class="div1">
-                <form method="post" action="/upload_single_file" enctype="multipart/form-data"
-                      style="display: inline; float:left" onsubmit="sub_file()">
-                    <div id="c1" style="display: none">
-                        <p><input id="upload_s" type="file" name="file" autocomplete="off" required>
-                            <label for="upload_s"> Please select ONE file to upload</label></p>
-                        <input class="btn btn-primary" type="submit" value="Submit" onclick="sub_file()">
-                        <h6>{{ ipaddr }}</h6>
-                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
-                            here for a demo csv file</a>
-                    </div>
-                </form>
-                <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv')
-                }}';" ><p4>Export as CSV</p4></button> -->
+            {% if filestatus %}
+                <div class="div1">
+                    <form method="post" action="/upload_single_file" enctype="multipart/form-data"
+                          style="display: inline; float:left" onsubmit="sub_file()">
+                        <div id="c1" style="display: none">
+                            <p><input id="upload_s" type="file" name="file" autocomplete="off" required>
+                                <label for="upload_s"> Please select ONE file to upload</label></p>
+                            <input class="btn btn-primary" type="submit" value="Submit" onclick="sub_file()">
+                            <h6>{{ ipaddr }}</h6>
+                            <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                                here for a demo csv file</a>
+                        </div>
+                    </form>
+                    <!-- <button  type="button" onclick="window.location.href='{{ url_for('downloadcsv')
+                    }}';" ><p4>Export as CSV</p4></button> -->
 
-                <form method="post" action="/upload_multi_files" enctype="multipart/form-data"
-                      style="display: inline; float:left">
-                    <div id="c2">
-                        <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
-                            <label for="upload_m"> You may select up to 5 files to upload</label></p>
-                        <input class="btn btn-primary" type="submit" value="Merge & Submit" onclick="sub_file()"> <input
-                            type="button"
-                            onclick="window.location.href='{{ url_for('downloadcsv') }}';"
-                            value="Download Merged csv File">
-                        <h6>{{ ipaddr }}</h6>
-                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
-                            here for a demo csv file</a>
-                    </div>
-                </form>
-            </div>
+                    <form method="post" action="/upload_multi_files" enctype="multipart/form-data"
+                          style="display: inline; float:left">
+                        <div id="c2">
+                            <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off"
+                                      required>
+                                <label for="upload_m"> You may select up to 5 files to upload</label></p>
+                            <input class="btn btn-primary" type="submit" value="Merge & Submit" onclick="sub_file()">
+                            <input
+                                    type="button"
+                                    onclick="window.location.href='{{ url_for('downloadcsv') }}';"
+                                    value="Download Merged csv File">
+                            <h6>{{ ipaddr }}</h6>
+                            <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                                here for a demo csv file</a>
+                        </div>
+                    </form>
+                </div>
 
-        {% else %}
+            {% else %}
 
-            <div class="div1">
-                <form method="post" action="/upload_single_file" enctype="multipart/form-data"
-                      style="display: inline; float:left" onsubmit="sub_file()">
-                    <div id="c1">
-                        <p><input id="upload_s" type="file" name="file" autocomplete="off" required>
-                            <label for="upload_s"> Please select ONE file to upload</label></p>
-                        <input type="submit" value="Submit" onclick="sub_file()">
-                        <h6>{{ ipaddr }}</h6>
-                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
-                            here for a demo csv file</a>
-                    </div>
-                </form>
-
-
-                <form method="post" action="/upload_multi_files" enctype="multipart/form-data"
-                      style="display: inline; float:left">
-                    <div id="c2" style="display: none">
-                        <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off" required>
-                            <label for="upload_m"> You may select up to 5 files to upload</label></p>
-                        <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button"
-                                                                                                 value="Download Merged csv File">
-                        <h6>{{ ipaddr }}</h6>
-                        <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
-                            here for a demo csv file</a>
-                    </div>
-                </form>
-            </div>
-
-        {% endif %}
+                <div class="div1">
+                    <form method="post" action="/upload_single_file" enctype="multipart/form-data"
+                          style="display: inline; float:left" onsubmit="sub_file()">
+                        <div id="c1">
+                            <p><input id="upload_s" type="file" name="file" autocomplete="off" required>
+                                <label for="upload_s"> Please select ONE file to upload</label></p>
+                            <input type="submit" value="Submit" onclick="sub_file()">
+                            <h6>{{ ipaddr }}</h6>
+                            <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                                here for a demo csv file</a>
+                        </div>
+                    </form>
 
 
-        <div class="div3">
+                    <form method="post" action="/upload_multi_files" enctype="multipart/form-data"
+                          style="display: inline; float:left">
+                        <div id="c2" style="display: none">
+                            <p><input id="upload_m" type="file" name="files[]" multiple="true" autocomplete="off"
+                                      required>
+                                <label for="upload_m"> You may select up to 5 files to upload</label></p>
+                            <input type="submit" value="Merge & Submit" onclick="sub_file()"> <input type="button"
+                                                                                                     value="Download Merged csv File">
+                            <h6>{{ ipaddr }}</h6>
+                            <a href="downloaddemo" onclick="window.location.href='{{ url_for('downloaddemo') }}';">Click
+                                here for a demo csv file</a>
+                        </div>
+                    </form>
+                </div>
 
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if cnt %}
-                    <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
-                        Your {{ (cnt) }} files successfully uploaded
-                    </div>
-                {% else %}
-                    {% for category, message in messages %}
+            {% endif %}
+
+
+            <div class="div3">
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if cnt %}
                         <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                     aria-hidden="true">×</span></button>
-                            {{ message }}
+                            Your {{ (cnt) }} files successfully uploaded
                         </div>
-                    {% endfor %}
+                    {% else %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-warning alert-dismissible" role="alert" oninput="sub_file()">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
 
-                {% endif %}
-
-
-
-            {% endwith %}
-
-            <!-- <script type="text/javascript">
-                         function sub_file() {
-                            // alert function in progress
-                               //setTimeout(function() {
-                                   var message = (document).getElementById('message').innerText;
-                                    alert(message);
-                              //},3000);
-                             }
-
-                   //                var message = (document).getElementById('message').innerText;
-                    //                alert(message);
-
-                    //         }
-
-            </script> -->
+                    {% endif %}
 
 
-        </div>
+
+                {% endwith %}
+
+                <!-- <script type="text/javascript">
+                             function sub_file() {
+                                // alert function in progress
+                                   //setTimeout(function() {
+                                       var message = (document).getElementById('message').innerText;
+                                        alert(message);
+                                  //},3000);
+                                 }
+
+                       //                var message = (document).getElementById('message').innerText;
+                        //                alert(message);
+
+                        //         }
+
+                </script> -->
+
+
+            </div>
 
     </div>
 
 
     <div id="plot_status" s="{{ plot_status }}" style="display: none"><p> {{ plot_status }}</p></div>
 
-    <div class="box" style="left:20px;top:365px;height:400px">
+    <div class="box" style="left:20px;top:385px;height:400px">
         <div class="div1">
             <h4><strong>Parameters settings</strong></h4>
         </div>
@@ -587,7 +591,13 @@
                 <div class="div3">
                     <input id="Volcano Plot" type="radio" name="plot" value="Volcano Plot" onclick="f1(1)">
                     <label for="Volcano Plot">Volcano<img src="./static/image/valcano.jpg"
-                                                           style="width: 20px; height: 20px; margin: 0"></label>
+                                                          style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
+
+                <div class="div3">
+                    <input id="Coverage map" type="radio" name="plot" value="Coverage map" onclick="f1(3)">
+                    <label for="Coverage map">Coverage map<img src="./static/image/valcano.jpg"
+                                                               style="width: 20px; height: 20px; margin: 0"></label>
                 </div>
 
 
@@ -608,6 +618,12 @@
                 <div class="div3">
                     <input id="Volcano Plot" type="radio" name="plot" value="Volcano Plot" onclick="f1(1)" checked>
                     <label for="Volcano Plot">Volcano <img src="./static/image/valcano.jpg"
+                                                           style="width: 20px; height: 20px; margin: 0"></label>
+                </div>
+
+                <div class="div3">
+                    <input id="Coverage map" type="radio" name="plot" value="Coverage map" onclick="f1(3)">
+                    <label for="Coverage map">Coverage map<img src="./static/image/valcano.jpg"
                                                            style="width: 20px; height: 20px; margin: 0"></label>
                 </div>
             </form>
@@ -632,363 +648,370 @@
                 <div class="div3">
                     <input id="Coverage map" type="radio" name="plot" value="Coverage map" onclick="f1(3)">
                     <label for="Coverage map">Coverage map<img src="./static/image/valcano.jpg"
-                                                           style="width: 20px; height: 20px; margin: 0"></label>
+                                                               style="width: 20px; height: 20px; margin: 0"></label>
                 </div>
             </form>
         {% endif %}
 
         <form action="/click_show_v" method="post">
-                <div id="d3" style="display: none">
-                    <ul class="div1 left-side-bar" style="float: left">
-                        <li>
-                            <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
-                                class="V_left" name="protein" style="width: 100px">
+            <div id="d3" style="display: none">
+                <ul class="div1 left-side-bar" style="float: left">
+                    <li>
+                        <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                            class="V_left" name="protein" style="width: 100px">
 
-{#                            {% for lst in lists[0] %}#}
-{#                                <option>{{ lst }}</option>{% endfor %}#}
-{#                            <option>Protein 1</option>#}
-                            {% for lst in lists[0] %}
-                                <option>{{ lst }}</option>
-                            {% endfor %}
-                        </select>
+                        {#                            {% for lst in lists[0] %}#}
+                        {#                                <option>{{ lst }}</option>{% endfor %}#}
+                        {#                            <option>Protein 1</option>#}
+                        {% for lst in lists[0] %}
+                            <option>{{ lst }}</option>
+                        {% endfor %}
+                    </select>
 
-                        </li>
+                    </li>
 
-                        <li>
-                            <strong>Show ss:</strong>
-{#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
-{#                                                           name="show_ss" style="margin-top: 3px">#}
-                            <input type="checkbox" id="s_ss" style="zoom: 2;float: right">
-                        </li>
+                    <li>
+                        <strong>Show ss:</strong>
+                        {#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+                        {#                                                           name="show_ss" style="margin-top: 3px">#}
+                        <input type="checkbox" id="s_ss" style="zoom: 2;float: right">
+                    </li>
 
-                        <li><strong>PBD code:</strong>
+                    <li><strong>PBD code:</strong>
                         <input class="V_left" type="text" step="0.01" min="0" max="9999"
-                                                           name="pbd_code" style="margin-top: 3px;width:100px">
+                               name="pbd_code" style="margin-top: 3px;width:100px">
 
-                        </li>
-                        <li><strong>Chain ID:</strong>
+                    </li>
+                    <li><strong>Chain ID:</strong>
                         <input class="V_left" type="text" step="0.01" min="0" max="9999"
-                                                           name="chain_id" style="margin-top: 3px;width:100px">
+                               name="chain_id" style="margin-top: 3px;width:100px">
 
-                        </li>
-                        <li><strong>Show sequence:</strong>
-{#                        <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
-{#                                                           name="show_sequence" style="margin-top: 3px">#}
-                            <input type="checkbox" id="s_seq" style="zoom: 2;float: right">
-                        </li>
+                    </li>
+                    <li><strong>Show sequence:</strong>
+                        {#                        <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+                        {#                                                           name="show_sequence" style="margin-top: 3px">#}
+                        <input type="checkbox" id="s_seq" style="zoom: 2;float: right">
+                    </li>
 
-{#                        <li><strong>Length of res:</strong>#}
-{#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
-{#                                                           name="length_res" style="margin-top: 3px">#}
-{#                        </li>#}
-
-
-                        <li><strong>Show uptake:</strong>
-{#                        <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
-{#                                                           name="show_uptake" style="margin-top: 3px">#}
-                            <input type="checkbox" id="s_upt" style="zoom: 2;float: right">
-
-                        </li>
-                        <li style="margin-top: 8px;display: inline-block;width: 198px"></li>
+                    {#                        <li><strong>Length of res:</strong>#}
+                    {#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+                    {#                                                           name="length_res" style="margin-top: 3px">#}
+                    {#                        </li>#}
 
 
-                    </ul>
+                    <li><strong>Show uptake:</strong>
+                        {#                        <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
+                        {#                                                           name="show_uptake" style="margin-top: 3px">#}
+                        <input type="checkbox" id="s_upt" style="zoom: 2;float: right">
+
+                    </li>
+                    <li style="margin-top: 8px;display: inline-block;width: 198px"></li>
 
 
-                    <ul class="div3" style="position: absolute;right: 200px;top: 77px">
+                </ul>
 
 
-                        <li id="color" class="V_right_w">
-{#                            <div>Color</div>#}
-                            <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">
-                                <!--  BOOTSTRAP DROPDOWN -->
-{#                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"#}
-{#                                        href="#"> Select <span class="caret"></span></button>#}
-                                <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
-                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
-                                            href="javascript:void(0);">
-                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern2" name="colors"/><a
-                                            href="javascript:void(0);">
-                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern3" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern4" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern5" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern6" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern7" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
-                                    </li>
-
-                                </ul>
-
-                            </div>
-
-{#                            <script>#}
-{#                                $(".dropdown-menu li a").click(function () {#}
-{#                                    $(this).parent().find('input').attr('name', 'color');#}
-{#                                    var selText = $(this).text();#}
-{#                                    var imgSource = $(this).find('img').attr('src');#}
-{#                                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';#}
-{#                                    var color = $(this).parent().find('input').val();#}
-{#                                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');#}
-{#                                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="' + color + '">');#}
-{##}
-{#                                });#}
-{##}
-{#                            </script>#}
-
-                        </li>
-                        <div class="right-sidebar">
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <strong>Time Points:</strong>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-{#                                        <label>#}
-{#                                            <strong>100s</strong>#}
-{#                                        </label>#}
-                                        <select
-                                                class="V_left" name="protein" style="width: 100px">
-                                            <option>All</option>
-                                            {% for lst in lists[2] %}
-                                                <option>{{ lst }}</option>
-                                            {% endfor %}
-
-{#                                            <option>100s</option>#}
-{#                                            <option>10s</option>#}
-{#                                            <option>1s</option>#}
-{#                                            <option>0.1s</option>#}
-                                        </select>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <strong>State1:</strong>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-{#                                        <label>#}
-{#                                            <strong>State1</strong>#}
-{#                                        </label>#}
-{#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
-                                        <select
-                                                class="V_left" name="protein" style="width: 100px">
-
-{#                                            <option>State 1</option>#}
-{#                                            <option>State 2</option>#}
-                                            {% for lst in lists[1] %}
-                                                <option>{{ lst }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <strong>State2:</strong>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-{#                                        <label>#}
-{#                                            <strong>State1</strong>#}
-{#                                        </label>#}
-{#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
-                                        <select
-                                                class="V_left" name="protein" style="width: 100px">
-
-{#                                            <option>State 1</option>#}
-{#                                            <option>State 2</option>#}
-                                            {% for lst in lists[1] %}
-                                                <option>{{ lst }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
-                            </li>
-{#                            <li>#}
-{#                                <div style="display: flex;position: relative">#}
-{#                                    <strong>State2:</strong>#}
-{#                                    <div class="r-s-content" style="position: absolute;left: 150px">#}
-{#                                        <label>#}
-{#                                            <strong>State2</strong>#}
-{#                                        </label>#}
-{#                                        <input type="checkbox" id="state3" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </li>#}
-
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <strong>Colors:</strong>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-                                        <div class="btn-group" style="margin-bottom: 0">
-                                <!--  BOOTSTRAP DROPDOWN -->
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                        href="#"> Select <span class="caret"></span></button>
-                                <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
-                                    <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
-                                            href="javascript:void(0);">
-                                        <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern2" name="colors"/><a
-                                            href="javascript:void(0);">
-                                        <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern3" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern4" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern5" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern6" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
-                                    </li>
-
-                                    <li><input type="hidden" value="pattern7" name="colors"/><a
-                                            href="javascript:void(0);">
-
-                                        <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
-                                    </li>
-
-                                </ul>
-
-                            </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <strong>Significance:</strong>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-{#                                        <label>#}
-{#                                            <strong>0.01</strong>#}
-{#                                        </label>#}
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <div>P-value:</div>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-                                        <input type="number" step=".1" name="min_diff" style="width: 100px">
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div style="display: flex;position: relative">
-                                    <div>Simple size:</div>
-                                    <div class="r-s-content" style="position: absolute;left: 150px">
-                                        <input type="number" step=".1" name="min_diff" style="width: 100px">
-                                    </div>
-                                </div>
-                            </li>
+                <ul class="div3" style="position: absolute;right: 200px;top: 77px">
 
 
-{#                            <li>#}
-{#                                <div style="display: flex;position: relative">#}
-{#                                    <strong>Min-difference (Da):</strong>#}
-{#                                    <div class="r-s-content" style="position: absolute;left: 150px">#}
-{#                                        <input type="number" step=".1" name="min_diff" style="width: 100px">#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </li>#}
+                    <li id="color" class="V_right_w">
+                        {#                            <div>Color</div>#}
+                        <div class="btn-group" style="top:-20px; left: 145px; margin-bottom: 0">
+                            <!--  BOOTSTRAP DROPDOWN -->
+                            {#                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"#}
+                            {#                                        href="#"> Select <span class="caret"></span></button>#}
+                            <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
+                                <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                        href="javascript:void(0);">
+                                    <img style="width: 100%; height: 100%;" src="./static/image/000000.png"/></a>
+                                </li>
+
+                                <li><input type="hidden" value="pattern2" name="colors"/><a
+                                        href="javascript:void(0);">
+                                    <img style="width: 100%; height: 100%;" src="./static/image/170E34.png"/> </a>
+                                </li>
+
+                                <li><input type="hidden" value="pattern3" name="colors"/><a
+                                        href="javascript:void(0);">
+
+                                    <img style="width: 100%; height: 100%;" src="./static/image/511845.png"/> </a>
+                                </li>
+
+                                <li><input type="hidden" value="pattern4" name="colors"/><a
+                                        href="javascript:void(0);">
+
+                                    <img style="width: 100%; height: 100%;" src="./static/image/BE3726.png"/> </a>
+                                </li>
+
+                                <li><input type="hidden" value="pattern5" name="colors"/><a
+                                        href="javascript:void(0);">
+
+                                    <img style="width: 100%; height: 100%;" src="./static/image/C54129.png"/> </a>
+                                </li>
+
+                                <li><input type="hidden" value="pattern6" name="colors"/><a
+                                        href="javascript:void(0);">
+
+                                    <img style="width: 100%; height: 100%;" src="./static/image/E34798.png"/> </a>
+                                </li>
+
+                                <li><input type="hidden" value="pattern7" name="colors"/><a
+                                        href="javascript:void(0);">
+
+                                    <img style="width: 100%; height: 100%;" src="./static/image/FFE65D.png"/> </a>
+                                </li>
+
+                            </ul>
+
                         </div>
 
-{#                        <li style="margin-top:0;">Symbol#}
-{#                            size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input#}
-{#                                    id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1"#}
-{#                                    value="2" oninput="rangeOutId.value = rangeId.value"/>#}
-{#                            <output name="rangeOut" id="rangeOutId">2</output>#}
-{#                        </li>#}
-{##}
-{#                        <li class="V_right_w" style="margin-bottom: 3px">Text size#}
-{#                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input#}
-{#                                    class="V_right" type="number" step="0.1" min="1" max="99" name="text_size"#}
-{#                                    style="margin-bottom: 5px"></li>#}
-{##}
-{#                        <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span#}
-{#                                class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input#}
-{#                                type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>#}
-{##}
-{#                        <li class="V_right_w"><strong>Significance Cutoffs</strong></li>#}
-{##}
-{#                        <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0"#}
-{#                                                                     max="9999" name="significance" value="0.01"></li>#}
-{#                        <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1"#}
-{#                                                                           min="3" max="9999" name="nsize" value="3">#}
-{#                        </li>#}
-{##}
-{#                        <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right"#}
-{#                                                                                                 type="number"#}
-{#                                                                                                 step="0.01" min="0"#}
-{#                                                                                                 max="9999"#}
-{#                                                                                                 name="min_dif"#}
-{#                                                                                                 value="0.5"#}
-{#                                                                                                 style="margin-top: 3px; margin-bottom: 3px">#}
-{#                        </li>#}
-{##}
-{#                        <li class="V_right_w" style="margin-top: 3px">Show list on plot#}
-{#                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"#}
-{#                                                                      name="show_list" style="margin-top: 8px"></li>#}
+                        {#                            <script>#}
+                        {#                                $(".dropdown-menu li a").click(function () {#}
+                        {#                                    $(this).parent().find('input').attr('name', 'color');#}
+                        {#                                    var selText = $(this).text();#}
+                        {#                                    var imgSource = $(this).find('img').attr('src');#}
+                        {#                                    var img = '<img  style = "width: 60px; height: 30px;" src="' + imgSource + '"/>';#}
+                        {#                                    var color = $(this).parent().find('input').val();#}
+                        {#                                    $(this).parents('.btn-group').find('.dropdown-toggle').html(img + ' ' + selText + ' <span class="caret"></span>');#}
+                        {#                                    $(this).parents("footer").html('<input type="text" name="color" style="display:none" value="' + color + '">');#}
+                        {##}
+                        {#                                });#}
+                        {##}
+                        {#                            </script>#}
+
+                    </li>
+                    <div class="right-sidebar">
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <strong>Time Points:</strong>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    {#                                        <label>#}
+                                    {#                                            <strong>100s</strong>#}
+                                    {#                                        </label>#}
+                                    <select
+                                            class="V_left" name="protein" style="width: 100px">
+                                        <option>All</option>
+                                        {% for lst in lists[2] %}
+                                            <option>{{ lst }}</option>
+                                        {% endfor %}
+
+                                        {#                                            <option>100s</option>#}
+                                        {#                                            <option>10s</option>#}
+                                        {#                                            <option>1s</option>#}
+                                        {#                                            <option>0.1s</option>#}
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <strong>State1:</strong>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    {#                                        <label>#}
+                                    {#                                            <strong>State1</strong>#}
+                                    {#                                        </label>#}
+                                    {#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+                                    <select
+                                            class="V_left" name="protein" style="width: 100px">
+
+                                        {#                                            <option>State 1</option>#}
+                                        {#                                            <option>State 2</option>#}
+                                        {% for lst in lists[1] %}
+                                            <option>{{ lst }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <strong>State2:</strong>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    {#                                        <label>#}
+                                    {#                                            <strong>State1</strong>#}
+                                    {#                                        </label>#}
+                                    {#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+                                    <select
+                                            class="V_left" name="protein" style="width: 100px">
+
+                                        {#                                            <option>State 1</option>#}
+                                        {#                                            <option>State 2</option>#}
+                                        {% for lst in lists[1] %}
+                                            <option>{{ lst }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+                        {#                            <li>#}
+                        {#                                <div style="display: flex;position: relative">#}
+                        {#                                    <strong>State2:</strong>#}
+                        {#                                    <div class="r-s-content" style="position: absolute;left: 150px">#}
+                        {#                                        <label>#}
+                        {#                                            <strong>State2</strong>#}
+                        {#                                        </label>#}
+                        {#                                        <input type="checkbox" id="state3" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </li>#}
+
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <strong>Colors:</strong>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    <div class="btn-group" style="margin-bottom: 0">
+                                        <!--  BOOTSTRAP DROPDOWN -->
+                                        <button type="button" class="btn btn-primary dropdown-toggle"
+                                                data-toggle="dropdown"
+                                                href="#"> Select <span class="caret"></span></button>
+                                        <ul class="dropdown-menu" style="width: fit-content; margin-bottom: 0">
+                                            <li class="pattern1"><input type="hidden" value="pattern1" name="colors"/><a
+                                                    href="javascript:void(0);">
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/000000.png"/></a>
+                                            </li>
+
+                                            <li><input type="hidden" value="pattern2" name="colors"/><a
+                                                    href="javascript:void(0);">
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/170E34.png"/> </a>
+                                            </li>
+
+                                            <li><input type="hidden" value="pattern3" name="colors"/><a
+                                                    href="javascript:void(0);">
+
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/511845.png"/> </a>
+                                            </li>
+
+                                            <li><input type="hidden" value="pattern4" name="colors"/><a
+                                                    href="javascript:void(0);">
+
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/BE3726.png"/> </a>
+                                            </li>
+
+                                            <li><input type="hidden" value="pattern5" name="colors"/><a
+                                                    href="javascript:void(0);">
+
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/C54129.png"/> </a>
+                                            </li>
+
+                                            <li><input type="hidden" value="pattern6" name="colors"/><a
+                                                    href="javascript:void(0);">
+
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/E34798.png"/> </a>
+                                            </li>
+
+                                            <li><input type="hidden" value="pattern7" name="colors"/><a
+                                                    href="javascript:void(0);">
+
+                                                <img style="width: 100%; height: 100%;"
+                                                     src="./static/image/FFE65D.png"/> </a>
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <strong>Significance:</strong>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    {#                                        <label>#}
+                                    {#                                            <strong>0.01</strong>#}
+                                    {#                                        </label>#}
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <div>P-value:</div>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    <input type="number" step=".1" name="min_diff" style="width: 100px">
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="display: flex;position: relative">
+                                <div>Simple size:</div>
+                                <div class="r-s-content" style="position: absolute;left: 150px">
+                                    <input type="number" step=".1" name="min_diff" style="width: 100px">
+                                </div>
+                            </div>
+                        </li>
 
 
+                        {#                            <li>#}
+                        {#                                <div style="display: flex;position: relative">#}
+                        {#                                    <strong>Min-difference (Da):</strong>#}
+                        {#                                    <div class="r-s-content" style="position: absolute;left: 150px">#}
+                        {#                                        <input type="number" step=".1" name="min_diff" style="width: 100px">#}
+                        {#                                    </div>#}
+                        {#                                </div>#}
+                        {#                            </li>#}
+                    </div>
 
-                    </ul>
-                    <div class="btn-list">
-                        <li class="V_right_w" style="position: absolute;right: 16px"><span>
+                    {#                        <li style="margin-top:0;">Symbol#}
+                    {#                            size&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input#}
+                    {#                                    id="rangeId" class="range" type="range" name="size" min="1" max="9" step="1"#}
+                    {#                                    value="2" oninput="rangeOutId.value = rangeId.value"/>#}
+                    {#                            <output name="rangeOut" id="rangeOutId">2</output>#}
+                    {#                        </li>#}
+                    {##}
+                    {#                        <li class="V_right_w" style="margin-bottom: 3px">Text size#}
+                    {#                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input#}
+                    {#                                    class="V_right" type="number" step="0.1" min="1" max="99" name="text_size"#}
+                    {#                                    style="margin-bottom: 5px"></li>#}
+                    {##}
+                    {#                        <li class="V_right_w" style="margin-top: 5px">Size of plot box &nbsp&nbsp&nbsp&nbsp&nbspX<span#}
+                    {#                                class="V_right"><input type="number" step="0.1" min="1" max="999" name="plot_X_size"> - Y&nbsp<input#}
+                    {#                                type="number" step="0.1" min="0" max="999" name="plot_Y_size"></span></li>#}
+                    {##}
+                    {#                        <li class="V_right_w"><strong>Significance Cutoffs</strong></li>#}
+                    {##}
+                    {#                        <li class="V_right_w"> p-value < &nbsp<input class="V_right" type="number" step="0.01" min="0"#}
+                    {#                                                                     max="9999" name="significance" value="0.01"></li>#}
+                    {#                        <li class="V_right_w"> Sample Size (n) &nbsp<input class="V_right" type="number" step="1"#}
+                    {#                                                                           min="3" max="9999" name="nsize" value="3">#}
+                    {#                        </li>#}
+                    {##}
+                    {#                        <li class="V_right_w">Min-difference&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input class="V_right"#}
+                    {#                                                                                                 type="number"#}
+                    {#                                                                                                 step="0.01" min="0"#}
+                    {#                                                                                                 max="9999"#}
+                    {#                                                                                                 name="min_dif"#}
+                    {#                                                                                                 value="0.5"#}
+                    {#                                                                                                 style="margin-top: 3px; margin-bottom: 3px">#}
+                    {#                        </li>#}
+                    {##}
+                    {#                        <li class="V_right_w" style="margin-top: 3px">Show list on plot#}
+                    {#                            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input id="show_list" class="V_right" type="checkbox"#}
+                    {#                                                                      name="show_list" style="margin-top: 8px"></li>#}
+
+
+                </ul>
+                <div class="btn-list">
+                    <li class="V_right_w" style="position: absolute;right: 16px"><span>
                             <button class="button btn-secondary btn-primary" type="submit"
                                     style="width: 5rem">Show</button></span></li>
 
-                        <li class="V_right_w" style="position: absolute;right: 16px"><span>
+                    <li class="V_right_w" style="position: absolute;right: 16px"><span>
                             <button class="button btn-secondary btn-primary" type="submit"
                                     style="">Export pml</button></span></li>
 
-                        <li class="V_right_w" style="position: absolute;right: 16px"><span>
+                    <li class="V_right_w" style="position: absolute;right: 16px"><span>
                             <button class="button btn-secondary btn-primary" type="submit"
                                     style="">Export puttake</button></span></li>
-                    </div>
                 </div>
-            </form>
+            </div>
+        </form>
 
         {% if plot_status == 'heatmap' %}
             <form action="/click_show_v" method="post">
@@ -996,7 +1019,7 @@
                     <ul class="div1" style="float: left">
                         <li>
                             <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
-                                class="V_left" name="protein" style="width: 100px">
+                                class="V_left" name="protein" style="width: 100px;position: absolute;left: 137px;">
 
                             {% for lst in lists[0] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -1006,7 +1029,7 @@
 
                         <li>
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
-                                                                                     style="width: 100px; margin-top: 5px">
+                                                                                     style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -1023,7 +1046,7 @@
                                 <option>{{ lst }}</option>{% endfor %}
                         </select></li>
 
-                        <li>
+                        <li style="margin-top: 1rem;">
                             State2
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
                                 class="V_left" name="state2" style="width: 100px">
@@ -1394,7 +1417,7 @@
                         <li>
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
                                                                                      value="{{ paras[3] }}"
-                                                                                     style="width: 100px; margin-top: 5px">
+                                                                                     style="position: absolute;left: 137px;width: 100px; margin-top: 5px">
                             {% if paras[3] is not string %}
                                 <option value="ALL"> All</option>
                             {% else %}
@@ -1428,7 +1451,7 @@
 
                         </select></li>
 
-                        <li class="V_right_w">
+                        <li style="margin-top: 1rem;" class="V_right_w">
                             State2
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
                                 class="V_left" name="state2" value="{{ paras[2] }}" style="width: 100px">
@@ -1735,7 +1758,7 @@
 
                         <li>
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
-                                                                                     style="width: 100px; margin-top: 5px">
+                                                                                     style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -1752,7 +1775,7 @@
                                 <option>{{ lst }}</option>{% endfor %}
                         </select></li>
 
-                        <li>
+                        <li style="margin-top: 1rem;">
                             State2
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
                                 class="V_left" name="state2" style="width: 100px">
@@ -2081,6 +2104,9 @@
             $("input[type='button']").css("padding", "4px 1rem");
             $(".button").addClass("btn");
             $(".button").toggleClass("btn-primary");
+            $("#d1 > ul.div1 > li:nth-child(8)").css('margin-top', 16)
+            $("#d1 > ul.div1 > li:nth-child(9)").css('margin-top', 16)
+            $("#d1 > ul.div1 > li:nth-child(9) input").css('float', 'right')
 
         })
     </script>
