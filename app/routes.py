@@ -1,7 +1,7 @@
 from app import app
-from flask import render_template, send_file,request,Flask
-from flask import render_template, flash, redirect, url_for,g
-from flask import  make_response, session
+from flask import render_template, send_file, request, Flask
+from flask import render_template, flash, redirect, url_for, g
+from flask import make_response, session
 import numpy as np
 import io
 from PIL import Image
@@ -12,6 +12,7 @@ import urllib.request
 from werkzeug.utils import secure_filename
 from pathlib import Path
 from flask import jsonify
+
 import glob
 import json
 import uuid
@@ -20,6 +21,7 @@ import datetime
 import csv
 from app import email
 from app import clean
+
 import time
 from datetime import datetime
 import atexit
@@ -27,32 +29,31 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import pandas as pd
 import pickle
 
-
-
 # add schedule task to remove temp files every 2 weeks and send ip list every 2 weeks
-alluser_folders = os.path.join(Path(app.root_path),'static/user_folders')
+alluser_folders = os.path.join(Path(app.root_path), 'static/user_folders')
 ipfilename = "iplist.csv"
-ip_folder = os.path.join(Path(app.root_path),'static/ip','iplist.csv')
+ip_folder = os.path.join(Path(app.root_path), 'static/ip', 'iplist.csv')
 scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_job(email.send_ip,trigger="interval", weeks=2, args =[app,ipfilename,ip_folder])
-scheduler.add_job(clean.remove_userfolder,trigger="interval", weeks=2, args =[alluser_folders])
+scheduler.add_job(email.send_ip, trigger="interval", weeks=2, args=[app, ipfilename, ip_folder])
+scheduler.add_job(clean.remove_userfolder, trigger="interval", weeks=2, args=[alluser_folders])
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
 
 
-
-
-
-
 ################################################################################################################################################
-@app.route('/',methods=['GET','POST'])
+@app.route('/sayhello', methods=['GET'])
+def say_hello():
+    return "<button>click me</button>"
+
+
+@app.route('/', methods=['GET', 'POST'])
 def ui():
     # track user ip and append to iplist.csv
     visitor_ip = request.remote_addr.encode()
-    ip_folder = os.path.join(Path(app.root_path),'static/ip','iplist.csv')
+    ip_folder = os.path.join(Path(app.root_path), 'static/ip', 'iplist.csv')
     visit_time = str(datetime.now()).encode()
-    with open(ip_folder,'ab') as file:
+    with open(ip_folder, 'ab') as file:
         file.write(visitor_ip + "  ".encode() + visit_time)
         file.write('\n'.encode())
 
@@ -60,7 +61,7 @@ def ui():
         if session['USERID'] is not None:
             print('at / ')
             print("session detected.")
-            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
             print("Folder path and name are set..")
             shutil.rmtree(app.config['USER_FOLDER'])
             print("Old folder deleted...")
@@ -71,17 +72,17 @@ def ui():
     except Exception:
         print("No session exist, create a new session")
         session['USERID'] = str(uuid.uuid4())
-        app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+        app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
         if not os.path.exists(app.config['USER_FOLDER']):
             os.mkdir(app.config['USER_FOLDER'])
 
+    return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
 
-    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
 
 ########################################################################################################################################
-@app.route('/upload_multi_files', methods=['GET','POST'])
+@app.route('/upload_multi_files', methods=['GET', 'POST'])
 def upload_multi_files():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
 
     if request.method == 'POST':
         # check if the post request has the file part
@@ -99,31 +100,30 @@ def upload_multi_files():
                 filename = secure_filename(file.filename)
                 print(filename)
                 count -= 1
-                file.save(os.path.join(app.config['USER_FOLDER'],filename))
+                file.save(os.path.join(app.config['USER_FOLDER'], filename))
                 filenames.append(filename)
             else:
                 flash('Allowed file types are csv')
-                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
-
-
+                return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
 
         try:
             names = reader.filesread(filenames)
             if names == 0:
                 flash("Wrong file format, try different csv files")
-                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+                return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
         except:
             flash("Invalid csv files uploaded, try different csv files")
-            return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+            return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
 
         session['FILENAME'] = filenames
 
-        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
+        with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
         session["USERFILESTATUS"] = "multiple"
-        return render_template('ui.html',lists = names,files=filenames,filestatus = session["USERFILESTATUS"],cnt=cnt)
+        return render_template('ui.html', lists=names, files=filenames, filestatus=session["USERFILESTATUS"], cnt=cnt)
 
-@app.route('/upload_single_file', methods=['GET','POST'])
+
+@app.route('/upload_single_file', methods=['GET', 'POST'])
 def upload_single_file():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
 
@@ -144,27 +144,23 @@ def upload_single_file():
                 names = reader.fileread(filename)
                 if names == 0:
                     flash("Wrong file format, try different csv files")
-                    return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+                    return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
             except:
                 flash("Invalid csv file uploaded, try a different csv file")
-                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+                return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
 
-
-
-            flash(filename + ' successfully uploaded','uploadnotice')
+            flash(filename + ' successfully uploaded', 'uploadnotice')
 
         else:
             flash('Allowed file types are csv')
-            return render_template('ui.html',lists=[['protein'],['state'],['time point']])
-        with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'wb') as f:
+            return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
+        with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'wb') as f:
             pickle.dump(names, f)
         return render_template('ui.html', lists=names, files=filename)
 
 
-
-
 ########################################################################################################################################
-@app.route('/click_show_h',methods=['GET', 'POST'])
+@app.route('/click_show_h', methods=['GET', 'POST'])
 def click_show_h():
     if request.method == 'POST':
         try:
@@ -173,7 +169,7 @@ def click_show_h():
             state2 = request.form.get("state2")
             time_point = "overwrite in function part"
             max = float(request.form.get("max"))
-            max_step= int(request.form.get("max_step"))
+            max_step = int(request.form.get("max_step"))
             negative = request.form.get("negative")
             color1 = request.form.get("color1")
             color2 = request.form.get("color2")
@@ -192,45 +188,45 @@ def click_show_h():
                 color = color2
                 session["COLOR"] = 2
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, min, min_step,
-                    time_point, negative, color, significance, sig_filter, rotation, nsize]
+                                               time_point, negative, color, significance, sig_filter, rotation, nsize]
             else:
                 color = color1
                 session["COLOR"] = 1
-                session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step,0.0,0,
-                    time_point, negative, color, significance, sig_filter, rotation, nsize]
+                session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), max, max_step, 0.0, 0,
+                                               time_point, negative, color, significance, sig_filter, rotation, nsize]
 
-
-            session["COLORLIST"] = [['r','g','b','o','y'],['rb','br','ob','bg']]
+            session["COLORLIST"] = [['r', 'g', 'b', 'o', 'y'], ['rb', 'br', 'ob', 'bg']]
             session["USERPLOTSTATUS"] = "heatmap"
 
         except:
-            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-            if os.path.exists(os.path.join(app.config['USER_FOLDER'],'names.pickle')):
-                flash("WARNING: Missing parameter or invalid input!!!",'error')
-                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
+            if os.path.exists(os.path.join(app.config['USER_FOLDER'], 'names.pickle')):
+                flash("WARNING: Missing parameter or invalid input!!!", 'error')
+                with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
                     names = pickle.load(f)
                 Data1 = names[-1]
                 Time_Points = names[-2]
                 filename = session['FILENAME']
                 session["USERPLOTSTATUS"] = "heatmap"
-                return render_template('ui.html',lists = names,files=filename)
+                return render_template('ui.html', lists=names, files=filename)
             else:
-                flash("WARNING: Please upload csv files",'error')
-                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+                flash("WARNING: Please upload csv files", 'error')
+                return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
 
         print(session['PASSEDPARAMETERS'])
 
     return redirect('/plot')
 
 
-
-
-@app.route('/click_show_v',methods=['GET', 'POST'])
+@app.route('/click_show_v', methods=['GET', 'POST'])
 def click_show_v():
+    if 'pbd_code' in request.form.keys():
+        return redirect('/plot')
+
     if request.method == 'POST':
         try:
-            with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
-                    names = pickle.load(f)
+            with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
+                names = pickle.load(f)
 
             protein = request.form.get("protein")
             state1 = request.form.get("state1")
@@ -270,65 +266,65 @@ def click_show_v():
                 elif color == "pattern7":
                     color = ['#FFE65D', '#FCB628', '#889756', '#527435', '#434E53', '#5B8B84']
 
-
-
-
                 session['PASSEDPARAMETERS'] = [str(protein), str(state1), str(state2), time_point, size,
-                X_scale_l,X_scale_r, Y_scale, interval, color, significance, min_dif, plotxsize, plotysize, showlist, textsize, nsize]
+                                               X_scale_l, X_scale_r, Y_scale, interval, color, significance, min_dif,
+                                               plotxsize, plotysize, showlist, textsize, nsize]
                 print(session["PASSEDPARAMETERS"])
                 session["USERPLOTSTATUS"] = "volcanoplot"
 
             else:
-                flash("Missing Color pattern","error")
-                app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+                flash("Missing Color pattern", "error")
+                app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
 
-                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+                with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
                     names = pickle.load(f)
                 Data1 = names[-1]
                 Time_Points = names[-2]
                 filename = session['FILENAME']
                 session["USERPLOTSTATUS"] = "volcanoplot"
-                return render_template('ui.html',lists = names,files=filename)
+                return render_template('ui.html', lists=names, files=filename)
 
 
 
         except:
-            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-            if os.path.exists(os.path.join(app.config['USER_FOLDER'],'names.pickle')):
-                flash("Missing or invalid parameter input","error")
-                with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+            app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
+            if os.path.exists(os.path.join(app.config['USER_FOLDER'], 'names.pickle')):
+                flash("Missing or invalid parameter input", "error")
+                with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
                     names = pickle.load(f)
                 Data1 = names[-1]
                 Time_Points = names[-2]
                 filename = session['FILENAME']
                 session["USERPLOTSTATUS"] = "volcanoplot"
-                return render_template('ui.html',lists = names,files=filename)
+                return render_template('ui.html', lists=names, files=filename)
             else:
-                flash("WARNING: Please upload csv files",'error')
-                return render_template('ui.html',lists=[['protein'],['state'],['time point']])
+                flash("WARNING: Please upload csv files", 'error')
+                return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
 
         return redirect('/plot')
 
 
 ###################################################################################################################################################################################
 
-@app.route('/plot',methods=['GET','POST'])
+@app.route('/plot', methods=['GET', 'POST'])
 def plot():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-    with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
+    with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
         names = pickle.load(f)
     Data1 = names[-1]
     Time_Points = names[-2]
-    Data1.to_csv(os.path.join(app.config['USER_FOLDER'],'For_plot.csv'), index=False, sep=',')
+    Data1.to_csv(os.path.join(app.config['USER_FOLDER'], 'For_plot.csv'), index=False, sep=',')
 
     if session["USERPLOTSTATUS"] == "heatmap":
         try:
-            K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'],Data1, session['PASSEDPARAMETERS'][0],
-            session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
-            f = session['PASSEDPARAMETERS'][11], pp = session['PASSEDPARAMETERS'][10],
-            rotation=session['PASSEDPARAMETERS'][12], max = session['PASSEDPARAMETERS'][3],step = session['PASSEDPARAMETERS'][4],
-            color=session['PASSEDPARAMETERS'][9], min = session['PASSEDPARAMETERS'][5],
-            step2 = session['PASSEDPARAMETERS'][6], file_name = 'Plot', nsize=session['PASSEDPARAMETERS'][13])
+            K = HDX_Plots_for_web.heatmap(app.config['USER_FOLDER'], Data1, session['PASSEDPARAMETERS'][0],
+                                          session['PASSEDPARAMETERS'][1], session['PASSEDPARAMETERS'][2], Time_Points,
+                                          f=session['PASSEDPARAMETERS'][11], pp=session['PASSEDPARAMETERS'][10],
+                                          rotation=session['PASSEDPARAMETERS'][12], max=session['PASSEDPARAMETERS'][3],
+                                          step=session['PASSEDPARAMETERS'][4],
+                                          color=session['PASSEDPARAMETERS'][9], min=session['PASSEDPARAMETERS'][5],
+                                          step2=session['PASSEDPARAMETERS'][6], file_name='Plot',
+                                          nsize=session['PASSEDPARAMETERS'][13])
             print(K)
             return redirect('/replot')
         except:
@@ -341,12 +337,17 @@ def plot():
                 timep = Time_Points
             else:
                 timep = [session['PASSEDPARAMETERS'][3]]
-            a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, timep, session['PASSEDPARAMETERS'][0], session['PASSEDPARAMETERS'][1],
-            session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4], session['PASSEDPARAMETERS'][9], file_name = 'Plot', md = session['PASSEDPARAMETERS'][11],
-            ma = session['PASSEDPARAMETERS'][10], msi = session['PASSEDPARAMETERS'][8], xmin = session['PASSEDPARAMETERS'][5],
-            xmax = session['PASSEDPARAMETERS'][6], ymin = session['PASSEDPARAMETERS'][7],
-            sizeX = session['PASSEDPARAMETERS'][12],sizeY = session['PASSEDPARAMETERS'][13],
-            lif = session['PASSEDPARAMETERS'][14], tsize= session['PASSEDPARAMETERS'][15], nsize = session['PASSEDPARAMETERS'][16])
+            a = HDX_Plots_for_web.v(app.config['USER_FOLDER'], Data1, timep, session['PASSEDPARAMETERS'][0],
+                                    session['PASSEDPARAMETERS'][1],
+                                    session['PASSEDPARAMETERS'][2], session['PASSEDPARAMETERS'][4],
+                                    session['PASSEDPARAMETERS'][9], file_name='Plot',
+                                    md=session['PASSEDPARAMETERS'][11],
+                                    ma=session['PASSEDPARAMETERS'][10], msi=session['PASSEDPARAMETERS'][8],
+                                    xmin=session['PASSEDPARAMETERS'][5],
+                                    xmax=session['PASSEDPARAMETERS'][6], ymin=session['PASSEDPARAMETERS'][7],
+                                    sizeX=session['PASSEDPARAMETERS'][12], sizeY=session['PASSEDPARAMETERS'][13],
+                                    lif=session['PASSEDPARAMETERS'][14], tsize=session['PASSEDPARAMETERS'][15],
+                                    nsize=session['PASSEDPARAMETERS'][16])
             return redirect('/replot')
         except:
             print("Function not impelemented properly")
@@ -356,67 +357,80 @@ def plot():
 ####################################################################################################################################################################################
 
 
-@app.route('/replot',methods=['GET','POST'])
+@app.route('/replot', methods=['GET', 'POST'])
 def replot():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
-    with open(os.path.join(app.config['USER_FOLDER'],'names.pickle'), 'rb') as f:
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
+    with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
         names = pickle.load(f)
         try:
-            return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'], cl_list = session["COLORLIST"] )
+            return render_template('ui.html', lists=names, files=session['FILENAME'],
+                                   plot_status=session["USERPLOTSTATUS"], paras=session['PASSEDPARAMETERS'],
+                                   cl_list=session["COLORLIST"])
         except:
-            return render_template('ui.html',lists = names,files=session['FILENAME'],plot_status = session["USERPLOTSTATUS"], paras =session['PASSEDPARAMETERS'], cl_list = ["epmty"] )
+            return render_template('ui.html', lists=names, files=session['FILENAME'],
+                                   plot_status=session["USERPLOTSTATUS"], paras=session['PASSEDPARAMETERS'],
+                                   cl_list=["epmty"])
+
 
 ##########################################################################################################################################################
 
-@app.route('/plotshow',methods=['GET','POST'])
+@app.route('/plotshow', methods=['GET', 'POST'])
 def plotshow():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
     file_png = 'Plot.png'
 
-    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_png)):
-        return send_file(os.path.join(app.config['USER_FOLDER'],file_png), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.png')
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'], file_png)):
+        return send_file(os.path.join(app.config['USER_FOLDER'], file_png), mimetype='image/png', as_attachment=True,
+                         cache_timeout=0, attachment_filename='HDX_Plot.png')
     else:
-        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
+        return send_file(os.path.join('./static/image', 'UTD.png'), mimetype='image/png', as_attachment=True,
+                         cache_timeout=0, attachment_filename='Sample_Icon.png')
 
 
-@app.route('/downloadcsv',methods=['GET','POST'])
+@app.route('/downloadcsv', methods=['GET', 'POST'])
 def downloadcsv():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
     file_csv = 'For_plot.csv'
 
-    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_csv)):
-        return send_file(os.path.join(app.config['USER_FOLDER'],file_csv), mimetype='text/csv', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.csv')
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'], file_csv)):
+        return send_file(os.path.join(app.config['USER_FOLDER'], file_csv), mimetype='text/csv', as_attachment=True,
+                         cache_timeout=0, attachment_filename='HDX_Plot.csv')
     else:
-        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
+        return send_file(os.path.join('./static/image', 'UTD.png'), mimetype='image/png', as_attachment=True,
+                         cache_timeout=0, attachment_filename='Sample_Icon.png')
 
 
-@app.route('/downloadeps',methods=['GET','POST'])
+@app.route('/downloadeps', methods=['GET', 'POST'])
 def downloadeps():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path),'static/user_folders',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
     file_eps = 'Plot.eps'
 
-    if os.path.exists(os.path.join(app.config['USER_FOLDER'],file_eps)):
-        return send_file(os.path.join(app.config['USER_FOLDER'],file_eps), mimetype='image/eps', as_attachment=True,cache_timeout=0,attachment_filename='HDX_Plot.eps')
+    if os.path.exists(os.path.join(app.config['USER_FOLDER'], file_eps)):
+        return send_file(os.path.join(app.config['USER_FOLDER'], file_eps), mimetype='image/eps', as_attachment=True,
+                         cache_timeout=0, attachment_filename='HDX_Plot.eps')
     else:
-        return send_file(os.path.join('./static/image','UTD.png'), mimetype='image/png', as_attachment=True,cache_timeout=0,attachment_filename='Sample_Icon.png')
+        return send_file(os.path.join('./static/image', 'UTD.png'), mimetype='image/png', as_attachment=True,
+                         cache_timeout=0, attachment_filename='Sample_Icon.png')
 
 
-@app.route('/downloaddemo',methods=['GET','POST'])
+@app.route('/downloaddemo', methods=['GET', 'POST'])
 def downloaddemo():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static')
     file_demo = 'Demofile.csv'
 
     return send_file(os.path.join(app.config['USER_FOLDER'], file_demo), mimetype='text/csv', as_attachment=True,
-              cache_timeout=0, attachment_filename='Demofile.csv')
+                     cache_timeout=0, attachment_filename='Demofile.csv')
 
 
-@app.route('/downloadlist',methods=['GET','POST'])
+@app.route('/downloadlist', methods=['GET', 'POST'])
 def downloadlist():
-    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders',session['USERID'])
+    app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
     file_list = 'list.csv'
 
     return send_file(os.path.join(app.config['USER_FOLDER'], file_list), mimetype='text/csv', as_attachment=True,
-              cache_timeout=0, attachment_filename='list.csv')
+                     cache_timeout=0, attachment_filename='list.csv')
+
+
 ###############################################################################################################################################################################
 
 @app.after_request
@@ -432,14 +446,9 @@ def add_header(r):
     return r
 
 
-
-
-
-
 def allowed_file(filename):
-    app.config['ALLOWED_EXTENSIONS'] = {'csv','txt'}
+    app.config['ALLOWED_EXTENSIONS'] = {'csv', 'txt'}
     return '.' in filename and \
-        filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-
+           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 ###############################################################################################################################################################
