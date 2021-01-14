@@ -47,7 +47,12 @@ def say_hello():
     return "<button>click me</button>"
 
 
+<<<<<<< HEAD
 @app.route('/', methods=['GET', 'POST'])
+=======
+################################################################################################################################################
+@app.route('/',methods=['GET','POST'])
+>>>>>>> a48eed79fc9cf523a895fb976393f4eead54acae
 def ui():
     # track user ip and append to iplist.csv
     visitor_ip = request.remote_addr.encode()
