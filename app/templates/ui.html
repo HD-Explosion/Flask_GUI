@@ -567,7 +567,7 @@
 
     <div id="plot_status" s="{{ plot_status }}" style="display: none"><p> {{ plot_status }}</p></div>
 
-    <div class="box" style="left:20px;top:385px;height:400px">
+    <div class="box" style="left:20px;top:385px;height:520px">
         <div class="div1">
             <h4><strong>Parameters settings</strong></h4>
         </div>
@@ -655,6 +655,10 @@
 
         <form action="/click_show_v" method="post">
             <div id="d3" style="display: none">
+                <div style="display: flex">
+                    <strong style="margin-right: 1rem;">Sequence: </strong>
+                    <textarea rows="3" style="flex: 1;resize: none"></textarea>
+                </div>
                 <ul class="div1 left-side-bar" style="float: left">
                     <li>
                         <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
@@ -677,7 +681,7 @@
                         <input type="checkbox" id="s_ss" style="zoom: 2;float: right">
                     </li>
 
-                    <li><strong>PBD code:</strong>
+                    <li><strong>PDB:</strong>
                         <input class="V_left" type="text" step="0.01" min="0" max="9999"
                                name="pbd_code" style="margin-top: 3px;width:100px">
 
@@ -705,13 +709,22 @@
                         <input type="checkbox" id="s_upt" style="zoom: 2;float: right">
 
                     </li>
+                    <li>
+                        <strong>AAs per row: </strong>
+                        <input style="margin-top: 3px;width:100px" class="V_left" type="number" name="aas_per_row">
+                    </li>
+                    <li>
+                        <strong>Bar Height: </strong>
+                        <input class="V_left" type="range" min="1" max="10" value="1" oninput="barHeightShow.value = this.value" step="1" name="aas_per_row">
+                        <output style="margin: 0 .5rem;" id="barHeightShow">1</output>
+                    </li>
                     <li style="margin-top: 8px;display: inline-block;width: 198px"></li>
 
 
                 </ul>
 
 
-                <ul class="div3" style="position: absolute;right: 200px;top: 77px">
+                <ul class="div3" style="position: absolute;right: 200px;top: 147px">
 
 
                     <li id="color" class="V_right_w">
@@ -920,19 +933,35 @@
                             </div>
                         </li>
 
-                        <li>
-                            <div style="display: flex;position: relative">
-                                <strong>Significance:</strong>
-                                <div class="r-s-content" style="position: absolute;left: 150px">
+{#                        <li>#}
+{#                            <div style="display: flex;position: relative">#}
+{#                                <strong>Significance:</strong>#}
+{#                                <div class="r-s-content" style="position: absolute;left: 150px">#}
                                     {#                                        <label>#}
                                     {#                                            <strong>0.01</strong>#}
                                     {#                                        </label>#}
-                                </div>
-                            </div>
-                        </li>
+{#                                </div>#}
+{#                            </div>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <div style="display: flex;position: relative">#}
+{#                                <div>P-value:</div>#}
+{#                                <div class="r-s-content" style="position: absolute;left: 150px">#}
+{#                                    <input type="number" step=".1" name="min_diff" style="width: 100px">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </li>#}
+{#                        <li>#}
+{#                            <div style="display: flex;position: relative">#}
+{#                                <div>Simple size:</div>#}
+{#                                <div class="r-s-content" style="position: absolute;left: 150px">#}
+{#                                    <input type="number" step=".1" name="min_diff" style="width: 100px">#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </li>#}
                         <li>
                             <div style="display: flex;position: relative">
-                                <div>P-value:</div>
+                                <div>Min:</div>
                                 <div class="r-s-content" style="position: absolute;left: 150px">
                                     <input type="number" step=".1" name="min_diff" style="width: 100px">
                                 </div>
@@ -940,7 +969,7 @@
                         </li>
                         <li>
                             <div style="display: flex;position: relative">
-                                <div>Simple size:</div>
+                                <div>Max:</div>
                                 <div class="r-s-content" style="position: absolute;left: 150px">
                                     <input type="number" step=".1" name="min_diff" style="width: 100px">
                                 </div>
@@ -2088,7 +2117,7 @@
     </div>
 
 
-    <footer class="footnotes alert alert-dark">
+    <footer class="footnotes alert alert-dark" style="margin-top: 150px;">
         <p> Currently running HD-eXplosion v1.2.</p>
         <p> Please acknowledge Naifu Zhang and Sheena D’Arcy of The University of Texas at Dallas.</p>
         <p> If you have any question or feedback, please contact to email <a href="mailto:darcylabweb@gmail.com">darcylabweb@gmail.com</a>
