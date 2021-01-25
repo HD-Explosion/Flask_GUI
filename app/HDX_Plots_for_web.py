@@ -473,9 +473,9 @@ def get_coverage(df, sec, protein):
             k += 1
     cov = k / len(sec)
     return cov, red, avle
-    
 
-def cm(df, pdb_fn, chianid, protein, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, min=-1, max=1):
+
+def cm(UserFolder, df, pdb_fn, chianid, protein, sec_h, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, file_name, min=-1, max=1):
     print(get_coverage(df, sec, protein), len(sec))
     crv = 0.05  # Set the curve for cylinders
     ss = get_ss(chain_id, pdb_fn)  # Get secondary structure from PDB file
@@ -489,7 +489,7 @@ def cm(df, pdb_fn, chianid, protein, sec, wi, bh, ssp, state1, state2, timepoint
     hps = 0.08  # Height of the num or seq
     peps = list(df[protein])  # Getting the peptides draw on the cm
     ot = True  # The control of the the sequence on top or bottom
-    sec_h = True  # The control of if hide the sequence
+    # sec_h = True  # The control of if hide the sequence
     camp = mpl.cm.get_cmap('RdBu')  # Function for get color
     norml = mpl.colors.Normalize(vmin=min, vmax=max)  # Function for normalize data
     # Get difference between two states
@@ -741,5 +741,6 @@ def cm(df, pdb_fn, chianid, protein, sec, wi, bh, ssp, state1, state2, timepoint
                     ax.text(emp_x / wx + (num % wi) * ssp / wx, py - hps / hy, sec[num], size=8)
                 num += 1
             py -= (hps * 2 + 0.04) / hy  # Set the position for the sec
-    plt.savefig('Mtr4.eps', format='eps', dpi=100)
+    plt.savefig(os.path.join(UserFolder, file_name + ".eps"), format='eps', dpi=100)
+    plt.savefig(os.path.join(UserFolder, file_name + ".png"), format='png', dpi=500)
     return 0
