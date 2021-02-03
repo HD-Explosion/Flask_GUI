@@ -653,11 +653,11 @@
             </form>
         {% endif %}
 
-        <form action="/click_show_v" method="post">
+        <form action="/click_show_v" method="post" id="cm_form">
             <div id="d3" style="display: none">
                 <div style="display: flex">
                     <strong style="margin-right: 1rem;">Sequence: </strong>
-                    <textarea rows="3" style="flex: 1;resize: none"></textarea>
+                    <textarea name="seq" rows="3" style="flex: 1;resize: none"></textarea>
                 </div>
                 <ul class="div1 left-side-bar" style="float: left">
                     <li>
@@ -678,7 +678,7 @@
                         <strong>Show ss:</strong>
                         {#                            <input class="V_left" type="number" step="0.01" min="0" max="9999"#}
                         {#                                                           name="show_ss" style="margin-top: 3px">#}
-                        <input type="checkbox" id="s_ss" style="zoom: 2;float: right">
+                        <input type="checkbox" name="show_ss" id="s_ss" style="zoom: 2;float: right">
                     </li>
 
                     <li><strong>PDB:</strong>
@@ -715,7 +715,7 @@
                     </li>
                     <li>
                         <strong>Bar Height: </strong>
-                        <input class="V_left" type="range" min="1" max="10" value="1" oninput="barHeightShow.value = this.value" step="1" name="aas_per_row">
+                        <input class="V_left" type="range" min="1" max="10" value="1" oninput="barHeightShow.value = this.value" step="1" name="bar_height">
                         <output style="margin: 0 .5rem;" id="barHeightShow">1</output>
                     </li>
                     <li style="margin-top: 8px;display: inline-block;width: 198px"></li>
@@ -802,7 +802,7 @@
                                     {#                                            <strong>100s</strong>#}
                                     {#                                        </label>#}
                                     <select
-                                            class="V_left" name="protein" style="width: 100px">
+                                            class="V_left" name="time_points" style="width: 100px">
                                         <option>All</option>
                                         {% for lst in lists[2] %}
                                             <option>{{ lst }}</option>
@@ -826,7 +826,7 @@
                                     {#                                        </label>#}
                                     {#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
                                     <select
-                                            class="V_left" name="protein" style="width: 100px">
+                                            class="V_left" name="state1" style="width: 100px">
 
                                         {#                                            <option>State 1</option>#}
                                         {#                                            <option>State 2</option>#}
@@ -846,7 +846,7 @@
                                     {#                                        </label>#}
                                     {#                                        <input type="checkbox" id="state1" style="zoom: 2;position: absolute;left: 38px;top: -2px">#}
                                     <select
-                                            class="V_left" name="protein" style="width: 100px">
+                                            class="V_left" name="state2" style="width: 100px">
 
                                         {#                                            <option>State 1</option>#}
                                         {#                                            <option>State 2</option>#}
@@ -971,7 +971,7 @@
                             <div style="display: flex;position: relative">
                                 <div>Max:</div>
                                 <div class="r-s-content" style="position: absolute;left: 150px">
-                                    <input type="number" step=".1" name="min_diff" style="width: 100px">
+                                    <input type="number" step=".1" name="max_diff" style="width: 100px">
                                 </div>
                             </div>
                         </li>
@@ -1028,7 +1028,7 @@
                 </ul>
                 <div class="btn-list">
                     <li class="V_right_w" style="position: absolute;right: 16px"><span>
-                            <button class="button btn-secondary btn-primary" type="submit"
+                            <button class="button btn-secondary btn-primary" type="button" onclick="submit_data()"
                                     style="width: 5rem">Show</button></span></li>
 
                     <li class="V_right_w" style="position: absolute;right: 16px"><span>
@@ -2138,6 +2138,26 @@
             $("#d1 > ul.div1 > li:nth-child(9) input").css('float', 'right')
 
         })
+
+        function collectFormData(selector) {
+            let data = {};
+            let value = $(selector).serializeArray();
+            $.each(value, function (index, item) {
+                data[item.name] = item.value;
+            });
+            return data
+        }
+
+        function submit_data() {
+            console.log(collectFormData('#cm_form'))
+            $.post(
+                '/click_show_cm/',
+                data,
+                function (data){
+                    $('#graphchart').attr('src', data);
+                }
+            )
+        }
     </script>
     </body>
 

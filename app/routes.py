@@ -309,6 +309,56 @@ def click_show_v():
         return redirect('/plot')
 
 
+# @app.route('/click_show_cm', methods=['GET', 'POST'])
+# def click_show_cm():
+#     form = request.form
+#     with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
+#         names = pickle.load(f)
+#     Data1 = names[-1]
+#     paths = HDX_Plots_for_web.cm(
+#         os.path.join(alluser_folders, session['USERID']),Data1, form.get("pbd_code"), form.get('chain_id'),form.get('protein'),
+#         form.get('seq'), form.get('aas_per_row'), 155,float(form.get('bar_height')), .1,form.get('state1'),
+#         form.get('state2'), 1000, ['10', '100'], form.get('min_diff'), form.get('max_diff'),
+#     )
+#     return jsonify(paths)
+
+@app.route('/click_show_cm', methods=['GET', 'POST'])
+def click_show_cm():
+
+    # all data from user, eg:
+    # ******************************
+    # aas_per_row: "155"
+    # bar_height: "4"
+    # chain_id: "RTT109"
+    # color: "pattern1"
+    # colors: "pattern7"
+    # max_diff: "0.2"
+    # min_diff: "0.2"
+    # pbd_code: "2xgj.pdb"
+    # protein: "Protein1"
+    # seq: "DSTDLFDVFEETPVELPTDSNGEKNADTNVGDTPDHTQDKKHGLEEEKEEHEENNSENKKIKSNKSKTEDKNKKVVVPVLADSFEQEASREVDASKGLTNSETLQVEQDGKVRLSHQVRHQVALPPNYDYTPIAEHKRVNEARTYPFTLDPFQDTAISCIDRGESVLVSAHTSAGKTVVAEYAIAQSLKNKQRVIYTSPIKALSNQKYRELLAEFGDVGLMTGDITINPDAGCLVMTTEILRSMLYRGSEVMREVAWVIFDEVHYMRDKERGVVWEETIILLPDKVRYVFLSATIPNAMEFAEWICKIHSQPCHIVYTNFRPTPLQHYLFPAHGDGIYLVVDEKSTFREENFQKAMASISNQIGDDPNSTDSRGKKGQTYKGGSAKGDAKGDIYKIVKMIWKKKYNPVIVFSFSKRDCEELALKMSKLDFNSDDEKEALTKIFNNAIALLPETDRELPQIKHILPLLRRGIGIHHSGLLPILKEVIEILFQEGFLKVLFATETFSIGLNMPAKTVVFTSVRKWDGQQFRWVSGGEYIQMSGRAGRRGLDDRGIVIMMIDEKMEPQVAKGMVKGQADRLDSAFHLGYNMILNLMRVEGISPEFMLEHSFFQFQNVISVPVMEKKLAELKKDFDGIEVEDEENVKEYHEIEQAIKGYREDVRQVVTHPANALSFLQPGRLVEISVNGKDNYGWGAVVDFAKRINKRNPSAVYTDHESYIVNVVVNTMYIDSPVNLLKPFNPTLPEGIRPAEEGEKSICAVIPITLDSIKSIGNLRLYMPKDIRASGQKETVGKSLREVNRRFPDGIPVLDPVKNMKIEDEDFLKLMKKIDVLNTKLSSNPLTNSMRLEELYGKYSRKHDLHEDMKQLKRKISESQAVIQLDDLRRRKRVLRRLGFCTPNDIIELKGRVACEISSGDELLLTELIFNGNFNELKPEQAAALLSCFAFQERCKEAPRLKPELAEPLKAMREIAAKIAKIMKDSKIEVVEKDYVESFRHELMEVVYEWCRGATFTQICKMTDVYEGSLIRMFKRLEELVKELVDVANTIGNSSLKEKMEAVLKLIHRDIVSAGSLYL"
+    # show_ss: "on"
+    # state1: "State2"
+    # state2: "State2"
+    # time_points: "All"
+    # ******************************
+
+    # 1. show data
+    form = request.form
+    print(form)
+
+    # 2. plot
+    ...
+
+    # 3. update link of ['plotshow', '/downloadeps']
+    ...
+
+    # 4. :return: picture url(png), eg:
+    # /static/simple.png
+
+
+    return '/static/simpleeeeeeeee.png'
+
 ###################################################################################################################################################################################
 
 @app.route('/plot', methods=['GET', 'POST'])
