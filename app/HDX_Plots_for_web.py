@@ -3,7 +3,12 @@ from numpy import *
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
+
 mpl.use('Agg')
+
+import sys
+
+sys.path.append('/root/new_daily/dialy-test/notes/program/newGit/lib/python/')
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import matplotlib.gridspec as gridspec
@@ -21,7 +26,6 @@ from pymol import cmd
 from pymol import stored
 import matplotlib.path as mpath
 import matplotlib.patches as mpatches
-
 
 
 def wood(df, State1, State2, Time_point):
@@ -475,10 +479,12 @@ def get_coverage(df, sec, protein):
     return cov, red, avle
 
 
-def cm(UserFolder, df, pdb_fn, chianid, protein, sec_h, sec, wi, bh, ssp, state1, state2, timepoint, timepoints, file_name, min=-1, max=1):
+def cm(UserFolder, df, pdb_fn, chianid, protein, sec_h,
+       sec, wi, bh, ssp, state1, state2, timepoint, timepoints, file_name,
+       min=-1, max=1):
     print(get_coverage(df, sec, protein), len(sec))
     crv = 0.05  # Set the curve for cylinders
-    ss = get_ss(chain_id, pdb_fn)  # Get secondary structure from PDB file
+    ss = get_ss(chianid, pdb_fn)  # Get secondary structure from PDB file
     ss_w = 0.1
     space = 0.01  # Set space between peptide
     num = 0  # Setting the sequence number
@@ -741,6 +747,8 @@ def cm(UserFolder, df, pdb_fn, chianid, protein, sec_h, sec, wi, bh, ssp, state1
                     ax.text(emp_x / wx + (num % wi) * ssp / wx, py - hps / hy, sec[num], size=8)
                 num += 1
             py -= (hps * 2 + 0.04) / hy  # Set the position for the sec
-    plt.savefig(os.path.join(UserFolder, file_name + ".eps"), format='eps', dpi=100)
-    plt.savefig(os.path.join(UserFolder, file_name + ".png"), format='png', dpi=500)
+    p0 = os.path.join(UserFolder, file_name + ".eps")
+    p1 = os.path.join(UserFolder, file_name + ".png")
+    plt.savefig(p0, format='eps', dpi=100)
+    plt.savefig(p1, format='png', dpi=500)
     return 0
