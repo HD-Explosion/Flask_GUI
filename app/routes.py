@@ -346,11 +346,13 @@ def click_show_cm():
     # 1. show data
     form = request.form
     print(form)
-
+    with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
+        names = pickle.load(f)
+    Data1 = names[-1]
     # 2. plot
     sec = form.get('seq').replace(" ", "").replace('\n', '').replace('\r', '')
     a = HDX_Plots_for_web.cm(os.path.join(alluser_folders, session['USERID']),Data1, form.get("pbd_code"), form.get('chain_id'),form.get('protein'),
-            form.get('seq'), form.get('aas_per_row'), 155,float(form.get('bar_height')), .1,form.get('state1'),
+            form.get('show_ss'), sec, form.get('aas_per_row'),float(form.get('bar_height')), .1,form.get('state1'),
             form.get('state2'), 1000, ['10', '100'], form.get('min_diff'), form.get('max_diff'))
 
     # 3. update link of ['plotshow', '/downloadeps']
