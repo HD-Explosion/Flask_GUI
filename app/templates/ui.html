@@ -2149,9 +2149,9 @@
         }
 
         function submit_data() {
-            console.log(collectFormData('#cm_form'))
+            let data=(collectFormData('#cm_form'))
             $.post(
-                '/click_show_cm/',
+                '/click_show_cm',
                 data,
                 function (data){
                     $('#graphchart').attr('src', data);
