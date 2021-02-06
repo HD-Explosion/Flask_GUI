@@ -26,6 +26,7 @@ from pymol import cmd
 from pymol import stored
 import matplotlib.path as mpath
 import matplotlib.patches as mpatches
+import matplotlib.lines as lines
 
 
 def wood(df, State1, State2, Time_point):
@@ -435,6 +436,7 @@ def heatmap(UserFolder,df, protien, State1, State2, Time_points,f = None,pp = 0.
 
 
 def get_ss(id, file_n=''):
+    print(file_n)
     cmd.fetch(file_n)
     cmd.remove('not chain ' + id)
     stored.resi = []
@@ -482,7 +484,7 @@ def get_coverage(df, sec, protein):
 def cm(UserFolder, df, pdb_fn, chianid, protein, sec_h,
        sec, wi, bh, ssp, state1, state2, timepoint, timepoints, file_name,
        min=-1, max=1):
-    print(get_coverage(df, sec, protein), len(sec))
+    # print(get_coverage(df, sec, protein), len(sec))
     crv = 0.05  # Set the curve for cylinders
     ss = get_ss(chianid, pdb_fn)  # Get secondary structure from PDB file
     ss_w = 0.1
@@ -502,15 +504,16 @@ def cm(UserFolder, df, pdb_fn, chianid, protein, sec_h,
     if timepoint == 'avg':
         dif = np.empty((0, len(peps)), float)
         for t in timepoints:
-            dif = np.append(dif, [(np.array(float(df[protein + '_' + state2 + '_' + t])) - np.array(float(df[protein + '_' + state1 + '_' + t])))
-                       / np.array(float(df[protein + '_MaxUptake']))], axis=0)
+            dif = np.append(dif, [(np.array(float(df[protein + '_' + state2 + '_' + t][:len(peps)])) - np.array(float(df[protein + '_' + state1 + '_' + t][:len(peps)])))
+                       / np.array(float(df[protein + '_MaxUptake'][:len(peps)]))], axis=0)
         dif = np.mean(dif, axis=0)
-    elif timepoint == 'all':
+    elif timepoint == 'All':
         dif = np.zeros(len(peps), float)
         for t in timepoints:
-            dif = dif + (np.array(df[protein + '_' + state2 + '_' + t], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + t], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
+            dif = dif + (np.array(df[protein + '_' + state2 + '_' + t][:len(peps)], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + t][:len(peps)], dtype=np.float))/np.array(df[protein + '_MaxUptake'][:len(peps)], dtype=np.float)
     else:
-        dif = (np.array(df[protein + '_' + state2 + '_' + timepoint], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + timepoint], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
+        print(df[protein + '_' + state2 + '_' + timepoint][:len(peps)])
+        dif = (np.array(df[protein + '_' + state2 + '_' + timepoint][:len(peps)], dtype=np.float) - np.array(df[protein + '_' + state1 + '_' + timepoint][:len(peps)], dtype=np.float))/np.array(df[protein + '_MaxUptake'], dtype=np.float)
     dif = dict(zip(peps, list(dif)))
     while np.core.numeric.NaN in peps or nan in peps:
         peps.remove(np.core.numeric.NaN)
