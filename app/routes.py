@@ -374,7 +374,7 @@ def click_show_cm():
     print(path)
     # return send_file(os.path.join(app.config['USER_FOLDER'], file_png), mimetype='image/png', as_attachment=True,
     #                  cache_timeout=0, attachment_filename='HDX_Plot.png')
-    return path
+    return "/static/user_folders/" + session['USERID'] + "/" + file_png
     # return jsonify({'src': path})
     # 4. :return: picture url(png), eg:
     # /static/simple.png
