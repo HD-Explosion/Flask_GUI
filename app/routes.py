@@ -82,7 +82,14 @@ def ui():
             os.mkdir(app.config['USER_FOLDER'])
 
     return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
-
+    
+def af_request(resp):
+    resp = make_response(resp)
+    resp.headers['Access-Control-Allow-Credentials'] = 'true'
+    resp.headers['Access-Control-Allow-Origin'] = request.environ['HTTP_ORIGIN']
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,POST'
+    resp.headers['Access-Control-Allow-Headers'] = 'x-requested-with,content-type'
+    return resp
 
 ########################################################################################################################################
 @app.route('/upload_multi_files', methods=['GET', 'POST'])
@@ -362,10 +369,13 @@ def click_show_cm():
     ...
     print("test...")
     file_png = "-1.png"
+    path = str(os.path.join(app.config['USER_FOLDER'], file_png)).replace("/", "\\")
     print(os.path.join(app.config['USER_FOLDER'], file_png))
+    print(path)
     # return send_file(os.path.join(app.config['USER_FOLDER'], file_png), mimetype='image/png', as_attachment=True,
     #                  cache_timeout=0, attachment_filename='HDX_Plot.png')
-    return jsonify({'src': os.path.join(app.config['USER_FOLDER'], file_png)})
+
+    return jsonify({'src': path})
     # 4. :return: picture url(png), eg:
     # /static/simple.png
 
