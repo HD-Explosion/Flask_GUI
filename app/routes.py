@@ -342,10 +342,11 @@ def click_show_cm():
     # state2: "State2"
     # time_points: "All"
     # ******************************
-
+    ####
     # 1. show data
     form = request.form
     print(form)
+    # print(app.config['USER_FOLDER'])
     with open(os.path.join(app.config['USER_FOLDER'], 'names.pickle'), 'rb') as f:
         names = pickle.load(f)
     Data1 = names[-1]
@@ -354,15 +355,22 @@ def click_show_cm():
     a = HDX_Plots_for_web.cm(os.path.join(alluser_folders, session['USERID']),Data1, form.get("pbd_code"), form.get('chain_id'),form.get('protein'),
             form.get('show_ss'), sec, int(form.get('aas_per_row')),float(form.get('bar_height')), .1,form.get('state1'),
             form.get('state2'), form.get('time_points'), ['10', '100'], form.get('min_diff'), form.get('max_diff'))
-
+    print("out...")
+    print(a)
+    ####
     # 3. update link of ['plotshow', '/downloadeps']
     ...
-
+    print("test...")
+    file_png = "-1.png"
+    print(os.path.join(app.config['USER_FOLDER'], file_png))
+    # return send_file(os.path.join(app.config['USER_FOLDER'], file_png), mimetype='image/png', as_attachment=True,
+    #                  cache_timeout=0, attachment_filename='HDX_Plot.png')
+    return jsonify({'src': os.path.join(app.config['USER_FOLDER'], file_png)})
     # 4. :return: picture url(png), eg:
     # /static/simple.png
 
 
-    return '/static/simpleeeeeeeee.png'
+    # return '/static/simpleeeeeeeee.png'
 
 ###################################################################################################################################################################################
 
