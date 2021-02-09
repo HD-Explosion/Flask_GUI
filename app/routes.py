@@ -329,7 +329,7 @@ def click_show_v():
 #     )
 #     return jsonify(paths)
 
-@app.route('/click_show_cm', methods=['GET', 'POST'])
+@app.route('/click_show_cm', methods=['POST'])
 def click_show_cm():
 
     # all data from user, eg:
@@ -369,7 +369,7 @@ def click_show_cm():
     ...
     print("test...")
     file_png = "-1.png"
-    path = str(os.path.join(app.config['USER_FOLDER'], file_png)).replace("/", "\\")
+    path = str(os.path.join(app.config['USER_FOLDER'], file_png)).replace("\\", "/")
     print(os.path.join(app.config['USER_FOLDER'], file_png))
     print(path)
     # return send_file(os.path.join(app.config['USER_FOLDER'], file_png), mimetype='image/png', as_attachment=True,
