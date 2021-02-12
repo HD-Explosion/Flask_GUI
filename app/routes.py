@@ -361,7 +361,7 @@ def click_show_cm():
     sec = form.get('seq').replace(" ", "").replace('\n', '').replace('\r', '')
     a = HDX_Plots_for_web.cm(os.path.join(alluser_folders, session['USERID']),Data1, form.get("pbd_code"), form.get('chain_id'),form.get('protein'),
             form.get('show_ss'), sec, int(form.get('aas_per_row')),float(form.get('bar_height')), .1,form.get('state1'),
-            form.get('state2'), form.get('time_points'), ['10', '100'], form.get('min_diff'), form.get('max_diff'))
+            form.get('state2'), form.get('time_points'), ['10', '1000'],  form.get('min_diff'), form.get('max_diff'))
     print("out...")
     print(a)
     ####

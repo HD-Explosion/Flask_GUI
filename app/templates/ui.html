@@ -568,9 +568,9 @@
 
     <div id="plot_status" s="{{ plot_status }}" style="display: none"><p> {{ plot_status }}</p></div>
 
-    <div class="box" style="left:20px;top:385px;height:520px">
+    <div class="box" style="left:20px;top:385px;height:fit-content">
         <div class="div1">
-            <h4><strong>Parameters settings</strong></h4>
+            <h4><strong>Parameter setting</strong></h4>
         </div>
         <div class="div2" style="width: 30px">
 
@@ -2150,7 +2150,8 @@
         }
 
         function submit_data() {
-            let data=(collectFormData('#cm_form'))
+            let data=(collectFormData('#cm_form'));
+            data.bar_height /= 10;
             $.post(
                 '/click_show_cm',
                 data,
