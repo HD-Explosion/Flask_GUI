@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"
-              content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
+              content="width=device-width, initial-scale= .0, minimum-scale=1, maximum-scale=1, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -133,6 +133,7 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 color: black;
+                float: right;
             }
 
 
@@ -662,7 +663,7 @@
                 </div>
                 <ul class="div1 left-side-bar" style="float: left">
                     <li>
-                        <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
+                        <strong>Protein</strong><select
                             class="V_left" name="protein" style="width: 100px">
 
                         {#                            {% for lst in lists[0] %}#}
@@ -1058,7 +1059,7 @@
                         </li>
 
                         <li>
-                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
+                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
                                                                                      style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
