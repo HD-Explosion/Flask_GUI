@@ -29,6 +29,15 @@
                 margin: 0;
             }
 
+            .tp {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding-right: 2px;
+                margin: .5rem 0;
+                justify-content: space-between;
+            }
+
             table, span {
                 border-collapse: collapse;
                 border-spacing: 0;
@@ -570,7 +579,7 @@
 
     <div class="box" style="left:20px;top:385px;height:fit-content">
         <div class="div1">
-            <h4><strong>Parameter setting</strong></h4>
+            <h4><strong>Parameters setting</strong></h4>
         </div>
         <div class="div2" style="width: 30px">
 
@@ -1057,9 +1066,9 @@
 
                         </li>
 
-                        <li>
+                        <li class="tp">
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
-                                                                                     style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
+                                                                                     style="">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -1444,10 +1453,10 @@
 
                         </li>
 
-                        <li>
+                        <li class="tp">
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
                                                                                      value="{{ paras[3] }}"
-                                                                                     style="position: absolute;left: 137px;width: 100px; margin-top: 5px">
+                                                                                     style="">
                             {% if paras[3] is not string %}
                                 <option value="ALL"> All</option>
                             {% else %}
@@ -1786,9 +1795,9 @@
 
                         </li>
 
-                        <li>
+                        <li class="tp">
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
-                                                                                     style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
+                                                                                     style="">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -2150,12 +2159,12 @@
         }
 
         function submit_data() {
-            let data=(collectFormData('#cm_form'));
+            let data = (collectFormData('#cm_form'));
             data.bar_height /= 10;
             $.post(
                 '/click_show_cm',
                 data,
-                function (data){
+                function (data) {
                     console.log(data);
                     $('#graphchart').attr('src', data);
                 }
