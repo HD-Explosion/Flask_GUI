@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport"
-              content="width=device-width, initial-scale= .0, minimum-scale=1, maximum-scale=1, user-scalable=no">
+              content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
@@ -27,6 +27,15 @@
             body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, span {
                 padding: 0;
                 margin: 0;
+            }
+
+            .tp {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding-right: 2px;
+                margin: .5rem 0;
+                justify-content: space-between;
             }
 
             table, span {
@@ -133,7 +142,6 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 color: black;
-                float: right;
             }
 
 
@@ -663,7 +671,7 @@
                 </div>
                 <ul class="div1 left-side-bar" style="float: left">
                     <li>
-                        <strong>Protein</strong><select
+                        <strong>Protein</strong>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select
                             class="V_left" name="protein" style="width: 100px">
 
                         {#                            {% for lst in lists[0] %}#}
@@ -1058,9 +1066,9 @@
 
                         </li>
 
-                        <li>
-                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
-                                                                                     style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
+                        <li class="tp">
+                            <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
+                                                                                     style="">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -1445,10 +1453,10 @@
 
                         </li>
 
-                        <li>
+                        <li class="tp">
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
                                                                                      value="{{ paras[3] }}"
-                                                                                     style="position: absolute;left: 137px;width: 100px; margin-top: 5px">
+                                                                                     style="">
                             {% if paras[3] is not string %}
                                 <option value="ALL"> All</option>
                             {% else %}
@@ -1787,9 +1795,9 @@
 
                         </li>
 
-                        <li>
+                        <li class="tp">
                             <strong>Time points</strong> &nbsp&nbsp&nbsp&nbsp<select class="V_left" name="time_point"
-                                                                                     style="position: absolute;left: 137px;;width: 100px; margin-top: 5px">
+                                                                                     style="">
                             <option value="ALL">All</option>
                             {% for lst in lists[2] %}
                                 <option>{{ lst }}</option>{% endfor %}
@@ -2151,12 +2159,12 @@
         }
 
         function submit_data() {
-            let data=(collectFormData('#cm_form'));
+            let data = (collectFormData('#cm_form'));
             data.bar_height /= 10;
             $.post(
                 '/click_show_cm',
                 data,
-                function (data){
+                function (data) {
                     console.log(data);
                     $('#graphchart').attr('src', data);
                 }
