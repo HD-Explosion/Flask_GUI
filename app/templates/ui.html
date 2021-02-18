@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 {% extends "base.html" %}
 
@@ -2121,7 +2123,7 @@
 
     </div>
 
-    <div style="position: absolute; right: 50px;top: 720px;">
+    <div style="position: absolute; left: 750px;top: 730px;">
         <button type="button" class="btn btn-outline-danger" onclick="window.location.href='{{ url_for('ui') }}';"><h5>
             Start Over</h5></button>
     </div>
@@ -2165,8 +2167,7 @@
                 '/click_show_cm',
                 data,
                 function (data) {
-                    console.log(data);
-                    $('#graphchart').attr('src', data);
+                    $('#graphchart').attr('src', `${data}?ts=${new Date().getTime()}`);
                 }
             )
         }
@@ -2176,3 +2177,4 @@
 {% endblock %}
 
 </html>
+
