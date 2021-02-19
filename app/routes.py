@@ -457,10 +457,14 @@ def replot():
 def plotshow():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
     file_png = 'Plot.png'
+    file_png2 = '-1.png'
 
     if os.path.exists(os.path.join(app.config['USER_FOLDER'], file_png)):
         return send_file(os.path.join(app.config['USER_FOLDER'], file_png), mimetype='image/png', as_attachment=True,
                          cache_timeout=0, attachment_filename='HDX_Plot.png')
+    elif os.path.exists(os.path.join(app.config['USER_FOLDER'], file_png2)):
+        return send_file(os.path.join(app.config['USER_FOLDER'], file_png2), mimetype='image/png', as_attachment=True,
+                         cache_timeout=0, attachment_filename='HDX_Plot2.png')
     else:
         return send_file(os.path.join('./static/image', 'UTD.png'), mimetype='image/png', as_attachment=True,
                          cache_timeout=0, attachment_filename='Sample_Icon.png')
@@ -483,10 +487,14 @@ def downloadcsv():
 def downloadeps():
     app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
     file_eps = 'Plot.eps'
+    file_eps1 = '-1.eps'
 
     if os.path.exists(os.path.join(app.config['USER_FOLDER'], file_eps)):
         return send_file(os.path.join(app.config['USER_FOLDER'], file_eps), mimetype='image/eps', as_attachment=True,
                          cache_timeout=0, attachment_filename='HDX_Plot.eps')
+    elif os.path.exists(os.path.join(app.config['USER_FOLDER'], file_eps1)):
+        return send_file(os.path.join(app.config['USER_FOLDER'], file_eps1), mimetype='image/eps', as_attachment=True,
+                         cache_timeout=0, attachment_filename='HDX_Plot2.eps')
     else:
         return send_file(os.path.join('./static/image', 'UTD.png'), mimetype='image/png', as_attachment=True,
                          cache_timeout=0, attachment_filename='Sample_Icon.png')
