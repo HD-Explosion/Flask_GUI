@@ -79,7 +79,7 @@ def ui():
         session['USERID'] = str(uuid.uuid4())
         app.config['USER_FOLDER'] = os.path.join(Path(app.root_path), 'static/user_folders', session['USERID'])
         if not os.path.exists(app.config['USER_FOLDER']):
-            os.mkdir(app.config['USER_FOLDER'])
+            os.makedirs(app.config['USER_FOLDER'])
 
     return render_template('ui.html', lists=[['protein'], ['state'], ['time point']])
     
