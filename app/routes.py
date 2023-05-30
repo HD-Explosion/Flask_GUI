@@ -31,11 +31,11 @@ import pickle
 
 # add schedule task to remove temp files every 2 weeks and send ip list every 2 weeks
 alluser_folders = os.path.join(Path(app.root_path), 'static/user_folders')
-ipfilename = "iplist.csv"
-ip_folder = os.path.join(Path(app.root_path), 'static/ip', 'iplist.csv')
+#ipfilename = "iplist.csv"
+#ip_folder = os.path.join(Path(app.root_path), 'private', 'iplist.csv')
 scheduler = BackgroundScheduler()
 scheduler.start()
-scheduler.add_job(email.send_ip, trigger="interval", weeks=2, args=[app, ipfilename, ip_folder])
+#scheduler.add_job(email.send_ip, trigger="interval", weeks=2, args=[app, ipfilename, ip_folder])
 scheduler.add_job(clean.remove_userfolder, trigger="interval", weeks=2, args=[alluser_folders])
 # Shut down the scheduler when exiting the app
 atexit.register(lambda: scheduler.shutdown())
@@ -55,12 +55,12 @@ def say_hello():
 
 def ui():
     # track user ip and append to iplist.csv
-    visitor_ip = request.remote_addr.encode()
-    ip_folder = os.path.join(Path(app.root_path), 'static/ip', 'iplist.csv')
-    visit_time = str(datetime.now()).encode()
-    with open(ip_folder, 'ab') as file:
-        file.write(visitor_ip + "  ".encode() + visit_time)
-        file.write('\n'.encode())
+    #visitor_ip = request.remote_addr.encode()
+    #ip_folder = os.path.join(Path(app.root_path), 'static/ip', 'iplist.csv')
+    #visit_time = str(datetime.now()).encode()
+    # with open(ip_folder, 'ab') as file:
+    #     file.write(visitor_ip + "  ".encode() + visit_time)
+    #     file.write('\n'.encode())
 
     try:
         if session['USERID'] is not None:
