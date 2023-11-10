@@ -2,10 +2,12 @@
 import sys
 import logging
 import os
+from dotenv import load_dotenv
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0,"/var/www/app/")
 
+load_dotenv()
+secret_key = os.getenv('SECRET_KEY')
 from app import app as application
 #application.secret_key = 'Add your secret key'
-application.secret_key = 'b\x12\x05@\xdc\xf2e9\xb3\x9a%\xab\x11\x02\\+\xe8\xc5k\x8f\xbe\xe1Sa\xe8\xb5\x03f'
-
+application.secret_key = secret_key

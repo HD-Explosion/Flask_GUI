@@ -1,5 +1,10 @@
 from flask_mail import Mail, Message
+import os
+from dotenv import load_dotenv
 
+env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+load_dotenv(dotenv_path = env_path)
+mail_pass = os.getenv('EMAIL_PASS')
 def send_ip(app,ipfilename,ip_folder):
 
     mail_settings = {
@@ -9,7 +14,7 @@ def send_ip(app,ipfilename,ip_folder):
         "MAIL_USE_SSL": True,
         "MAIL_SUPPRESS_SEND": False,
         "MAIL_USERNAME": 'darcylabweb@gmail.com',
-        "MAIL_PASSWORD": 'darcylab1'
+        "MAIL_PASSWORD": mail_pass
     }
 
 
